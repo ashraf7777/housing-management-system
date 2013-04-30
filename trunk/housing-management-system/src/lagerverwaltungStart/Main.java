@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import model.Buchung;
-import model.Lager;
+import model.Unit;
 import model.Lieferung;
 import view.Oberflaeche;
 import view.Tools;
@@ -30,7 +30,7 @@ public class Main {
 	public static void main(String[] args) {
 		int pane_value;
 
-		Lager wurzel = Lager.addWurzel("Lagerverwaltung");
+		Unit wurzel = Unit.addWurzel("Lagerverwaltung");
 
 		pane_value = JOptionPane.showConfirmDialog(null, "Willkommen im Lagerverwaltungstool v" + VERSION
 				+ "!\nSoll eine Beispielhierarchie mit Beispielbuchungen für die Lagerverwaltung geladen werden?", "Lagerhierarchie laden",
@@ -57,9 +57,9 @@ public class Main {
 
 	}
 
-	private static void beispielLaden(Lager root) {
+	private static void beispielLaden(Unit root) {
 		// Anlegen der Lagerhierarchie
-		Lager[][] lager = new Lager[10][10];
+		Unit[][] lager = new Unit[10][10];
 		IBuchungBefehl befehlBuchung = GUI_handler.getBefehlBuchung();
 		lager[0][0] = root.addTreeElement("Deutschland");
 		lager[1][0] = lager[0][0].addTreeElement("Niedersachsen");

@@ -15,7 +15,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
 import model.Buchung;
-import model.Lager;
+import model.Unit;
 import model.Lieferung;
 import view.Oberflaeche;
 import view.Tools;
@@ -82,7 +82,7 @@ public class GUI_handler extends MouseAdapter implements ActionListener, TreeSel
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		if (gui.isCardUebersichtAktiv())
-			gui.showLagerbuchungen((Lager) e.getPath().getLastPathComponent());
+			gui.showLagerbuchungen((Unit) e.getPath().getLastPathComponent());
 		else if (gui.isCardNeueLieferungAktiv() && null != gui.getAusgewaehlterKnoten() && gui.getAusgewaehlterKnoten().isLeaf())
 			gui.showLagerFuerBuchung(gui.getAusgewaehlterKnoten().getName());
 	}
@@ -121,7 +121,7 @@ public class GUI_handler extends MouseAdapter implements ActionListener, TreeSel
 	 */
 	private void neuesLager(ActionEvent e) {
 		// Neuen Knoten hinzufügen
-		Lager pre_knoten = gui.getAusgewaehlterKnoten();
+		Unit pre_knoten = gui.getAusgewaehlterKnoten();
 
 		// Falls ein Knoten ausgewählt wurde
 		if (null != pre_knoten) {
@@ -234,7 +234,7 @@ public class GUI_handler extends MouseAdapter implements ActionListener, TreeSel
 	 */
 	private void lagerUmebennnen(ActionEvent e) {
 		// Neuen Knoten hinzufügen
-		Lager knoten = gui.getAusgewaehlterKnoten();
+		Unit knoten = gui.getAusgewaehlterKnoten();
 
 		// Falls ein Knoten ausgewählt wurde
 		if (null != knoten && !knoten.isRoot()) {
@@ -343,7 +343,7 @@ public class GUI_handler extends MouseAdapter implements ActionListener, TreeSel
 	 */
 	private void jetztBuchen(ActionEvent e) {
 		int restMenge, restProzent, gesamtMenge, diff = 0;
-		Lager l = gui.getAusgewaehlterKnoten();
+		Unit l = gui.getAusgewaehlterKnoten();
 		int menge = -1;
 		try {
 			menge = getBuchungsMenge();

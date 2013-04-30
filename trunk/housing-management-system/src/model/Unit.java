@@ -16,11 +16,13 @@ import exception.LagerverwaltungsException;
  * @author Dominik Klüter
  * 
  */
-public class Lager extends DefaultMutableTreeNode {
+public class Unit extends DefaultMutableTreeNode {
 
-	private static Lager wurzel;
+	private static Unit root;
 	private static List<String> namensListe = new ArrayList<String>();
-	private Lager blatt;
+	private Unit leaf;
+	private float area;
+	private float pricePerNight;
 	private int bestand;
 	private boolean isBestandHaltend;
 	private String name;
@@ -36,12 +38,11 @@ public class Lager extends DefaultMutableTreeNode {
 	 * @param bez
 	 *            Der Name des Lagers
 	 */
-	public Lager(String bez) {
-		super(bez + " 0");
+	public Unit(String bez) {
+		super(bez);
 		if (checkNamen(bez)) {
 			namensListe.add(bez);
 			this.name = bez;
-			this.bestand = 0;
 			this.isBestandHaltend = true;
 		} else {
 			List<String> result = new ArrayList<String>();
@@ -57,14 +58,12 @@ public class Lager extends DefaultMutableTreeNode {
 	 *            Name des Elements (Lagername)
 	 * @return Das soeben erstellte Lager
 	 */
-	public Lager addTreeElement(String bez) {
-		blatt = new Lager(bez);
-		this.add(blatt);
+	public Unit addTreeElement(String bez) {
+		leaf = new Unit(bez);
+		this.add(leaf);
 		this.isBestandHaltend = false; // übergeordneter Knoten darf keinen Bestand zeigen - falls diese Methode an einem Blatt aufgerufen wurde, ist dieses ebenfalls nicht mehr fähig einen Bestand zu halten und anzuzeigen
 
-		this.setUserObject(this.name); // übergeordneten Knoten umbenennen, sodass der Bestand nicht mehr angezeigt wird
-
-		return blatt;
+		return leaf;
 	}
 
 	/**
@@ -174,7 +173,7 @@ public class Lager extends DefaultMutableTreeNode {
 		} else {
 			// Bestände der einzelnen Kinder/Blätter zusammenaddieren (kummulierter Bestand der Unterlager)
 			for (int i = 0; i < this.getChildCount(); i++) {
-				bestand_summe = bestand_summe + ((Lager) this.getChildAt(i)).getBestand();
+				bestand_summe = bestand_summe + ((Unit) this.getChildAt(i)).getBestand();
 			}
 			return bestand_summe;
 		}
@@ -253,8 +252,8 @@ public class Lager extends DefaultMutableTreeNode {
 	 * 
 	 * @return Das Wurzellager
 	 */
-	public static Lager getTree() {
-		return wurzel;
+	public static Unit getTree() {
+		return root;
 	}
 
 	/**
@@ -264,9 +263,9 @@ public class Lager extends DefaultMutableTreeNode {
 	 *            Der Name des Wurzelelement.
 	 * @return Das Wurzelelement.
 	 */
-	public static Lager addWurzel(String bez) {
-		wurzel = new Lager(bez);
-		wurzel.name = bez;
-		return wurzel;
+	public static Unit addWurzel(String bez) {
+		root = new Unit(bez);
+		root.name = bez;
+		return root;
 	}
 }
