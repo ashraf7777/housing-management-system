@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Stack;
 
 import model.Buchung;
-import model.Lager;
+import model.Unit;
 import view.Oberflaeche;
 import view.Tools;
 import view.impl.OberflaecheImpl;
@@ -21,14 +21,14 @@ public class BuchungBefehlImpl implements IBuchungBefehl {
 
 	private final Stack<Buchung> buchungsStackUndo = new Stack<Buchung>();
 	private final Stack<Buchung> buchungsStackRedo = new Stack<Buchung>();
-	private final Stack<Lager> lagerStackUndo = new Stack<Lager>();
-	private final Stack<Lager> lagerStackRedo = new Stack<Lager>();
+	private final Stack<Unit> lagerStackUndo = new Stack<Unit>();
+	private final Stack<Unit> lagerStackRedo = new Stack<Unit>();
 
 	/**
 	 * Führt die Schritte, die für eine neue Buchung nötig sind, aus.
 	 */
 	@Override
-	public int execute(Lager l, int menge, Date d, int prozent) {
+	public int execute(Unit l, int menge, Date d, int prozent) {
 		Buchung b;
 		int diff = l.veraenderBestand(menge);
 		if (diff == menge) // Falls die zurückgegebene Differnz mit der Buchungsmenge identisch ist, wird keine Buchung ausgeführt
@@ -48,7 +48,7 @@ public class BuchungBefehlImpl implements IBuchungBefehl {
 		try {
 			Oberflaeche gui = OberflaecheImpl.getInstance();
 			Buchung b = buchungsStackRedo.push(buchungsStackUndo.pop());
-			Lager l = lagerStackRedo.push(lagerStackUndo.pop());
+			Unit l = lagerStackRedo.push(lagerStackUndo.pop());
 			l.removeBuchung(b);
 			l.veraenderBestand(-b.getMenge());
 			Buchung.getNeueBuchungen().remove(b);
@@ -74,7 +74,7 @@ public class BuchungBefehlImpl implements IBuchungBefehl {
 		try {
 			Oberflaeche gui = OberflaecheImpl.getInstance();
 			Buchung b = buchungsStackUndo.push(buchungsStackRedo.pop());
-			Lager l = lagerStackUndo.push(lagerStackRedo.pop());
+			Unit l = lagerStackUndo.push(lagerStackRedo.pop());
 			l.veraenderBestand(b.getMenge());
 			l.addBuchung(b);
 			Buchung.getNeueBuchungen().add(b);

@@ -2,7 +2,7 @@ package controller.befehle;
 
 import java.util.Date;
 
-import model.Lager;
+import model.Unit;
 
 /**
  * Interface für den Buchungsbefehl
@@ -13,7 +13,7 @@ import model.Lager;
  */
 public interface IBuchungBefehl {
 
-	public int execute(Lager l, int menge, Date d, int prozent);
+	public int execute(Unit l, int menge, Date d, int prozent);
 
 	public void undo();
 

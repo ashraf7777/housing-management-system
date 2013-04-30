@@ -24,7 +24,7 @@ public class Buchung {
 
 	private final int menge, prozentAnteil;
 	private final int buchung_ID;
-	private final Lager lager;
+	private final Unit lager;
 	private Date datum;
 
 	/**
@@ -42,7 +42,7 @@ public class Buchung {
 	 * @param prozent
 	 *            Der Prozentanteil an der Gesamtmenge.
 	 */
-	public Buchung(int m, Date datum, Lager l, int prozent) {
+	public Buchung(int m, Date datum, Unit l, int prozent) {
 		this.menge = m;
 		this.prozentAnteil = prozent;
 		this.lager = l;

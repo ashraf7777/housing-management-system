@@ -6,7 +6,7 @@ import javax.swing.JTable;
 import javax.swing.tree.TreeNode;
 
 import model.Buchung;
-import model.Lager;
+import model.Unit;
 import model.Lieferung;
 
 /**
@@ -68,9 +68,9 @@ public interface Oberflaeche {
 
 	public boolean isCardUebersichtAktiv();
 
-	public List<Buchung> getAllBuchungen(Lager l);
+	public List<Buchung> getAllBuchungen(Unit l);
 
-	public Lager getAusgewaehlterKnoten();
+	public Unit getAusgewaehlterKnoten();
 
 	public String getGesamtmenge();
 
@@ -90,7 +90,7 @@ public interface Oberflaeche {
 
 	public void showCardUebersicht();
 
-	public void showLagerbuchungen(Lager l);
+	public void showLagerbuchungen(Unit l);
 
 	public void showLagerFuerBuchung(String n);
 

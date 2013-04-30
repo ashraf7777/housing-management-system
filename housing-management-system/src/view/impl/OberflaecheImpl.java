@@ -35,7 +35,7 @@ import javax.swing.tree.TreeNode;
 
 import lagerverwaltungStart.Main;
 import model.Buchung;
-import model.Lager;
+import model.Unit;
 import model.Lieferung;
 import view.Oberflaeche;
 import view.Tools;
@@ -184,7 +184,7 @@ public class OberflaecheImpl implements Oberflaeche {
 		p_top.add(p_top_sub_bottom);
 
 		// ### Baum mit Scrollbar im WEST Element ###
-		lagerTree = new JTree(Lager.getTree());
+		lagerTree = new JTree(Unit.getTree());
 
 		p_tree = new JPanel(new GridLayout());
 		p_tree.setPreferredSize(new Dimension(250, 50)); // Breite des Trees festlegen. Höhe wird aufgrund des BorderLayouts ignoriert!
@@ -395,13 +395,13 @@ public class OberflaecheImpl implements Oberflaeche {
 	 *         seiner Unterlager
 	 */
 	@Override
-	public List<Buchung> getAllBuchungen(Lager l) {
+	public List<Buchung> getAllBuchungen(Unit l) {
 		List<Buchung> b = new ArrayList<Buchung>();
 		for (int j = 0; j < l.getChildCount(); j++) {
 			if (l.getChildAt(j).isLeaf()) {
-				b.addAll(((Lager) (l.getChildAt(j))).getBuchungen());
+				b.addAll(((Unit) (l.getChildAt(j))).getBuchungen());
 			} else {
-				b.addAll(getAllBuchungen((Lager) l.getChildAt(j)));
+				b.addAll(getAllBuchungen((Unit) l.getChildAt(j)));
 			}
 		}
 		return b;
@@ -413,8 +413,8 @@ public class OberflaecheImpl implements Oberflaeche {
 	 * @return lager Das im Baum ausgewählte Lager
 	 */
 	@Override
-	public Lager getAusgewaehlterKnoten() {
-		return (Lager) lagerTree.getLastSelectedPathComponent();
+	public Unit getAusgewaehlterKnoten() {
+		return (Unit) lagerTree.getLastSelectedPathComponent();
 	}
 
 	@Override
@@ -500,7 +500,7 @@ public class OberflaecheImpl implements Oberflaeche {
 	 * @author Philo Könneker
 	 */
 	@Override
-	public void showLagerbuchungen(Lager l) {
+	public void showLagerbuchungen(Unit l) {
 		if (null == getAusgewaehlterKnoten())
 			return;
 		p_center_lagerbuchungen.removeAll();
