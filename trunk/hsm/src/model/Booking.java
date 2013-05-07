@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class Booking {
 	
+	private static int bookingCounter = 1;
 	private int bookingID;
 	private int numberOfPersons;
 	private String nameOfBooker;
@@ -15,22 +16,22 @@ public class Booking {
 	private String paymentType;
 	private Date checkInDate;
 	private Date checkOutDate;
-	private Unit room;
+	private Unit[] room;
 	
 	//Constructor
-	Booking(String bookerName, int numOfPersons)
+	Booking(String nameOfBooker, int numberOfPersons, Unit[] room, Date checkInDate, String paymentType)
 	{
-		
+		this.bookingID = bookingCounter++;
+		this.nameOfBooker = nameOfBooker;
+		this.numberOfPersons = numberOfPersons;
+		this.room = room;
+		this.checkInDate = checkInDate;
+		this.paymentType = paymentType;
 	}
 	
 	
 	
-	
-	
-	
-	
 	//Getter & Setter
-	
 	
 	public int getNumberOfPersons() {
 		return numberOfPersons;
@@ -62,10 +63,10 @@ public class Booking {
 	public void setCheckOutDate(Date checkOutDate) {
 		this.checkOutDate = checkOutDate;
 	}
-	public Unit getRoom() {
+	public Unit[] getRoom() {
 		return room;
 	}
-	public void setRoom(Unit room) {
+	public void setRoom(Unit[] room) {
 		this.room = room;
 	}
 	public int getBookingID() {

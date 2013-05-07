@@ -7,5 +7,8 @@ package model;
  */
 
 public class Unit {
+	
+	private int unitID;
+	private float sqrFeet;
 
 }
