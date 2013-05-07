@@ -149,7 +149,7 @@ public class Unit extends DefaultMutableTreeNode {
 	 * 
 	 * @return true, wenn dieses Lager einen Bestand halten kann.
 	 */
-	public boolean isBestandHaltend() {
+	public boolean isOccupied() {
 		return this.isOccupied;
 	}
 
