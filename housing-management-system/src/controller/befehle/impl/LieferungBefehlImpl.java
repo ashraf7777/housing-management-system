@@ -8,7 +8,6 @@ import model.Buchung;
 import model.Lieferung;
 import view.Tools;
 import view.impl.OberflaecheImpl;
-import controller.GUI_handler;
 import controller.befehle.ILieferungBefehl;
 
 /**
@@ -37,7 +36,6 @@ public class LieferungBefehlImpl implements ILieferungBefehl {
 		}
 		// Erstellt neue Lieferung mit den dazugehörigen Buchungen
 		Lieferung l = new Lieferung(d, menge, typ, buchungen);
-		GUI_handler.getBefehlBuchung().clearAll();
 		OberflaecheImpl.getInstance().showLieferungen(Lieferung.getAllLieferungen());
 		return l;
 	}
