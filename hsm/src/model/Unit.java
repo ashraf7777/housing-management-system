@@ -30,17 +30,38 @@ public class Unit extends DefaultMutableTreeNode{
 	private float sqrFeet;
 	private int numberOfUnits;
 	private boolean hasChild;
-	private boolean isOccupied;
+	private boolean isOccupied = false;
 	private float pricePerNight;
 	private float pricePerMonth;
 	
-	Unit(String name, int sqrFeet)
+	//Standard Constructor for the root element and buildings
+	Unit(String name)
+	{
+		super(name);
+		if (checkName(name))
+		{
+			this.sqrFeet = 0;
+			this.name = name;
+			this.pricePerNight = 0;
+			this.pricePerMonth = 0;
+			this.hasChild = false;
+		}
+		else
+		{
+			//TODO: Fehlerausgabe (Exception)
+		}
+	}
+	
+	//Constructor for apartments and rooms
+	Unit(String name, int sqrFeet, float pricePerNight, float pricePerMonth)
 	{
 		super(name);
 		if (checkName(name))
 		{
 			this.sqrFeet = sqrFeet;
 			this.name = name;
+			this.pricePerNight = pricePerNight;
+			this.pricePerMonth = pricePerMonth;
 			this.hasChild = false;
 		}
 		else
@@ -57,14 +78,23 @@ public class Unit extends DefaultMutableTreeNode{
 	 *            Name des Elements (Lagername)
 	 * @return Das soeben erstellte Lager
 	 */
-	public Unit addTreeElement(String name, int sqrFeet) {
-		leaf = new Unit(name, sqrFeet);
+	//Add apartments to buildings and rooms to apartments
+	public Unit addTreeElement(String name, int sqrFeet, float pricePerNight, float pricePerMonth) {
+		leaf = new Unit(name, sqrFeet, pricePerNight, pricePerMonth);
 		this.add(leaf);
-		this.isOccupied = false; // übergeordneter Knoten darf keinen Bestand zeigen - falls diese Methode an einem Blatt aufgerufen wurde, ist dieses ebenfalls nicht mehr fähig einen Bestand zu halten und anzuzeigen
+		this.hasChild = true;
 
 		return leaf;
 	}
 	
+	//Add buildings to the root
+	public Unit addTreeElement(String name) {
+		leaf = new Unit(name);
+		this.add(leaf);
+		this.hasChild = true;
+
+		return leaf;
+	}
 	
 	
 	/**
@@ -86,8 +116,18 @@ public class Unit extends DefaultMutableTreeNode{
 		return true;
 	}
 	
-	
-	
+	/**
+	 * Erstellt das Wurzelelement für die Lagerbaumstruktur.
+	 * 
+	 * @param bez
+	 *            Der Name des Wurzelelement.
+	 * @return Das Wurzelelement.
+	 */
+	public static Unit addRoot(String name) {
+		root = new Unit(name);
+		root.name = name;
+		return root;
+	}
 	
 	//Getter & Setter
 	
