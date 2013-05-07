@@ -133,6 +133,11 @@ public class Unit extends DefaultMutableTreeNode{
 	
 	
 	//Getter & Setter
+
+	public static Unit getTree()
+	{
+		return root;
+	}
 	
 	public void addBooking(Booking b)
 	{

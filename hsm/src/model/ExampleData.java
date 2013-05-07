@@ -9,7 +9,6 @@ public class ExampleData {
 		
 		units[0][0] = root.addTreeElement("London");
 		addApartments(units[0][0], 4);
-
 		
 		units[0][1] = root.addTreeElement("Sydney");
 		addApartments(units[0][1], 3);
@@ -19,6 +18,9 @@ public class ExampleData {
 		
 		units[0][3] = root.addTreeElement("Paris");
 		addApartments(units[0][3], 3);		
+		
+		units[0][4] = root.addTreeElement("Tokyo");
+		addApartments(units[0][4], 4);		
 	}
 	
 	private static void addApartments(Unit u, int number)
