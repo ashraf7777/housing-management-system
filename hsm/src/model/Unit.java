@@ -22,6 +22,7 @@ public class Unit extends DefaultMutableTreeNode{
 	//representing the child element
 	private Unit leaf;
 	private static List<String> nameList = new ArrayList<String>();
+	private final List<Booking> bookingList = new ArrayList<Booking>();
 	//---------------------------------------
 	
 	private static final long serialVersionUID = 1L;
@@ -129,7 +130,19 @@ public class Unit extends DefaultMutableTreeNode{
 		return root;
 	}
 	
+	
+	
 	//Getter & Setter
+	
+	public void addBooking(Booking b)
+	{
+		bookingList.add(b);
+	}
+	
+	public List<Booking> getBooking()
+	{
+		return bookingList;
+	}
 	
 	public int getUnitID() {
 		return unitID;
@@ -145,6 +158,26 @@ public class Unit extends DefaultMutableTreeNode{
 
 	public void setSqrFeet(float sqrFeet) {
 		this.sqrFeet = sqrFeet;
+	}
+	
+	public float getPricePerNight() {
+		return pricePerNight;
+	}
+
+	public void setPricePerNight(float pricePerNight) {
+		this.pricePerNight = pricePerNight;
+	}
+
+	public float getPricePerMonth() {
+		return pricePerMonth;
+	}
+
+	public void setPricePerMonth(float pricePerMonth) {
+		this.pricePerMonth = pricePerMonth;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public int getNumberOfUnits() {
