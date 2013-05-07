@@ -22,6 +22,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 
+import model.ExampleData;
+import model.Unit;
+
 public class MainWindow {
 
 	private JFrame frmHousingManagementSystem;
@@ -33,6 +36,7 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					ExampleData.loadSampleTreeData();
 					MainWindow window = new MainWindow();
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
@@ -83,7 +87,7 @@ public class MainWindow {
 			e1.printStackTrace();
 		}
 
-		JTree tree = new JTree();
+		JTree tree = new JTree(Unit.getTree());
 		mainPanel.add(tree, BorderLayout.WEST);
 
 		JList list = new JList();
