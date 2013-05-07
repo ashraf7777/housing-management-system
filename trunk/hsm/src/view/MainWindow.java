@@ -52,9 +52,9 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, "name_4935076455183");
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel mainPanel = new JPanel();
+		frame.getContentPane().add(mainPanel, "name_4935076455183");
+		mainPanel.setLayout(new BorderLayout(0, 0));
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -66,6 +66,7 @@ public class MainWindow {
 		menuBar.add(menuFile);
 		
 		JMenuItem menuItemClose = new JMenuItem("Close");
+		menuItemClose.setIcon(null);
 		menuFile.add(menuItemClose);
 		
 		JMenu menuHelp = new JMenu("Help");
