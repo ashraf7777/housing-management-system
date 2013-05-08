@@ -29,6 +29,7 @@ public class Unit extends DefaultMutableTreeNode{
 	private int unitID;
 	private String name;
 	private float sqrFeet;
+	private final int MAX_OCCUPANCY = 3;
 	private int numberOfUnits;
 	private boolean hasChild;
 	private boolean isOccupied = false;
@@ -207,5 +208,8 @@ public class Unit extends DefaultMutableTreeNode{
 
 	public void setOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
+	}
+	public int getMAX_OCCUPANCY() {
+		return MAX_OCCUPANCY;
 	}
 }
