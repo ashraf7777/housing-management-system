@@ -11,7 +11,12 @@ public class Booking {
 	private static int bookingCounter = 1;
 	private int bookingID;
 	private int numberOfPersons;
-	private String nameOfBooker;
+	private String firstNameOfBooker;
+	private String lastNameOfBooker;
+	private String street;
+	private String city;
+	private String zipCode;
+	private Date birthday;
 	//TODO: Eventuell paymentType aufgliedern in Subtypes
 	private String paymentType;
 	private Date checkInDate;
@@ -19,10 +24,15 @@ public class Booking {
 	private Unit[] room;
 	
 	//Constructor
-	Booking(String nameOfBooker, int numberOfPersons, Unit[] room, Date checkInDate, String paymentType)
+	Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit[] room, Date checkInDate, String paymentType)
 	{
 		this.bookingID = bookingCounter++;
-		this.nameOfBooker = nameOfBooker;
+		this.firstNameOfBooker = firstNameOfBooker;
+		this.lastNameOfBooker = lastNameOfBooker;
+		this.birthday = birthday;
+		this.street = street;
+		this.city = city;
+		this.zipCode = zipCode;
 		this.numberOfPersons = numberOfPersons;
 		this.room = room;
 		this.checkInDate = checkInDate;
@@ -39,11 +49,11 @@ public class Booking {
 	public void setNumberOfPersons(int numberOfPersons) {
 		this.numberOfPersons = numberOfPersons;
 	}
-	public String getNameOfBooker() {
-		return nameOfBooker;
+	public String getFirstNameOfBooker() {
+		return firstNameOfBooker;
 	}
-	public void setNameOfBooker(String nameOfBooker) {
-		this.nameOfBooker = nameOfBooker;
+	public String getLastNameofBooker() {
+		return lastNameOfBooker;
 	}
 	public String getPaymentType() {
 		return paymentType;
@@ -73,6 +83,16 @@ public class Booking {
 		return bookingID;
 	}
 	
-	
-
+	public String getStreet() {
+		return street;
+	}
+	public String getCity() {
+		return city;
+	}
+	public String getZipCode() {
+		return zipCode;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
 }
