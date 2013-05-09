@@ -2,19 +2,17 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import model.Booking;
+import model.Model;
 import model.Unit;
 
 public class GUI_handler implements ActionListener {
+	
+	
+	private Model model;
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -105,9 +103,17 @@ public class GUI_handler implements ActionListener {
 		
 		//TODO: Ansicht wechseln
 		
-		List<Booking> bookings = Booking.getAllBookings();
+		List<Booking> bookings = model.getAllBookings();
+		for(int i = 0 ; i < bookings.size(); i++)
+		{
+			//
+		}
 		
-		
+	}
+	
+	public void announceModel(Model model)
+	{
+		this.model = model;
 	}
 	
 	
