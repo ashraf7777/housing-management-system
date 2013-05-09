@@ -37,7 +37,7 @@ public class Unit extends DefaultMutableTreeNode{
 	private float pricePerMonth;
 	
 	//Standard Constructor for the root element and buildings
-	Unit(String name)
+	public Unit(String name)
 	{
 		super(name);
 		if (checkName(name))
@@ -55,7 +55,7 @@ public class Unit extends DefaultMutableTreeNode{
 	}
 	
 	//Constructor for apartments and rooms
-	Unit(String name, int sqrFeet, float pricePerNight, float pricePerMonth)
+	public Unit(String name, int sqrFeet, float pricePerNight, float pricePerMonth)
 	{
 		super(name);
 		if (checkName(name))

@@ -7,9 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import model.Booking;
 import model.Unit;
 
 public class GUI_handler implements ActionListener {
@@ -42,8 +44,8 @@ public class GUI_handler implements ActionListener {
 	private void checkIn()
 	{
 		//TODO: show Check-In Menu
-		//TODO: Tree neu aufbauen und nur die freien Räume und Apartments anzeigen
 		Unit freeRoomsTree;
+		freeRoomsTree = (Unit)Unit.getTree().getRoot();
 		
 		Unit root = Unit.getTree();
 		Unit building, apartment, room;
@@ -60,10 +62,21 @@ public class GUI_handler implements ActionListener {
 							if (apartment.getChildAt(k).isLeaf())
 							{
 								room = (Unit) apartment.getChildAt(k);
-								if (!room.isOccupied())
+								if (!room.isOccupied())						//If the room is free it will be added to the new tree
 								{
-									//Hinzufügen der einzelen Knoten zum freeRoomsTree. 
-									//Nicht jedes mal das building und das apartment hinzufügen
+										if (!isNodeAlreadyAdded(building, freeRoomsTree)) //If the building isn't yet added to the new tree 
+										{
+											freeRoomsTree.add(building);
+										}
+										
+										if (!isNodeAlreadyAdded(apartment, building))
+										{
+											building.add(apartment);
+										}
+										if (!isNodeAlreadyAdded(room, apartment))
+										{
+											apartment.add(room);
+										}
 								}
 							}
 						}
@@ -72,6 +85,14 @@ public class GUI_handler implements ActionListener {
 			}
 			}
 		}
+		
+		
+		//TODO: Tree in der Ansicht aktualisieren
+	}
+	
+	private boolean isNodeAlreadyAdded(Unit node, Unit topNode)
+	{
+		return true;
 	}
 	
 	private void checkOut()
@@ -81,6 +102,11 @@ public class GUI_handler implements ActionListener {
 	
 	private void showOverview()
 	{
+		
+		//TODO: Ansicht wechseln
+		
+		List<Booking> bookings = Booking.getAllBookings();
+		
 		
 	}
 	
