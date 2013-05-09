@@ -11,7 +11,6 @@ import java.util.List;
 public class Booking {
 	
 	private static int bookingCounter = 1;
-	private static List<Booking> allBookings = new ArrayList<Booking>(); 
 	private int bookingID;
 	private int numberOfPersons;
 	private String firstNameOfBooker;
@@ -98,23 +97,4 @@ public class Booking {
 	public Date getBirthday() {
 		return birthday;
 	}
-
-
-
-	public static List<Booking> getAllBookings() {
-		return allBookings;
-	}
-
-
-
-	public static void addBookingToList(Booking b) {
-		Booking.allBookings.add(b);
-	}
-	
-	public static void clearBookingList()
-	{
-		Booking.allBookings.clear();
-	}
-	
-	
 }
