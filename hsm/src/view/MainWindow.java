@@ -3,40 +3,41 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 
 import model.ExampleData;
 import model.Unit;
-import javax.swing.JScrollBar;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.SystemColor;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.border.LineBorder;
+import javax.swing.ListSelectionModel;
 
 public class MainWindow {
 
@@ -57,6 +58,8 @@ public class MainWindow {
 	private JPanel panelCards;
 	private JComboBox<String> comboBox;
 	private JPanel panelPayMethod;
+	private JTable tableOverview;
+	private JTable tableHome;
 	
 	/**
 	 * Launch the application.
@@ -93,7 +96,7 @@ public class MainWindow {
 		frmHousingManagementSystem
 				.setFont(new Font("Agency FB", Font.PLAIN, 12));
 		frmHousingManagementSystem.setTitle("Housing Management System");
-		frmHousingManagementSystem.setBounds(100, 100, 800, 600);
+		frmHousingManagementSystem.setBounds(100, 100, 900, 600);
 		frmHousingManagementSystem
 				.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmHousingManagementSystem.getContentPane().setLayout(
@@ -166,21 +169,32 @@ public class MainWindow {
 		});
 		panel.add(btnOverview);
 		
-		JTree tree = new JTree();
+		JTree tree = new JTree(Unit.getTree());
 		mainPanel.add(tree, BorderLayout.WEST);
 		
 		panelCards = new JPanel();
 		mainPanel.add(panelCards, BorderLayout.CENTER);
 		panelCards.setLayout(new CardLayout(0, 0));
 		
-		JList list = new JList();
-		panelCards.add(list, "Home");
-		
 		JPanel panelCheckOut = new JPanel();
 		panelCards.add(panelCheckOut, "CheckOut");
 		
 		JPanel panelOverview = new JPanel();
 		panelCards.add(panelOverview, "Overview");
+		panelOverview.setLayout(new BorderLayout(0, 0));
+		
+		tableOverview = new JTable();
+		tableOverview.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableOverview.setBackground(Color.WHITE);
+		tableOverview.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableOverview.setFillsViewportHeight(true);
+		tableOverview.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+			}
+		));
+		panelOverview.add(tableOverview);
 		
 		JPanel panelCheckIn = new JPanel();
 		panelCards.add(panelCheckIn, "CheckIn");
@@ -204,11 +218,11 @@ public class MainWindow {
 		panelCheckIn.add(lblCity);
 		
 		JLabel lblZipcode = new JLabel("ZipCode:");
-		lblZipcode.setBounds(40, 275, 46, 14);
+		lblZipcode.setBounds(40, 275, 57, 14);
 		panelCheckIn.add(lblZipcode);
 		
 		JLabel lblBirthday = new JLabel("Birthday:");
-		lblBirthday.setBounds(40, 325, 46, 14);
+		lblBirthday.setBounds(40, 325, 57, 14);
 		panelCheckIn.add(lblBirthday);
 		
 		JLabel lblPaymethod = new JLabel("Paymethod:");
@@ -288,11 +302,11 @@ public class MainWindow {
 		panelCreditCard.setLayout(null);
 		
 		JLabel lblCardHoldersName = new JLabel("Card Holders Name:");
-		lblCardHoldersName.setBounds(10, 50, 104, 14);
+		lblCardHoldersName.setBounds(10, 50, 115, 14);
 		panelCreditCard.add(lblCardHoldersName);
 		
 		JLabel lblCreditCardNumber = new JLabel("Credit Card Number:");
-		lblCreditCardNumber.setBounds(10, 100, 104, 14);
+		lblCreditCardNumber.setBounds(10, 100, 115, 14);
 		panelCreditCard.add(lblCreditCardNumber);
 		
 		JLabel lblCvvCode = new JLabel("CVV Code:");
@@ -304,22 +318,22 @@ public class MainWindow {
 		panelCreditCard.add(lblExperingDate);
 		
 		textFieldCardHoldersName = new JTextField();
-		textFieldCardHoldersName.setBounds(124, 45, 150, 25);
+		textFieldCardHoldersName.setBounds(135, 45, 150, 25);
 		panelCreditCard.add(textFieldCardHoldersName);
 		textFieldCardHoldersName.setColumns(10);
 		
 		textFieldCreditCardNumber = new JTextField();
-		textFieldCreditCardNumber.setBounds(124, 95, 150, 25);
+		textFieldCreditCardNumber.setBounds(135, 95, 150, 25);
 		panelCreditCard.add(textFieldCreditCardNumber);
 		textFieldCreditCardNumber.setColumns(10);
 		
 		textFieldCVVCode = new JTextField();
-		textFieldCVVCode.setBounds(124, 145, 150, 25);
+		textFieldCVVCode.setBounds(135, 145, 150, 25);
 		panelCreditCard.add(textFieldCVVCode);
 		textFieldCVVCode.setColumns(10);
 		
 		textFieldExpieringDate = new JTextField();
-		textFieldExpieringDate.setBounds(124, 195, 150, 25);
+		textFieldExpieringDate.setBounds(135, 195, 150, 25);
 		panelCreditCard.add(textFieldExpieringDate);
 		textFieldExpieringDate.setColumns(10);
 		
@@ -363,6 +377,12 @@ public class MainWindow {
 		textFieldBankNumber.setBounds(124, 145, 150, 25);
 		panelDebitCard.add(textFieldBankNumber);
 		textFieldBankNumber.setColumns(10);
+		
+		JPanel panelHome = new JPanel();
+		panelCards.add(panelHome, "Home");
+		
+		tableHome = new JTable();
+		panelHome.add(tableHome);
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBorderPainted(false);
