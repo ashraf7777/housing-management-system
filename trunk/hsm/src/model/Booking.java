@@ -36,7 +36,7 @@ public class Booking {
 	 * @param checkInDate Check-In Date
 	 * @param paymentType PaymentType
 	 */
-	Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit[] room, Date checkInDate, String paymentType)
+	public Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit[] room, Date checkInDate, String paymentType)
 	{
 		this.bookingID = bookingCounter++;
 		this.firstNameOfBooker = firstNameOfBooker;
