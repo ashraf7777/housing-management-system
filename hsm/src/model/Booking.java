@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /*
  * This class provides all necessary information about a booking of one or more rooms.
@@ -25,7 +23,19 @@ public class Booking {
 	private Date checkOutDate;
 	private Unit[] room;
 	
-	//Constructor
+	/**
+	 * 
+	 * @param firstNameOfBooker Firstname
+	 * @param lastNameOfBooker	Lastname
+	 * @param birthday	Birthday
+	 * @param street	Street
+	 * @param city	City
+	 * @param zipCode Zip Code
+	 * @param numberOfPersons Number of Persons
+	 * @param room Room 
+	 * @param checkInDate Check-In Date
+	 * @param paymentType PaymentType
+	 */
 	Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit[] room, Date checkInDate, String paymentType)
 	{
 		this.bookingID = bookingCounter++;
@@ -44,8 +54,12 @@ public class Booking {
 	
 	
 	//Getter & Setter
-	
-	public int getNumberOfPersons() {
+
+
+
+	public 
+
+int getNumberOfPersons() {
 		return numberOfPersons;
 	}
 	public void setNumberOfPersons(int numberOfPersons) {
