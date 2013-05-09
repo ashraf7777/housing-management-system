@@ -14,11 +14,15 @@ public class Model {
 
 
 	public void addBookingToList(Booking b) {
-		Booking.allBookings.add(b);
+		allBookings.add(b);
+	}
+	public void removeBookingFromList(Booking b)
+	{
+		allBookings.remove(b);
 	}
 	
 	public void clearBookingList()
 	{
-		Booking.allBookings.clear();
+		allBookings.clear();
 	}
 }
