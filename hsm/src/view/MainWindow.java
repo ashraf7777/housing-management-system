@@ -36,6 +36,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controller.GUI_handler;
+
 import model.Booking;
 import model.ExampleData;
 import model.Unit;
@@ -62,6 +64,8 @@ public class MainWindow {
 	private JTable tableOverview;
 	private JTable tableHome;
 	private JTree tree;
+	
+	private ActionListener my_handler;
 
 	/**
 	 * Launch the application.
@@ -72,6 +76,8 @@ public class MainWindow {
 				try {
 					ExampleData.loadSampleTreeData();
 					MainWindow window = new MainWindow();
+					GUI_handler my_handler = new GUI_handler();
+					window.announceHandler(my_handler);
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -85,6 +91,11 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		initialize();
+	}
+	
+	private void announceHandler(ActionListener handler)
+	{
+		this.my_handler = handler;
 	}
 
 	/**
