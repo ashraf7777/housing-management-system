@@ -21,7 +21,7 @@ public class Booking {
 	private String paymentType;
 	private Date checkInDate;
 	private Date checkOutDate;
-	private Unit[] room;
+	private Unit room;
 	
 	/**
 	 * 
@@ -36,7 +36,7 @@ public class Booking {
 	 * @param checkInDate Check-In Date
 	 * @param paymentType PaymentType
 	 */
-	public Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit[] room, Date checkInDate, String paymentType)
+	public Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit room, Date checkInDate, String paymentType)
 	{
 		this.bookingID = bookingCounter++;
 		this.firstNameOfBooker = firstNameOfBooker;
@@ -89,10 +89,10 @@ int getNumberOfPersons() {
 	public void setCheckOutDate(Date checkOutDate) {
 		this.checkOutDate = checkOutDate;
 	}
-	public Unit[] getRoom() {
+	public Unit getRoom() {
 		return room;
 	}
-	public void setRoom(Unit[] room) {
+	public void setRoom(Unit room) {
 		this.room = room;
 	}
 	public int getBookingID() {
