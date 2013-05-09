@@ -5,7 +5,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
@@ -28,16 +27,17 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
+import model.Booking;
 import model.ExampleData;
 import model.Unit;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.border.LineBorder;
-import javax.swing.ListSelectionModel;
 
 public class MainWindow {
 
@@ -289,6 +289,11 @@ public class MainWindow {
 		panelCheckIn.add(lblPersonalData);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Booking newBooking = new Booking();
+			}
+		});
 		btnSave.setBounds(586, 480, 89, 23);
 		panelCheckIn.add(btnSave);
 		
