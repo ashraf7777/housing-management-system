@@ -84,7 +84,6 @@ public class GUI_handler implements ActionListener {
 			}
 		}
 		
-		
 		//TODO: Tree in der Ansicht aktualisieren
 	}
 	
