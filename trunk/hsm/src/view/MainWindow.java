@@ -61,7 +61,8 @@ public class MainWindow {
 	private JPanel panelPayMethod;
 	private JTable tableOverview;
 	private JTable tableHome;
-	
+	private JTree tree;
+
 	/**
 	 * Launch the application.
 	 */
@@ -113,7 +114,7 @@ public class MainWindow {
 		mainPanel.setLayout(new BorderLayout(0, 0));
 		try {
 			UIManager
-			.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+					.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e1) {
 			// TODO Auto-generated catch block
@@ -123,271 +124,272 @@ public class MainWindow {
 		JPanel panel = new JPanel();
 		mainPanel.add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		
+
 		JButton btnHome = new JButton("Home");
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards,"Home");
+				c1.show(panelCards, "Home");
 			}
 		});
 		btnHome.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnHome);
-		
+
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut);
-		
+
 		JButton btnCheckIn = new JButton("Check-In");
 		btnCheckIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards,"CheckIn");
+				c1.show(panelCards, "CheckIn");
 			}
 		});
 		panel.add(btnCheckIn);
-		
+
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_1);
-		
+
 		JButton btnCheckout = new JButton("Check-Out");
 		btnCheckout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards,"CheckOut");
+				c1.show(panelCards, "CheckOut");
 			}
 		});
 		panel.add(btnCheckout);
-		
+
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_2);
-		
+
 		JButton btnOverview = new JButton("Overview");
 		btnOverview.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards,"Overview");
+				c1.show(panelCards, "Overview");
 			}
 		});
 		panel.add(btnOverview);
-		
-		JTree tree = new JTree(Unit.getTree());
+
+		tree = new JTree(Unit.getTree());
 		mainPanel.add(tree, BorderLayout.WEST);
-		
+
 		panelCards = new JPanel();
 		mainPanel.add(panelCards, BorderLayout.CENTER);
 		panelCards.setLayout(new CardLayout(0, 0));
-		
+
 		JPanel panelCheckOut = new JPanel();
 		panelCards.add(panelCheckOut, "CheckOut");
-		
+
 		JPanel panelOverview = new JPanel();
 		panelCards.add(panelOverview, "Overview");
 		panelOverview.setLayout(new BorderLayout(0, 0));
-		
+
 		tableOverview = new JTable();
 		tableOverview.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableOverview.setBackground(Color.WHITE);
 		tableOverview.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableOverview.setFillsViewportHeight(true);
-		tableOverview.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-			}
-		));
+		tableOverview.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] {}));
 		panelOverview.add(tableOverview);
-		
+
 		JPanel panelCheckIn = new JPanel();
 		panelCards.add(panelCheckIn, "CheckIn");
 		panelCheckIn.setBackground(SystemColor.inactiveCaption);
 		panelCheckIn.setLayout(null);
-		
+
 		JLabel lblFirstname = new JLabel("Firstname:");
 		lblFirstname.setBounds(40, 75, 69, 14);
 		panelCheckIn.add(lblFirstname);
-		
+
 		JLabel lblLastname = new JLabel("Lastname:");
 		lblLastname.setBounds(40, 125, 69, 14);
 		panelCheckIn.add(lblLastname);
-		
+
 		JLabel lblAdress = new JLabel("Adress:");
 		lblAdress.setBounds(40, 175, 46, 14);
 		panelCheckIn.add(lblAdress);
-		
+
 		JLabel lblCity = new JLabel("City:");
 		lblCity.setBounds(40, 225, 46, 14);
 		panelCheckIn.add(lblCity);
-		
+
 		JLabel lblZipcode = new JLabel("ZipCode:");
 		lblZipcode.setBounds(40, 275, 57, 14);
 		panelCheckIn.add(lblZipcode);
-		
+
 		JLabel lblBirthday = new JLabel("Birthday:");
 		lblBirthday.setBounds(40, 325, 57, 14);
 		panelCheckIn.add(lblBirthday);
-		
+
 		JLabel lblPaymethod = new JLabel("Paymethod:");
 		lblPaymethod.setBounds(40, 375, 69, 14);
 		panelCheckIn.add(lblPaymethod);
-		
+
 		textFieldFirstName = new JTextField();
 		textFieldFirstName.setBounds(107, 70, 142, 25);
 		panelCheckIn.add(textFieldFirstName);
 		textFieldFirstName.setColumns(10);
-		
+
 		textFieldLastName = new JTextField();
 		textFieldLastName.setBounds(107, 120, 142, 25);
 		panelCheckIn.add(textFieldLastName);
 		textFieldLastName.setColumns(10);
-		
+
 		textFieldStreet = new JTextField();
 		textFieldStreet.setBounds(107, 170, 142, 25);
 		panelCheckIn.add(textFieldStreet);
 		textFieldStreet.setColumns(10);
-		
+
 		textFieldCity = new JTextField();
 		textFieldCity.setBounds(107, 220, 142, 25);
 		panelCheckIn.add(textFieldCity);
 		textFieldCity.setColumns(10);
-		
+
 		textFieldZipCode = new JTextField();
 		textFieldZipCode.setBounds(107, 270, 142, 25);
 		panelCheckIn.add(textFieldZipCode);
 		textFieldZipCode.setColumns(10);
-		
+
 		textFieldBirthday = new JTextField();
 		textFieldBirthday.setBounds(107, 320, 142, 25);
 		panelCheckIn.add(textFieldBirthday);
 		textFieldBirthday.setColumns(10);
-		
+
 		comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Credit Card", "Debit Card"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {
+				"Credit Card", "Debit Card" }));
 		comboBox.setBounds(107, 370, 142, 25);
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelPayMethod.getLayout();
-				if (comboBox.getSelectedIndex()==0) {
+				if (comboBox.getSelectedIndex() == 0) {
 					c1.show(panelPayMethod, "CreditCard");
-				}
-				else {
+				} else {
 					c1.show(panelPayMethod, "DebitCard");
 				}
 			}
 		});
 		panelCheckIn.add(comboBox);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBackground(SystemColor.desktop);
 		separator.setForeground(SystemColor.desktop);
 		separator.setBounds(312, 11, 10, 492);
 		panelCheckIn.add(separator);
-		
+
 		JLabel lblPersonalData = new JLabel("Personal Data");
 		lblPersonalData.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPersonalData.setBounds(40, 25, 153, 14);
 		panelCheckIn.add(lblPersonalData);
-		
+
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Booking newBooking = new Booking(textFieldFirstName.getText(), textFieldLastName.getText(), null, textFieldStreet.getText(), textFieldCity.getText(), textFieldZipCode.getText(), 1, null, new Date(System.currentTimeMillis()), comboBox.getSelectedItem().toString());
+				Booking newBooking = new Booking(textFieldFirstName.getText(),
+						textFieldLastName.getText(), null, textFieldStreet
+								.getText(), textFieldCity.getText(),
+						textFieldZipCode.getText(), 1, (Unit)tree.getLastSelectedPathComponent(), new Date(
+								System.currentTimeMillis()), comboBox
+								.getSelectedItem().toString());
 				System.out.println(newBooking);
 			}
 		});
 		btnSave.setBounds(586, 480, 89, 23);
 		panelCheckIn.add(btnSave);
-		
+
 		panelPayMethod = new JPanel();
 		panelPayMethod.setBounds(332, 72, 343, 317);
 		panelCheckIn.add(panelPayMethod);
 		panelPayMethod.setLayout(new CardLayout(0, 0));
-		
+
 		JPanel panelCreditCard = new JPanel();
 		panelPayMethod.add(panelCreditCard, "CreditCard");
 		panelCreditCard.setLayout(null);
-		
+
 		JLabel lblCardHoldersName = new JLabel("Card Holders Name:");
 		lblCardHoldersName.setBounds(10, 50, 115, 14);
 		panelCreditCard.add(lblCardHoldersName);
-		
+
 		JLabel lblCreditCardNumber = new JLabel("Credit Card Number:");
 		lblCreditCardNumber.setBounds(10, 100, 115, 14);
 		panelCreditCard.add(lblCreditCardNumber);
-		
+
 		JLabel lblCvvCode = new JLabel("CVV Code:");
 		lblCvvCode.setBounds(10, 150, 104, 14);
 		panelCreditCard.add(lblCvvCode);
-		
+
 		JLabel lblExperingDate = new JLabel("Expering Date:");
 		lblExperingDate.setBounds(10, 200, 104, 14);
 		panelCreditCard.add(lblExperingDate);
-		
+
 		textFieldCardHoldersName = new JTextField();
 		textFieldCardHoldersName.setBounds(135, 45, 150, 25);
 		panelCreditCard.add(textFieldCardHoldersName);
 		textFieldCardHoldersName.setColumns(10);
-		
+
 		textFieldCreditCardNumber = new JTextField();
 		textFieldCreditCardNumber.setBounds(135, 95, 150, 25);
 		panelCreditCard.add(textFieldCreditCardNumber);
 		textFieldCreditCardNumber.setColumns(10);
-		
+
 		textFieldCVVCode = new JTextField();
 		textFieldCVVCode.setBounds(135, 145, 150, 25);
 		panelCreditCard.add(textFieldCVVCode);
 		textFieldCVVCode.setColumns(10);
-		
+
 		textFieldExpieringDate = new JTextField();
 		textFieldExpieringDate.setBounds(135, 195, 150, 25);
 		panelCreditCard.add(textFieldExpieringDate);
 		textFieldExpieringDate.setColumns(10);
-		
+
 		JLabel lblCreditCardInformation = new JLabel("Credit Card Information");
 		lblCreditCardInformation.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblCreditCardInformation.setBounds(10, 11, 209, 14);
 		panelCreditCard.add(lblCreditCardInformation);
-		
+
 		JPanel panelDebitCard = new JPanel();
 		panelPayMethod.add(panelDebitCard, "DebitCard");
 		panelDebitCard.setLayout(null);
-		
+
 		JLabel lblDebitCardInformation = new JLabel("Debit Card Information:");
 		lblDebitCardInformation.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDebitCardInformation.setBounds(10, 11, 226, 14);
 		panelDebitCard.add(lblDebitCardInformation);
-		
+
 		JLabel lblNameOnCard = new JLabel("Name on Card:");
 		lblNameOnCard.setBounds(10, 50, 104, 14);
 		panelDebitCard.add(lblNameOnCard);
-		
+
 		JLabel lblAccountNumber = new JLabel("Account Number:");
 		lblAccountNumber.setBounds(10, 100, 104, 14);
 		panelDebitCard.add(lblAccountNumber);
-		
+
 		JLabel lblBankNumber = new JLabel("Bank Number:");
 		lblBankNumber.setBounds(10, 150, 104, 14);
 		panelDebitCard.add(lblBankNumber);
-		
+
 		textFieldNameOnCard = new JTextField();
 		textFieldNameOnCard.setBounds(124, 45, 150, 25);
 		panelDebitCard.add(textFieldNameOnCard);
 		textFieldNameOnCard.setColumns(10);
-		
+
 		textFieldAccountNumber = new JTextField();
 		textFieldAccountNumber.setBounds(124, 95, 150, 25);
 		panelDebitCard.add(textFieldAccountNumber);
 		textFieldAccountNumber.setColumns(10);
-		
+
 		textFieldBankNumber = new JTextField();
 		textFieldBankNumber.setBounds(124, 145, 150, 25);
 		panelDebitCard.add(textFieldBankNumber);
 		textFieldBankNumber.setColumns(10);
-		
+
 		JPanel panelHome = new JPanel();
 		panelCards.add(panelHome, "Home");
-		
+
 		tableHome = new JTable();
 		panelHome.add(tableHome);
 
