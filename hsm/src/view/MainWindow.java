@@ -10,6 +10,7 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -291,7 +292,8 @@ public class MainWindow {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Booking newBooking = new Booking();
+				Booking newBooking = new Booking(textFieldFirstName.getText(), textFieldLastName.getText(), null, textFieldStreet.getText(), textFieldCity.getText(), textFieldZipCode.getText(), 1, null, new Date(System.currentTimeMillis()), comboBox.getSelectedItem().toString());
+				System.out.println(newBooking);
 			}
 		});
 		btnSave.setBounds(586, 480, 89, 23);
