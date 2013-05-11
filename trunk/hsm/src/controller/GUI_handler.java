@@ -2,7 +2,10 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
+
+import view.MainWindow;
 
 import model.Booking;
 import model.Model;
@@ -12,6 +15,7 @@ public class GUI_handler implements ActionListener {
 	
 	
 	private Model model;
+	private MainWindow gui;
 	
 
 	@Override
@@ -43,8 +47,7 @@ public class GUI_handler implements ActionListener {
 	{
 		//TODO: show Check-In Menu
 		Unit freeRoomsTree;
-		freeRoomsTree = (Unit)Unit.getTree().getRoot();
-		
+		freeRoomsTree = (Unit)Unit.getTree().getRoot(); //FIXME: Der kopiert den gesamten Baum mit den Referenzen auf den alten Objekten; Vllt Objekt komplett duplizieren?
 		Unit root = Unit.getTree();
 		Unit building, apartment, room;
 		for (int j = 0; j < root.getChildCount(); j++) {
@@ -62,6 +65,7 @@ public class GUI_handler implements ActionListener {
 								room = (Unit) apartment.getChildAt(k);
 								if (!room.isOccupied())						//If the room is free it will be added to the new tree
 								{
+									System.out.println(room.isOccupied());
 										if (!isNodeAlreadyAdded(building, freeRoomsTree)) //If the building isn't yet added to the new tree 
 										{
 											freeRoomsTree.add(building);
@@ -83,7 +87,6 @@ public class GUI_handler implements ActionListener {
 			}
 			}
 		}
-		
 		//TODO: Tree in der Ansicht aktualisieren
 	}
 	
@@ -94,7 +97,31 @@ public class GUI_handler implements ActionListener {
 	
 	private void checkOut()
 	{
-		
+		if (null != gui.getAusgewaehlterKnoten())
+		{
+			Unit room = gui.getAusgewaehlterKnoten();
+			if (room.getChildCount() == 0)
+			{
+				if (room.isOccupied())
+				{
+					Date moveInDate = model.getBookingFromRoom(room).getCheckInDate();
+					Date moveOutDate = new Date(System.currentTimeMillis());
+				}
+				else
+				{
+					//TODO: Fehlermeldung: Falscher Knoten ausgewählt. Raum ist nicht belegt
+				}
+			}
+			else
+			{
+				//TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt 
+			}
+		}
+		//No node is selected
+		else
+		{
+			//TODO:Fehlermeldung: Kein Raum ausgewählt
+		}
 	}
 	
 	private void showOverview()
@@ -108,6 +135,11 @@ public class GUI_handler implements ActionListener {
 			//
 		}
 		
+	}
+	
+	public void announceGui(MainWindow gui)
+	{
+		this.gui = gui;
 	}
 	
 	public void announceModel(Model model)

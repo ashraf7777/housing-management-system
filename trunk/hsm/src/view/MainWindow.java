@@ -436,4 +436,9 @@ public class MainWindow {
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
 	}
+	
+	public Unit getAusgewaehlterKnoten() {
+		JTree tree = new JTree(Unit.getTree());
+		return (Unit) tree.getLastSelectedPathComponent();
+	}
 }
