@@ -20,7 +20,7 @@ public class ExampleData {
 		addApartments(units[0][3], 3);		
 		
 		units[0][4] = root.addTreeElement("Tokyo");
-		addApartments(units[0][4], 4);		
+		addApartments(units[0][4], 4);	
 	}
 	
 	private static void addApartments(Unit u, int number)
