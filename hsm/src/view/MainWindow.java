@@ -85,7 +85,7 @@ public class MainWindow {
 					ExampleData exData = new ExampleData();
 					exData.announceModel(model);
 					exData.loadSampleTreeData();
-					MainWindow window = new MainWindow();
+					MainWindow window = new MainWindow(model);
 					GUI_handler my_handler = new GUI_handler();
 					window.announceHandler(my_handler);
 					window.announceModel(model);
@@ -100,7 +100,8 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow() {
+	public MainWindow(Model model) {
+		this.model = model;
 		initialize();
 	}
 	
@@ -198,7 +199,7 @@ public class MainWindow {
 		});
 		panel.add(btnOverview);
 
-		tree = new JTree();														//model.getRoot()
+		tree = new JTree(model.getRoot());														//model.getRoot()
 		mainPanel.add(tree, BorderLayout.WEST);
 
 		panelCards = new JPanel();
