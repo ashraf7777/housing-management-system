@@ -36,11 +36,13 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import controller.GUI_handler;
-
 import model.Booking;
+import model.CreditCard;
+import model.DebitCard;
 import model.ExampleData;
+import model.Payment;
 import model.Unit;
+import controller.GUI_handler;
 
 public class MainWindow {
 
@@ -66,6 +68,7 @@ public class MainWindow {
 	private JTree tree;
 	
 	private ActionListener my_handler;
+	private JTextField textFieldNameOfBank;
 
 	/**
 	 * Launch the application.
@@ -300,12 +303,26 @@ public class MainWindow {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Payment paymentTyp = null;
+				switch (comboBox
+						.getSelectedItem().toString()) {
+				case "Debit Card":
+					paymentTyp = new DebitCard(textFieldNameOnCard.getText(),textFieldAccountNumber.getText(),textFieldBankNumber.getText(),textFieldNameOfBank.getText()	);
+					break;
+				case "Credit Card":
+					paymentTyp = new CreditCard(textFieldCardHoldersName.getText(),textFieldCreditCardNumber.getText(),textFieldCVVCode.getText(),textFieldExpieringDate.getText());
+					break;
+				default:
+					break;
+				}
+				//Payment payment = new Payment();
 				Booking newBooking = new Booking(textFieldFirstName.getText(),
 						textFieldLastName.getText(), null, textFieldStreet
 								.getText(), textFieldCity.getText(),
 						textFieldZipCode.getText(), 1, (Unit)tree.getLastSelectedPathComponent(), new Date(
-								System.currentTimeMillis()), comboBox
-								.getSelectedItem().toString());
+								System.currentTimeMillis()), paymentTyp);
+				Unit unit = (Unit)tree.getLastSelectedPathComponent();
+				unit.setOccupied(true);
 				System.out.println(newBooking);
 			}
 		});
@@ -397,6 +414,15 @@ public class MainWindow {
 		textFieldBankNumber.setBounds(124, 145, 150, 25);
 		panelDebitCard.add(textFieldBankNumber);
 		textFieldBankNumber.setColumns(10);
+		
+		JLabel lblNameOfBank = new JLabel("Name of Bank:");
+		lblNameOfBank.setBounds(10, 200, 104, 14);
+		panelDebitCard.add(lblNameOfBank);
+		
+		textFieldNameOfBank = new JTextField();
+		textFieldNameOfBank.setColumns(10);
+		textFieldNameOfBank.setBounds(124, 194, 150, 25);
+		panelDebitCard.add(textFieldNameOfBank);
 
 		JPanel panelHome = new JPanel();
 		panelCards.add(panelHome, "Home");
