@@ -18,7 +18,7 @@ public class Booking {
 	private String zipCode;
 	private Date birthday;
 	//TODO: Eventuell paymentType aufgliedern in Subtypes
-	private String paymentType;
+	private Payment paymentType;
 	private Date checkInDate;
 	private Date checkOutDate;
 	private Unit room;
@@ -34,9 +34,9 @@ public class Booking {
 	 * @param numberOfPersons Number of Persons
 	 * @param room Room 
 	 * @param checkInDate Check-In Date
-	 * @param paymentType PaymentType
+	 * @param paymentTyp PaymentType
 	 */
-	public Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit room, Date checkInDate, String paymentType)
+	public Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit room, Date checkInDate, Payment paymentTyp)
 	{
 		this.bookingID = bookingCounter++;
 		this.firstNameOfBooker = firstNameOfBooker;
@@ -48,7 +48,7 @@ public class Booking {
 		this.numberOfPersons = numberOfPersons;
 		this.room = room;
 		this.checkInDate = checkInDate;
-		this.paymentType = paymentType;
+		this.paymentType = paymentTyp;
 	}
 	
 	
@@ -71,10 +71,10 @@ int getNumberOfPersons() {
 	public String getLastNameofBooker() {
 		return lastNameOfBooker;
 	}
-	public String getPaymentType() {
+	public Payment getPaymentType() {
 		return paymentType;
 	}
-	public void setPaymentType(String paymentType) {
+	public void setPaymentType(Payment paymentType) {
 		this.paymentType = paymentType;
 	}
 	public Date getCheckInDate() {
