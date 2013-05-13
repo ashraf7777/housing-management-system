@@ -9,6 +9,7 @@ public class Model {
 
 	private List<Booking> allBookings = new ArrayList<Booking>();  
 	private Map<Unit, Booking> assignmentUnitBooking = new HashMap<Unit, Booking>();
+	private TreeDataModel root;
 	
 	public List<Booking> getAllBookings() {
 		return allBookings;
@@ -35,6 +36,15 @@ public class Model {
 	{
 		assignmentUnitBooking.put(r, b);
 	}
+
+	public TreeDataModel getRoot() {
+		return root;
+	}
+
+	public void setRoot(TreeDataModel root) {
+		this.root = root;
+	}
+	
 	
 	
 }
