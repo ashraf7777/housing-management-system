@@ -40,7 +40,9 @@ import model.Booking;
 import model.CreditCard;
 import model.DebitCard;
 import model.ExampleData;
+import model.Model;
 import model.Payment;
+import model.TreeDataModel;
 import model.Unit;
 import controller.GUI_handler;
 
@@ -68,6 +70,7 @@ public class MainWindow {
 	private JTree tree;
 	
 	private ActionListener my_handler;
+	private Model model;
 	private JTextField textFieldNameOfBank;
 
 	/**
@@ -77,10 +80,14 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ExampleData.loadSampleTreeData();
+					Model model = new Model();
+					ExampleData exData = new ExampleData();
+					exData.announceModel(model);
+					exData.loadSampleTreeData();
 					MainWindow window = new MainWindow();
 					GUI_handler my_handler = new GUI_handler();
 					window.announceHandler(my_handler);
+					window.announceModel(model);
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -99,6 +106,11 @@ public class MainWindow {
 	private void announceHandler(ActionListener handler)
 	{
 		this.my_handler = handler;
+	}
+	
+	private void announceModel(Model model)
+	{
+		this.model = model;
 	}
 
 	/**
@@ -185,7 +197,7 @@ public class MainWindow {
 		});
 		panel.add(btnOverview);
 
-		tree = new JTree(Unit.getTree());
+		tree = new JTree();														//model.getRoot()
 		mainPanel.add(tree, BorderLayout.WEST);
 
 		panelCards = new JPanel();
@@ -464,7 +476,7 @@ public class MainWindow {
 	}
 	
 	public Unit getAusgewaehlterKnoten() {
-		JTree tree = new JTree(Unit.getTree());
+		JTree tree = new JTree();													//model.getRoot()
 		return (Unit) tree.getLastSelectedPathComponent();
 	}
 }

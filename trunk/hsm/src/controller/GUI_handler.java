@@ -9,6 +9,7 @@ import view.MainWindow;
 
 import model.Booking;
 import model.Model;
+import model.TreeDataModel;
 import model.Unit;
 
 public class GUI_handler implements ActionListener {
@@ -23,9 +24,9 @@ public class GUI_handler implements ActionListener {
 		if (e.getActionCommand().toLowerCase().equals(("Home").toLowerCase())) {
 			showHome();
 		} else if (e.getActionCommand().toLowerCase().equals(("Check-In").toLowerCase())) {
-			checkIn();	
+		//	checkIn();	
 		} else if (e.getActionCommand().toLowerCase().equals(("Check-Out").toLowerCase())) {
-			checkOut();	
+			//checkOut();	
 		} else if (e.getActionCommand().toLowerCase().equals(("Overview").toLowerCase())) {
 			showOverview();
 		}
@@ -42,7 +43,7 @@ public class GUI_handler implements ActionListener {
 		
 	}
 	
-	
+	/*
 	private void checkIn()
 	{
 		//TODO: show Check-In Menu
@@ -123,7 +124,7 @@ public class GUI_handler implements ActionListener {
 			//TODO:Fehlermeldung: Kein Raum ausgewählt
 		}
 	}
-	
+*/	
 	private void showOverview()
 	{
 		
@@ -146,7 +147,4 @@ public class GUI_handler implements ActionListener {
 	{
 		this.model = model;
 	}
-	
-	
-
 }

@@ -11,7 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Depending on the tier it represents a building, an apartment or a room.
  */
 
-public class Unit extends DefaultMutableTreeNode{
+public class Unit {
 
 	//---------------------------------------
 	//Structure variables
@@ -20,12 +20,10 @@ public class Unit extends DefaultMutableTreeNode{
 	private static Unit root;
 	
 	//representing the child element
-	private Unit leaf;
 	private static List<String> nameList = new ArrayList<String>();
 	private final List<Booking> bookingList = new ArrayList<Booking>();
 	//---------------------------------------
 	
-	private static final long serialVersionUID = 1L;
 	private int unitID;
 	private String name;
 	private float sqrFeet;
@@ -39,7 +37,6 @@ public class Unit extends DefaultMutableTreeNode{
 	//Standard Constructor for the root element and buildings
 	public Unit(String name)
 	{
-		super(name);
 		if (checkName(name))
 		{
 			this.sqrFeet = 0;
@@ -57,7 +54,6 @@ public class Unit extends DefaultMutableTreeNode{
 	//Constructor for apartments and rooms
 	public Unit(String name, int sqrFeet, float pricePerNight, float pricePerMonth)
 	{
-		super(name);
 		if (checkName(name))
 		{
 			this.sqrFeet = sqrFeet;
@@ -72,31 +68,6 @@ public class Unit extends DefaultMutableTreeNode{
 		}
 	}
 
-	
-	/**
-	 * Fügt dem Baum ein neues Element hinzu und gibt dieses Lager dann zurück.
-	 * 
-	 * @param bez
-	 *            Name des Elements (Lagername)
-	 * @return Das soeben erstellte Lager
-	 */
-	//Add apartments to buildings and rooms to apartments
-	public Unit addTreeElement(String name, int sqrFeet, float pricePerNight, float pricePerMonth) {
-		leaf = new Unit(name, sqrFeet, pricePerNight, pricePerMonth);
-		this.add(leaf);
-		this.hasChild = true;
-
-		return leaf;
-	}
-	
-	//Add buildings to the root
-	public Unit addTreeElement(String name) {
-		leaf = new Unit(name);
-		this.add(leaf);
-		this.hasChild = true;
-
-		return leaf;
-	}
 	
 	
 	/**
@@ -118,19 +89,7 @@ public class Unit extends DefaultMutableTreeNode{
 		return true;
 	}
 	
-	/**
-	 * Erstellt das Wurzelelement für die Lagerbaumstruktur.
-	 * 
-	 * @param bez
-	 *            Der Name des Wurzelelement.
-	 * @return Das Wurzelelement.
-	 */
-	public static Unit addRoot(String name) {
-		root = new Unit(name);
-		root.name = name;
-		return root;
-	}
-	
+
 	
 	
 	//Getter & Setter

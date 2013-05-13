@@ -1,43 +1,60 @@
 package model;
 
+import model.Model;
+
 public class ExampleData {
 
-	public static void loadSampleTreeData()
+	private Model model;
+	
+	public void loadSampleTreeData()
 	{
-		Unit[][] units = new Unit[5][15];
-		Unit root = Unit.addRoot("University Village");
+		TreeDataModel[][] units = new TreeDataModel[5][15];
+		TreeDataModel root = new TreeDataModel( new Unit("University Village"));
+		model.setRoot(root);
 		
-		units[0][0] = root.addTreeElement("London");
+		units[0][0] = new TreeDataModel (new Unit("London"));
+		root.add(units[0][0]);
 		addApartments(units[0][0], 4);
 		
-		units[0][1] = root.addTreeElement("Sydney");
+		units[0][1] = new TreeDataModel (new Unit("Sydney"));
+		root.add(units[0][1]);
 		addApartments(units[0][1], 3);
 		
-		units[0][2] = root.addTreeElement("Madrid");
+		units[0][2] = new TreeDataModel (new Unit("Madrid"));
+		root.add(units[0][2]);
 		addApartments(units[0][2], 2);
 		
-		units[0][3] = root.addTreeElement("Paris");
+		units[0][3] = new TreeDataModel (new Unit("Paris"));
+		root.add(units[0][3]);
 		addApartments(units[0][3], 3);		
 		
-		units[0][4] = root.addTreeElement("Tokyo");
+		units[0][4] = new TreeDataModel (new Unit("Tokyo"));
+		root.add(units[0][4]);
 		addApartments(units[0][4], 4);	
 	}
 	
-	private static void addApartments(Unit u, int number)
+	private static void addApartments(TreeDataModel u, int number)
 	{
-		Unit u2;
+		TreeDataModel u2;
 		for (int i = 1; i <= number; i++)
 			{
-				u2 = u.addTreeElement(Integer.toString(i));
+				u2 = new TreeDataModel( new Unit((Integer.toString(i))));
+				u.add(u2);
 				addRooms(u2);
 			}
 	}
 	
 	
-	private static void addRooms(Unit u)
+	private static void addRooms(TreeDataModel u)
 	{
-		u.addTreeElement("Normal", 100, 32.5f, 975f);
-		u.addTreeElement("Large", 150, 33.2f, 995f);
-		u.addTreeElement("Deluxe", 200, 34.2f, 1025f);
+		u.add(new TreeDataModel(new Unit("Normal", 100, 32.5f, 975f)));
+		u.add(new TreeDataModel(new Unit("Large", 100, 32.5f, 975f)));
+		u.add(new TreeDataModel(new Unit("Deluxe", 100, 32.5f, 975f)));
+	}
+	
+	
+	public void announceModel(Model model)
+	{
+		this.model = model;
 	}
 }
