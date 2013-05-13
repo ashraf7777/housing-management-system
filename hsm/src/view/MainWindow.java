@@ -35,6 +35,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import model.Booking;
 import model.CreditCard;
@@ -475,8 +476,7 @@ public class MainWindow {
 		menuHelp.add(menuItemAbout);
 	}
 	
-	public Unit getAusgewaehlterKnoten() {
-		JTree tree = new JTree();													//model.getRoot()
-		return (Unit) tree.getLastSelectedPathComponent();
+	public DefaultMutableTreeNode getAusgewaehlterKnoten() {
+		return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 	}
 }
