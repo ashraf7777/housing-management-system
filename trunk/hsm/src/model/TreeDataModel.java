@@ -8,9 +8,6 @@ public class TreeDataModel extends DefaultMutableTreeNode {
 	Unit unit;
 	public static TreeDataModel root;
 	
-	private Unit leaf;
-
-	
 	public TreeDataModel()
 	{
 		super();

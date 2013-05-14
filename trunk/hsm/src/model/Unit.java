@@ -43,7 +43,7 @@ public class Unit {
 			this.name = name;
 			this.pricePerNight = 0;
 			this.pricePerMonth = 0;
-			this.hasChild = false;
+			this.hasChild = true;
 		}
 		else
 		{
