@@ -53,12 +53,13 @@ public class GUI_handler implements ActionListener {
 		TreeDataModel normalTree = model.getRoot(); 
 		newTree = new TreeDataModel( (Unit)normalTree.getUserObject());		//Set the same root element
 		DefaultMutableTreeNode building, apartment, room;
+		DefaultMutableTreeNode new_building, new_apartment, new_room;
 		for (int j = 0; j < normalTree.getChildCount(); j++) {
-			if (normalTree.getChildAt(j).isLeaf()) {
+			if (!normalTree.getChildAt(j).isLeaf()) {
 				building = (DefaultMutableTreeNode) normalTree.getChildAt(j);
 				for(int i = 0; i < building.getChildCount(); i ++)
 				{
-					if(building.getChildAt(i).isLeaf())
+					if(!building.getChildAt(i).isLeaf())
 					{
 						apartment = (DefaultMutableTreeNode) building.getChildAt(i);
 						for(int k = 0 ; k < apartment.getChildCount(); k++)
@@ -68,20 +69,23 @@ public class GUI_handler implements ActionListener {
 								room = (DefaultMutableTreeNode) apartment.getChildAt(k);
 								if ( !((Unit)room.getUserObject()).isOccupied())						//If the room is free it will be added to the new tree
 								{
-									System.out.println(((Unit)room.getUserObject()).isOccupied());
-										if (!isNodeAlreadyAdded(building, newTree)) //If the building isn't yet added to the new tree 
-										{
-											newTree.add(new TreeDataModel((Unit)building.getUserObject()));
-										}
+									new_building = new TreeDataModel((Unit)building.getUserObject());
+									new_apartment = new TreeDataModel((Unit)apartment.getUserObject());
+									new_room = new TreeDataModel((Unit)room.getUserObject());
+									
+									if (!isNodeAlreadyAdded(new_building, newTree)) //If the building isn't yet added to the new tree 
+									{
+										newTree.add(new_building);
+									}
 										
-										if (!isNodeAlreadyAdded(apartment, building))
-										{
-											building.add(new TreeDataModel((Unit)apartment.getUserObject()));
-										}
-										if (!isNodeAlreadyAdded(room, apartment))
-										{
-											apartment.add(new TreeDataModel((Unit)room.getUserObject()));
-										}
+									if (!isNodeAlreadyAdded(new_apartment, new_building))
+									{
+										new_building.add(new_apartment);
+									}
+									if (!isNodeAlreadyAdded(new_room, new_apartment))
+									{
+										new_apartment.add(new_room);
+									}
 								}
 							}
 						}
@@ -95,7 +99,12 @@ public class GUI_handler implements ActionListener {
 	
 	private boolean isNodeAlreadyAdded(DefaultMutableTreeNode node, DefaultMutableTreeNode topNode)
 	{
-		return true;
+		for(int i = 0; i < topNode.getChildCount(); i++)
+		{
+			if(topNode.getChildAt(i).toString().equals(node.toString()))
+				return true;
+		}
+		return false;
 	}
 	
 	private void checkOut()

@@ -346,7 +346,7 @@ public class MainWindow {
 				DefaultMutableTreeNode treeS = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 
-				Unit userObject = (Unit) treeS.getUserObject();						//FIXME: Null Pointer vermeiden wenn kein Knoten ausgewählt wurde
+				Unit userObject = (Unit) treeS.getUserObject();						
 				if (userObject.isHasChild() || userObject.isOccupied()) {
 					//TODO Fehlerpopup
 					System.out.println("Fehler");
