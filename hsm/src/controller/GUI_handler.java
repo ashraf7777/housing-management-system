@@ -51,7 +51,7 @@ public class GUI_handler implements ActionListener {
 		//TODO: show Check-In Menu
 		TreeDataModel normalTree;
 		DefaultMutableTreeNode newTree;
-		normalTree = model.getRoot(); //FIXME: Der kopiert den gesamten Baum mit den Referenzen auf den alten Objekten; Vllt Objekt komplett duplizieren?
+		normalTree = model.getRoot(); 
 		newTree = new TreeDataModel( (Unit)normalTree.getUserObject());		//Set the same root element
 		DefaultMutableTreeNode building, apartment, room;
 		for (int j = 0; j < normalTree.getChildCount(); j++) {
