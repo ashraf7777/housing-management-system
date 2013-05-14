@@ -337,7 +337,7 @@ public class MainWindow {
 						.getLastSelectedPathComponent();
 
 				Unit userObject = (Unit) treeS.getUserObject();
-				if (userObject.isHasChild()) {
+				if (userObject.isHasChild() || userObject.isOccupied()) {
 					//TODO Fehlerpopup
 					System.out.println("Fehler");
 				} else {
