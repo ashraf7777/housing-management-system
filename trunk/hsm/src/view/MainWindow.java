@@ -69,7 +69,7 @@ public class MainWindow {
 	private JTable tableOverview;
 	private JTable tableHome;
 	private JTree tree;
-	
+
 	private ActionListener my_handler;
 	private Model model;
 	private JTextField textFieldNameOfBank;
@@ -104,14 +104,12 @@ public class MainWindow {
 		this.model = model;
 		initialize();
 	}
-	
-	private void announceHandler(ActionListener handler)
-	{
+
+	private void announceHandler(ActionListener handler) {
 		this.my_handler = handler;
 	}
-	
-	private void announceModel(Model model)
-	{
+
+	private void announceModel(Model model) {
 		this.model = model;
 	}
 
@@ -199,7 +197,7 @@ public class MainWindow {
 		});
 		panel.add(btnOverview);
 
-		tree = new JTree(model.getRoot());														//model.getRoot()
+		tree = new JTree(model.getRoot()); // model.getRoot()
 		mainPanel.add(tree, BorderLayout.WEST);
 
 		panelCards = new JPanel();
@@ -318,26 +316,40 @@ public class MainWindow {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Payment paymentTyp = null;
-				switch (comboBox
-						.getSelectedItem().toString()) {
+				switch (comboBox.getSelectedItem().toString()) {
 				case "Debit Card":
-					paymentTyp = new DebitCard(textFieldNameOnCard.getText(),textFieldAccountNumber.getText(),textFieldBankNumber.getText(),textFieldNameOfBank.getText()	);
+					paymentTyp = new DebitCard(textFieldNameOnCard.getText(),
+							textFieldAccountNumber.getText(),
+							textFieldBankNumber.getText(), textFieldNameOfBank
+									.getText());
 					break;
 				case "Credit Card":
-					paymentTyp = new CreditCard(textFieldCardHoldersName.getText(),textFieldCreditCardNumber.getText(),textFieldCVVCode.getText(),textFieldExpieringDate.getText());
+					paymentTyp = new CreditCard(textFieldCardHoldersName
+							.getText(), textFieldCreditCardNumber.getText(),
+							textFieldCVVCode.getText(), textFieldExpieringDate
+									.getText());
 					break;
 				default:
 					break;
 				}
-				//Payment payment = new Payment();
-				Booking newBooking = new Booking(textFieldFirstName.getText(),
-						textFieldLastName.getText(), null, textFieldStreet
-								.getText(), textFieldCity.getText(),
-						textFieldZipCode.getText(), 1, (Unit)tree.getLastSelectedPathComponent(), new Date(
-								System.currentTimeMillis()), paymentTyp);
-				Unit unit = (Unit)tree.getLastSelectedPathComponent();
-				unit.setOccupied(true);
-				System.out.println(newBooking);
+				// Payment payment = new Payment();
+				DefaultMutableTreeNode treeS = (DefaultMutableTreeNode) tree
+						.getLastSelectedPathComponent();
+
+				Unit userObject = (Unit) treeS.getUserObject();
+				if (userObject.isHasChild()) {
+					//TODO Fehlerpopup
+					System.out.println("Fehler");
+				} else {
+					Booking newBooking = new Booking(textFieldFirstName
+							.getText(), textFieldLastName.getText(), null,
+							textFieldStreet.getText(), textFieldCity.getText(),
+							textFieldZipCode.getText(), 1, userObject,
+							new Date(System.currentTimeMillis()), paymentTyp);
+					Unit unit = userObject;
+					unit.setOccupied(true);
+					System.out.println(newBooking);
+				}
 			}
 		});
 		btnSave.setBounds(586, 480, 89, 23);
@@ -428,11 +440,11 @@ public class MainWindow {
 		textFieldBankNumber.setBounds(124, 145, 150, 25);
 		panelDebitCard.add(textFieldBankNumber);
 		textFieldBankNumber.setColumns(10);
-		
+
 		JLabel lblNameOfBank = new JLabel("Name of Bank:");
 		lblNameOfBank.setBounds(10, 200, 104, 14);
 		panelDebitCard.add(lblNameOfBank);
-		
+
 		textFieldNameOfBank = new JTextField();
 		textFieldNameOfBank.setColumns(10);
 		textFieldNameOfBank.setBounds(124, 194, 150, 25);
@@ -476,7 +488,7 @@ public class MainWindow {
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
 	}
-	
+
 	public DefaultMutableTreeNode getAusgewaehlterKnoten() {
 		return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 	}
