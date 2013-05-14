@@ -46,12 +46,11 @@ public class GUI_handler implements ActionListener {
 	}
 	
 	
-	private void checkIn()
+	public DefaultMutableTreeNode checkIn()
 	{
 		//TODO: show Check-In Menu
-		TreeDataModel normalTree;
 		DefaultMutableTreeNode newTree;
-		normalTree = model.getRoot(); 
+		TreeDataModel normalTree = model.getRoot(); 
 		newTree = new TreeDataModel( (Unit)normalTree.getUserObject());		//Set the same root element
 		DefaultMutableTreeNode building, apartment, room;
 		for (int j = 0; j < normalTree.getChildCount(); j++) {
@@ -91,7 +90,7 @@ public class GUI_handler implements ActionListener {
 			}
 			}
 		}
-		//TODO: Tree in der Ansicht aktualisieren
+		return newTree;
 	}
 	
 	private boolean isNodeAlreadyAdded(DefaultMutableTreeNode node, DefaultMutableTreeNode topNode)

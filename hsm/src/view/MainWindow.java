@@ -72,6 +72,7 @@ public class MainWindow {
 
 	private ActionListener my_handler;
 	private Model model;
+	private GUI_handler g_handler;			//muss wieder gelöscht werden!!!!!!
 	private JTextField textFieldNameOfBank;
 
 	/**
@@ -87,8 +88,9 @@ public class MainWindow {
 					exData.loadSampleTreeData();
 					MainWindow window = new MainWindow(model);
 					GUI_handler my_handler = new GUI_handler();
-					window.announceHandler(my_handler);
+					window.announceHandler(my_handler, my_handler);
 					window.announceModel(model);
+					my_handler.announceModel(model);
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -105,8 +107,10 @@ public class MainWindow {
 		initialize();
 	}
 
-	private void announceHandler(ActionListener handler) {
+	private void announceHandler(ActionListener handler, GUI_handler g_handler) {
 		this.my_handler = handler;
+		this.g_handler = g_handler;
+		
 	}
 
 	private void announceModel(Model model) {
@@ -169,6 +173,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckIn");
+				g_handler.checkIn();											//Aufruf der Check In Methode
 			}
 		});
 		panel.add(btnCheckIn);
