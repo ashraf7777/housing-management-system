@@ -1,6 +1,7 @@
 package model;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 
 public class TreeDataModel extends DefaultMutableTreeNode {
 
@@ -22,5 +23,12 @@ public class TreeDataModel extends DefaultMutableTreeNode {
 	@Override
 	public String toString() {
 		return unit.getName();
+	}
+	
+	@Override
+	public void add(MutableTreeNode newChild)
+	{
+		super.add(newChild);
+		((Unit)this.getUserObject()).setHasChild(true);
 	}
 }
