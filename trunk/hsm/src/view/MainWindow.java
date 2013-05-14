@@ -36,6 +36,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 import model.Booking;
 import model.CreditCard;
@@ -173,7 +175,10 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckIn");
-				g_handler.checkIn();											//Aufruf der Check In Methode
+				TreeModel treeModel = new DefaultTreeModel(g_handler.checkIn());
+				tree.setModel(treeModel);
+				tree.updateUI();
+														//Aufruf der Check In Methode
 			}
 		});
 		panel.add(btnCheckIn);
