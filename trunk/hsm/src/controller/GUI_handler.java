@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 
 import model.Booking;
 import model.Model;
@@ -120,7 +119,7 @@ public class GUI_handler implements ActionListener {
 	}
 
 	public DefaultMutableTreeNode showCheckOutTree() {
-		
+
 		DefaultMutableTreeNode newTree;
 		TreeDataModel normalTree = model.getRoot();
 		newTree = new TreeDataModel((Unit) normalTree.getUserObject()); // Set
@@ -189,12 +188,28 @@ public class GUI_handler implements ActionListener {
 		return newTree;
 	}
 
-	
-	public void commitCheckOut()
-	{
-		
+	public void commitCheckOut() {
+		if (null != gui.getAusgewaehlterKnoten()) {
+			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
+			if (!room.isOccupied()) {
+				// TODO: Fehlermeldung: Falscher Knoten ausgewählt. Raum ist
+				// nicht belegt
+			} else {
+				Date moveInDate = model.getBookingFromRoom(room).getCheckInDate();
+				Date moveOutDate = new Date(System.currentTimeMillis());
+				Date timeToPay = new Date(moveOutDate.getTime() - moveInDate.getTime());
+				
+				int years = timeToPay.getYear();
+				int months = timeToPay.getMonth();
+				int days = timeToPay.getDay();
+			}
+		} else {
+			// TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt
+		}
 	}
-	
+
+	// No node is selected
+
 	private void showOverview() {
 
 		// TODO: Ansicht wechseln
