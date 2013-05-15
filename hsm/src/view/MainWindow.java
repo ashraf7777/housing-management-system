@@ -354,8 +354,7 @@ public class MainWindow {
 					//TODO Fehlerpopup
 					System.out.println("Fehler");
 				} else {
-					Booking newBooking = new Booking(textFieldFirstName
-							.getText(), textFieldLastName.getText(), null,
+					Booking newBooking = new Booking(checkText(textFieldFirstName), textFieldLastName.getText(), null,
 							textFieldStreet.getText(), textFieldCity.getText(),
 							textFieldZipCode.getText(), 1, userObject,
 							new Date(System.currentTimeMillis()), paymentTyp);
@@ -500,6 +499,14 @@ public class MainWindow {
 		JMenuItem menuItemAbout = new JMenuItem("About");
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
+	}
+
+	protected String checkText(JTextField textField) {
+		if(textField.getText().equals("")){
+			//show Popup
+			System.out.println("Mistake in");
+		}
+		return textField.getText();
 	}
 
 	public DefaultMutableTreeNode getAusgewaehlterKnoten() {
