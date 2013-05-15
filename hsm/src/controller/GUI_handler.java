@@ -40,9 +40,9 @@ public class GUI_handler implements ActionListener {
 	
 	
 	
-	private void showHome()
+	public DefaultMutableTreeNode showHome()
 	{
-		
+		return model.getRoot();	
 	}
 	
 	
@@ -57,20 +57,20 @@ public class GUI_handler implements ActionListener {
 		for (int j = 0; j < normalTree.getChildCount(); j++) {
 			if (!normalTree.getChildAt(j).isLeaf()) {
 				building = (DefaultMutableTreeNode) normalTree.getChildAt(j);
+				new_building = new TreeDataModel((Unit)building.getUserObject());
 				for(int i = 0; i < building.getChildCount(); i ++)
 				{
 					if(!building.getChildAt(i).isLeaf())
 					{
 						apartment = (DefaultMutableTreeNode) building.getChildAt(i);
+						new_apartment = new TreeDataModel((Unit)apartment.getUserObject());
 						for(int k = 0 ; k < apartment.getChildCount(); k++)
 						{
 							if (apartment.getChildAt(k).isLeaf())
 							{
 								room = (DefaultMutableTreeNode) apartment.getChildAt(k);
 								if ( !((Unit)room.getUserObject()).isOccupied())						//If the room is free it will be added to the new tree
-								{
-									new_building = new TreeDataModel((Unit)building.getUserObject());
-									new_apartment = new TreeDataModel((Unit)apartment.getUserObject());
+								{									
 									new_room = new TreeDataModel((Unit)room.getUserObject());
 									
 									if (!isNodeAlreadyAdded(new_building, newTree)) //If the building isn't yet added to the new tree 

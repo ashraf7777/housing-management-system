@@ -162,6 +162,8 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "Home");
+				TreeModel treeModel = new DefaultTreeModel(g_handler.showHome());
+				tree.setModel(treeModel);
 			}
 		});
 		btnHome.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -177,8 +179,7 @@ public class MainWindow {
 				c1.show(panelCards, "CheckIn");
 				TreeModel treeModel = new DefaultTreeModel(g_handler.checkIn());
 				tree.setModel(treeModel);
-				tree.updateUI();
-														//Aufruf der Check In Methode
+				//Aufruf der Check In Methode
 			}
 		});
 		panel.add(btnCheckIn);
