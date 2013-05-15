@@ -192,6 +192,8 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckOut");
+				TreeModel treeModel = new DefaultTreeModel(g_handler.checkOut());
+				tree.setModel(treeModel);
 			}
 		});
 		panel.add(btnCheckout);

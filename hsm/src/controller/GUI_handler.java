@@ -107,34 +107,55 @@ public class GUI_handler implements ActionListener {
 		return false;
 	}
 	
-	private void checkOut()
+	public DefaultMutableTreeNode checkOut()
 	{
-		if (null != gui.getAusgewaehlterKnoten())
-		{
-			DefaultMutableTreeNode room = gui.getAusgewaehlterKnoten();
-			if (room.getChildCount() == 0)
-			{
-				Unit r = ((Unit)(room.getUserObject())); 
-				if (r.isOccupied())
-				{
-					Date moveInDate = model.getBookingFromRoom(r).getCheckInDate();
-					Date moveOutDate = new Date(System.currentTimeMillis());
+		//TODO: show Check-In Menu
+				DefaultMutableTreeNode newTree;
+				TreeDataModel normalTree = model.getRoot(); 
+				newTree = new TreeDataModel( (Unit)normalTree.getUserObject());		//Set the same root element
+				DefaultMutableTreeNode building, apartment, room;
+				DefaultMutableTreeNode new_building, new_apartment, new_room;
+				for (int j = 0; j < normalTree.getChildCount(); j++) {
+					if (!normalTree.getChildAt(j).isLeaf()) {
+						building = (DefaultMutableTreeNode) normalTree.getChildAt(j);
+						new_building = new TreeDataModel((Unit)building.getUserObject());
+						for(int i = 0; i < building.getChildCount(); i ++)
+						{
+							if(!building.getChildAt(i).isLeaf())
+							{
+								apartment = (DefaultMutableTreeNode) building.getChildAt(i);
+								new_apartment = new TreeDataModel((Unit)apartment.getUserObject());
+								for(int k = 0 ; k < apartment.getChildCount(); k++)
+								{
+									if (apartment.getChildAt(k).isLeaf())
+									{
+										room = (DefaultMutableTreeNode) apartment.getChildAt(k);
+										if ( ((Unit)room.getUserObject()).isOccupied())						//If the room is free it will be added to the new tree
+										{									
+											new_room = new TreeDataModel((Unit)room.getUserObject());
+											
+											if (!isNodeAlreadyAdded(new_building, newTree)) //If the building isn't yet added to the new tree 
+											{
+												newTree.add(new_building);
+											}
+												
+											if (!isNodeAlreadyAdded(new_apartment, new_building))
+											{
+												new_building.add(new_apartment);
+											}
+											if (!isNodeAlreadyAdded(new_room, new_apartment))
+											{
+												new_apartment.add(new_room);
+											}
+										}
+									}
+								}
+						}
+						
+					}
+					}
 				}
-				else
-				{
-					//TODO: Fehlermeldung: Falscher Knoten ausgewählt. Raum ist nicht belegt
-				}
-			}
-			else
-			{
-				//TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt 
-			}
-		}
-		//No node is selected
-		else
-		{
-			//TODO:Fehlermeldung: Kein Raum ausgewählt
-		}
+				return newTree;
 	}
 	
 	private void showOverview()
