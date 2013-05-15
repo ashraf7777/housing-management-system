@@ -111,4 +111,48 @@ int getNumberOfPersons() {
 	public Date getBirthday() {
 		return birthday;
 	}
+
+
+
+	public String getLastNameOfBooker() {
+		return lastNameOfBooker;
+	}
+
+
+
+	public void setLastNameOfBooker(String lastNameOfBooker) {
+		this.lastNameOfBooker = lastNameOfBooker;
+	}
+
+
+
+	public void setFirstNameOfBooker(String firstNameOfBooker) {
+		this.firstNameOfBooker = firstNameOfBooker;
+	}
+
+
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	
+	
 }

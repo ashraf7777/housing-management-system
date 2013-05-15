@@ -177,7 +177,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckIn");
-				TreeModel treeModel = new DefaultTreeModel(g_handler.checkIn());
+				TreeModel treeModel = new DefaultTreeModel(g_handler.showCheckInTree());
 				tree.setModel(treeModel);
 				//Aufruf der Check In Methode
 			}
@@ -192,7 +192,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckOut");
-				TreeModel treeModel = new DefaultTreeModel(g_handler.checkOut());
+				TreeModel treeModel = new DefaultTreeModel(g_handler.showCheckOutTree());
 				tree.setModel(treeModel);
 			}
 		});

@@ -40,8 +40,8 @@ public class GUI_handler implements ActionListener {
 		return model.getRoot();
 	}
 
-	public DefaultMutableTreeNode checkIn() {
-		// TODO: show Check-In Menu
+	public DefaultMutableTreeNode showCheckInTree() {
+
 		DefaultMutableTreeNode newTree;
 		TreeDataModel normalTree = model.getRoot();
 		newTree = new TreeDataModel((Unit) normalTree.getUserObject()); // Set
@@ -119,8 +119,8 @@ public class GUI_handler implements ActionListener {
 		return false;
 	}
 
-	public DefaultMutableTreeNode checkOut() {
-		// TODO: show Check-In Menu
+	public DefaultMutableTreeNode showCheckOutTree() {
+		
 		DefaultMutableTreeNode newTree;
 		TreeDataModel normalTree = model.getRoot();
 		newTree = new TreeDataModel((Unit) normalTree.getUserObject()); // Set
@@ -189,6 +189,12 @@ public class GUI_handler implements ActionListener {
 		return newTree;
 	}
 
+	
+	public void commitCheckOut()
+	{
+		
+	}
+	
 	private void showOverview() {
 
 		// TODO: Ansicht wechseln
