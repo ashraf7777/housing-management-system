@@ -57,6 +57,12 @@ public class Booking {
 
 
 
+	public Booking() {
+		this.bookingID = bookingCounter++;
+	}
+
+
+
 	public 
 
 int getNumberOfPersons() {

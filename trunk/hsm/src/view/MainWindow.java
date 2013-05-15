@@ -10,6 +10,8 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -74,7 +76,7 @@ public class MainWindow {
 
 	private ActionListener my_handler;
 	private Model model;
-	private GUI_handler g_handler;			//muss wieder gelöscht werden!!!!!!
+	private GUI_handler g_handler; // muss wieder gelöscht werden!!!!!!
 	private JTextField textFieldNameOfBank;
 
 	/**
@@ -112,7 +114,7 @@ public class MainWindow {
 	private void announceHandler(ActionListener handler, GUI_handler g_handler) {
 		this.my_handler = handler;
 		this.g_handler = g_handler;
-		
+
 	}
 
 	private void announceModel(Model model) {
@@ -177,9 +179,10 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckIn");
-				TreeModel treeModel = new DefaultTreeModel(g_handler.showCheckInTree());
+				TreeModel treeModel = new DefaultTreeModel(g_handler
+						.showCheckInTree());
 				tree.setModel(treeModel);
-				//Aufruf der Check In Methode
+				// Aufruf der Check In Methode
 			}
 		});
 		panel.add(btnCheckIn);
@@ -192,7 +195,8 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckOut");
-				TreeModel treeModel = new DefaultTreeModel(g_handler.showCheckOutTree());
+				TreeModel treeModel = new DefaultTreeModel(g_handler
+						.showCheckOutTree());
 				tree.setModel(treeModel);
 			}
 		});
@@ -295,6 +299,23 @@ public class MainWindow {
 		textFieldBirthday.setBounds(107, 320, 142, 25);
 		panelCheckIn.add(textFieldBirthday);
 		textFieldBirthday.setColumns(10);
+		textFieldBirthday.setText("e.g. 05.24.1992");
+		textFieldBirthday.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (textFieldBirthday.getText().equals("")) {
+					textFieldBirthday.setText("e.g. 05.24.1992");
+				}
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (textFieldBirthday.getText().equals("e.g. 05.24.1992")) {
+					textFieldBirthday.setText("");
+				}
+			}
+		});
 
 		comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {
@@ -349,18 +370,25 @@ public class MainWindow {
 				DefaultMutableTreeNode treeS = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 
-				Unit userObject = (Unit) treeS.getUserObject();						
+				Unit userObject = (Unit) treeS.getUserObject();
 				if (userObject.isHasChild() || userObject.isOccupied()) {
-					//TODO Fehlerpopup
+					// TODO Fehlerpopup
 					System.out.println("Fehler");
 				} else {
-					Booking newBooking = new Booking(checkText(textFieldFirstName), textFieldLastName.getText(), null,
-							textFieldStreet.getText(), textFieldCity.getText(),
-							textFieldZipCode.getText(), 1, userObject,
-							new Date(System.currentTimeMillis()), paymentTyp);
-					Unit unit = userObject;
-					unit.setOccupied(true);
-					System.out.println(newBooking);
+					Booking newBooking = new Booking();
+					newBooking.setFirstNameOfBooker(textFieldFirstName
+							.getText());
+					newBooking.setLastNameOfBooker(textFieldLastName.getText());
+					// newBooking.setBirthday(textFieldBirthday.getText());
+					newBooking.setStreet(textFieldStreet.getText());
+					newBooking.setCity(textFieldCity.getText());
+					newBooking.setZipCode(textFieldZipCode.getText());
+					newBooking.setNumberOfPersons(1);
+					newBooking.setRoom(userObject);
+					newBooking.setCheckInDate(new Date(System
+							.currentTimeMillis()));
+					newBooking.setPaymentType(paymentTyp);
+					userObject.setOccupied(true);
 				}
 			}
 		});
@@ -502,8 +530,8 @@ public class MainWindow {
 	}
 
 	protected String checkText(JTextField textField) {
-		if(textField.getText().equals("")){
-			//show Popup
+		if (textField.getText().equals("")) {
+			// show Popup
 			System.out.println("Mistake in");
 		}
 		return textField.getText();
