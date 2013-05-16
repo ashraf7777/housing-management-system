@@ -202,6 +202,10 @@ public class GUI_handler implements ActionListener {
 				int years = timeToPay.getYear();
 				int months = timeToPay.getMonth();
 				int days = timeToPay.getDay();
+				
+				float total = years * 12 * room.getPricePerMonth();
+				total = total + months * room.getPricePerMonth() + days * room.getPricePerNight();
+				
 			}
 		} else {
 			// TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt
