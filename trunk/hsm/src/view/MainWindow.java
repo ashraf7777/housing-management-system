@@ -234,6 +234,7 @@ public class MainWindow {
 		JButton btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				g_handler.commitCheckOut();
 			}
 		});
 		btnCheckOut.setBounds(699, 433, 90, 28);
