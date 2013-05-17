@@ -41,72 +41,7 @@ public class GUI_handler implements ActionListener {
 
 	public DefaultMutableTreeNode showCheckInTree() {
 
-		DefaultMutableTreeNode newTree;
-		TreeDataModel normalTree = model.getRoot();
-		newTree = new TreeDataModel((Unit) normalTree.getUserObject()); // Set
-																		// the
-																		// same
-																		// root
-																		// element
-		DefaultMutableTreeNode building, apartment, room;
-		DefaultMutableTreeNode new_building, new_apartment, new_room;
-		for (int j = 0; j < normalTree.getChildCount(); j++) {
-			if (!normalTree.getChildAt(j).isLeaf()) {
-				building = (DefaultMutableTreeNode) normalTree.getChildAt(j);
-				new_building = new TreeDataModel(
-						(Unit) building.getUserObject());
-				for (int i = 0; i < building.getChildCount(); i++) {
-					if (!building.getChildAt(i).isLeaf()) {
-						apartment = (DefaultMutableTreeNode) building
-								.getChildAt(i);
-						new_apartment = new TreeDataModel(
-								(Unit) apartment.getUserObject());
-						for (int k = 0; k < apartment.getChildCount(); k++) {
-							if (apartment.getChildAt(k).isLeaf()) {
-								room = (DefaultMutableTreeNode) apartment
-										.getChildAt(k);
-								if (!((Unit) room.getUserObject()).isOccupied()) // If
-																					// the
-																					// room
-																					// is
-																					// free
-																					// it
-																					// will
-																					// be
-																					// added
-																					// to
-																					// the
-																					// new
-																					// tree
-								{
-									new_room = new TreeDataModel(
-											(Unit) room.getUserObject());
-
-									if (!isNodeAlreadyAdded(new_building,
-											newTree)) // If the building isn't
-														// yet added to the new
-														// tree
-									{
-										newTree.add(new_building);
-									}
-
-									if (!isNodeAlreadyAdded(new_apartment,
-											new_building)) {
-										new_building.add(new_apartment);
-									}
-									if (!isNodeAlreadyAdded(new_room,
-											new_apartment)) {
-										new_apartment.add(new_room);
-									}
-								}
-							}
-						}
-					}
-
-				}
-			}
-		}
-		return newTree;
+		return buildTreeCheckInAndOut(true);
 	}
 
 	private boolean isNodeAlreadyAdded(DefaultMutableTreeNode node,
@@ -120,6 +55,39 @@ public class GUI_handler implements ActionListener {
 
 	public DefaultMutableTreeNode showCheckOutTree() {
 
+		return buildTreeCheckInAndOut(false);
+	}
+
+	public void commitCheckOut() {
+		if (null != gui.getAusgewaehlterKnoten()) {
+			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
+			if (!room.isOccupied()) {
+				// TODO: Fehlermeldung: Falscher Knoten ausgewählt. Raum ist
+				// nicht belegt
+			} else {
+				Date moveInDate = model.getBookingFromRoom(room)
+						.getCheckInDate();
+				Date moveOutDate = new Date(System.currentTimeMillis());
+				Date timeToPay = new Date(moveOutDate.getTime()
+						- moveInDate.getTime());
+
+				int years = timeToPay.getYear();
+				int months = timeToPay.getMonth();
+				int days = timeToPay.getDay();
+
+				float total = years * 12 * room.getPricePerMonth();
+				total = total + months * room.getPricePerMonth() + days
+						* room.getPricePerNight();
+
+				System.out.println("Total costs: " + total);
+
+			}
+		} else {
+			// TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt
+		}
+	}
+
+	private DefaultMutableTreeNode buildTreeCheckInAndOut(boolean isCheckIn) {
 		DefaultMutableTreeNode newTree;
 		TreeDataModel normalTree = model.getRoot();
 		newTree = new TreeDataModel((Unit) normalTree.getUserObject()); // Set
@@ -144,19 +112,12 @@ public class GUI_handler implements ActionListener {
 							if (apartment.getChildAt(k).isLeaf()) {
 								room = (DefaultMutableTreeNode) apartment
 										.getChildAt(k);
-								if (((Unit) room.getUserObject()).isOccupied()) // If
-																				// the
-																				// room
-																				// is
-																				// free
-																				// it
-																				// will
-																				// be
-																				// added
-																				// to
-																				// the
-																				// new
-																				// tree
+								if (isCheckIn
+										|| ((Unit) room.getUserObject())
+												.isOccupied()) // If the room is
+																// free it will
+																// be addedto
+																// the new tree
 								{
 									new_room = new TreeDataModel(
 											(Unit) room.getUserObject());
@@ -185,34 +146,10 @@ public class GUI_handler implements ActionListener {
 				}
 			}
 		}
+		if (newTree.getChildCount() == 0)
+			return new DefaultMutableTreeNode("No rooms available");
 		return newTree;
 	}
-
-	public void commitCheckOut() {
-		if (null != gui.getAusgewaehlterKnoten()) {
-			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
-			if (!room.isOccupied()) {
-				// TODO: Fehlermeldung: Falscher Knoten ausgewählt. Raum ist
-				// nicht belegt
-			} else {
-				Date moveInDate = model.getBookingFromRoom(room).getCheckInDate();
-				Date moveOutDate = new Date(System.currentTimeMillis());
-				Date timeToPay = new Date(moveOutDate.getTime() - moveInDate.getTime());
-				
-				int years = timeToPay.getYear();
-				int months = timeToPay.getMonth();
-				int days = timeToPay.getDay();
-				
-				float total = years * 12 * room.getPricePerMonth();
-				total = total + months * room.getPricePerMonth() + days * room.getPricePerNight();
-				
-			}
-		} else {
-			// TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt
-		}
-	}
-
-	// No node is selected
 
 	private void showOverview() {
 
