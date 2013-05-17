@@ -274,32 +274,38 @@ public class MainWindow {
 		textFieldFirstName.setBounds(107, 70, 142, 25);
 		panelCheckIn.add(textFieldFirstName);
 		textFieldFirstName.setColumns(10);
+		textFieldFirstName.setName("textfield First Name");
 
 		textFieldLastName = new JTextField();
 		textFieldLastName.setBounds(107, 120, 142, 25);
 		panelCheckIn.add(textFieldLastName);
 		textFieldLastName.setColumns(10);
+		textFieldLastName.setName("textfield Last Name");
 
 		textFieldStreet = new JTextField();
 		textFieldStreet.setBounds(107, 170, 142, 25);
 		panelCheckIn.add(textFieldStreet);
 		textFieldStreet.setColumns(10);
+		textFieldStreet.setName("textfield Street");
 
 		textFieldCity = new JTextField();
 		textFieldCity.setBounds(107, 220, 142, 25);
 		panelCheckIn.add(textFieldCity);
 		textFieldCity.setColumns(10);
+		textFieldCity.setName("textfield City");
 
 		textFieldZipCode = new JTextField();
 		textFieldZipCode.setBounds(107, 270, 142, 25);
 		panelCheckIn.add(textFieldZipCode);
 		textFieldZipCode.setColumns(10);
+		textFieldZipCode.setName("textfield Zip code");
 
 		textFieldBirthday = new JTextField();
 		textFieldBirthday.setBounds(107, 320, 142, 25);
 		panelCheckIn.add(textFieldBirthday);
 		textFieldBirthday.setColumns(10);
 		textFieldBirthday.setText("e.g. 05.24.1992");
+		textFieldBirthday.setName("textfield Birthday");
 		textFieldBirthday.addFocusListener(new FocusListener() {
 
 			@Override
@@ -532,7 +538,7 @@ public class MainWindow {
 	protected String checkText(JTextField textField) {
 		if (textField.getText().equals("")) {
 			// show Popup
-			System.out.println("Mistake in");
+			System.out.println("Mistake in " + textField.getName());
 		}
 		return textField.getText();
 	}
