@@ -48,8 +48,8 @@ public class ExampleData {
 	private static void addRooms(TreeDataModel u)
 	{
 		u.add(new TreeDataModel(new Unit("Normal", 100, 32.5f, 975f)));
-		u.add(new TreeDataModel(new Unit("Large", 100, 32.5f, 975f)));
-		u.add(new TreeDataModel(new Unit("Deluxe", 100, 32.5f, 975f)));
+		u.add(new TreeDataModel(new Unit("Large", 100, 33.2f, 995f)));
+		u.add(new TreeDataModel(new Unit("Deluxe", 100, 35.9f, 1075f)));
 	}
 	
 	
