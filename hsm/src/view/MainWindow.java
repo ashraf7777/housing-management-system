@@ -97,6 +97,7 @@ public class MainWindow {
 					window.announceHandler(my_handler, my_handler);
 					window.announceModel(model);
 					my_handler.announceModel(model);
+					my_handler.announceGui(window);
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -400,6 +401,7 @@ public class MainWindow {
 							.currentTimeMillis()));
 					newBooking.setPaymentType(paymentTyp);
 					userObject.setOccupied(true);
+					model.addBookingToRoom(newBooking, userObject);
 				}
 			}
 		});
@@ -514,6 +516,7 @@ public class MainWindow {
 		JButton btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				g_handler.commitCheckOut();
 			}
 		});
 		btnCheckOut.setBounds(502, 446, 89, 29);

@@ -70,11 +70,14 @@ public class GUI_handler implements ActionListener {
 				Date moveOutDate = new Date(System.currentTimeMillis());
 				Date timeToPay = new Date(moveOutDate.getTime()
 						- moveInDate.getTime());
+				
+				int years = (int) (timeToPay.getTime()/ 1000/60/60/24/365);
+				int months = (int)(timeToPay.getTime()/ 1000/60/60/24 % 365) * 365 / 12;
+				int days = (int)(timeToPay.getTime()/ 1000/60/60/24 % 365) * 365 % 12 * 12;
 
-				int years = timeToPay.getYear();
-				int months = timeToPay.getMonth();
-				int days = timeToPay.getDay();
-
+				if (years == 0 && months == 0 && days == 0)
+					days++;
+				
 				float total = years * 12 * room.getPricePerMonth();
 				total = total + months * room.getPricePerMonth() + days
 						* room.getPricePerNight();
