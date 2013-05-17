@@ -79,6 +79,7 @@ public class MainWindow {
 	private GUI_handler g_handler; // muss wieder gelöscht werden!!!!!!
 	private JTextField textFieldNameOfBank;
 	private JTable table;
+	private JTable tableCheckOut;
 
 	/**
 	 * Launch the application.
@@ -227,21 +228,6 @@ public class MainWindow {
 
 		tableHome = new JTable();
 		panelHome.add(tableHome);
-
-		table = new JTable();
-		table.setBounds(292, 34, 497, 358);
-		JPanel panelCheckOut = new JPanel();
-		panelCheckOut.add(table);
-
-		JButton btnCheckOut = new JButton("Check Out");
-		btnCheckOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Test");
-				g_handler.commitCheckOut();
-			}
-		});
-		btnCheckOut.setBounds(699, 433, 90, 28);
-		panelCheckOut.add(btnCheckOut);
 
 		JPanel panelOverview = new JPanel();
 		panelCards.add(panelOverview, "Overview");
@@ -514,6 +500,24 @@ public class MainWindow {
 		textFieldNameOfBank.setColumns(10);
 		textFieldNameOfBank.setBounds(124, 194, 150, 25);
 		panelDebitCard.add(textFieldNameOfBank);
+		
+		JPanel panelCheckOut = new JPanel();
+		panelCheckOut.setBackground(SystemColor.inactiveCaption);
+		panelCheckOut.setForeground(SystemColor.inactiveCaption);
+		panelCards.add(panelCheckOut, "CheckOut");
+		panelCheckOut.setLayout(null);
+		
+		tableCheckOut = new JTable();
+		tableCheckOut.setBounds(91, 48, 500, 359);
+		panelCheckOut.add(tableCheckOut);
+		
+		JButton btnCheckOut = new JButton("Check Out");
+		btnCheckOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCheckOut.setBounds(502, 446, 89, 29);
+		panelCheckOut.add(btnCheckOut);
 
 				
 		JMenuBar menuBar = new JMenuBar();
