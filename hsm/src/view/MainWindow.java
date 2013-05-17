@@ -222,15 +222,17 @@ public class MainWindow {
 		mainPanel.add(panelCards, BorderLayout.CENTER);
 		panelCards.setLayout(new CardLayout(0, 0));
 
-		JPanel panelCheckOut = new JPanel();
-		panelCheckOut.setBackground(SystemColor.inactiveCaption);
-		panelCards.add(panelCheckOut, "CheckOut");
-		panelCheckOut.setLayout(null);
-		
+		JPanel panelHome = new JPanel();
+		panelCards.add(panelHome, "Home");
+
+		tableHome = new JTable();
+		panelHome.add(tableHome);
+
 		table = new JTable();
 		table.setBounds(292, 34, 497, 358);
+		JPanel panelCheckOut = new JPanel();
 		panelCheckOut.add(table);
-		
+
 		JButton btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -512,11 +514,22 @@ public class MainWindow {
 		textFieldNameOfBank.setBounds(124, 194, 150, 25);
 		panelDebitCard.add(textFieldNameOfBank);
 
-		JPanel panelHome = new JPanel();
-		panelCards.add(panelHome, "Home");
+		panelCheckOut = new JPanel();
+		panelCheckOut.setBackground(SystemColor.inactiveCaption);
+		panelCards.add(panelCheckOut, "CheckOut");
+		panelCheckOut.setLayout(null);
 
-		tableHome = new JTable();
-		panelHome.add(tableHome);
+		table = new JTable();
+		table.setBounds(96, 38, 554, 358);
+		panelCheckOut.add(table);
+
+		btnCheckOut = new JButton("Check Out");
+		btnCheckOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCheckOut.setBounds(560, 434, 90, 28);
+		panelCheckOut.add(btnCheckOut);
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBorderPainted(false);
