@@ -78,6 +78,7 @@ public class MainWindow {
 	private Model model;
 	private GUI_handler g_handler; // muss wieder gelöscht werden!!!!!!
 	private JTextField textFieldNameOfBank;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -222,7 +223,21 @@ public class MainWindow {
 		panelCards.setLayout(new CardLayout(0, 0));
 
 		JPanel panelCheckOut = new JPanel();
+		panelCheckOut.setBackground(SystemColor.inactiveCaption);
 		panelCards.add(panelCheckOut, "CheckOut");
+		panelCheckOut.setLayout(null);
+		
+		table = new JTable();
+		table.setBounds(292, 34, 497, 358);
+		panelCheckOut.add(table);
+		
+		JButton btnCheckOut = new JButton("Check Out");
+		btnCheckOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCheckOut.setBounds(699, 433, 90, 28);
+		panelCheckOut.add(btnCheckOut);
 
 		JPanel panelOverview = new JPanel();
 		panelCards.add(panelOverview, "Overview");
