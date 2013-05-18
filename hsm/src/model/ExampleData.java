@@ -1,6 +1,12 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import controller.GUI_handler;
+
 import view.MainWindow;
 
 
@@ -55,12 +61,62 @@ public class ExampleData {
 		u.add(new TreeDataModel(new Unit("Deluxe", 100, 35.9f, 1075f)));
 	}
 	
-	public void loadSampleBookings()
+	public void loadSampleBookings(int number, GUI_handler my_handler)
 	{
+		String[] firstNames = {"Mia", "Emma", "Hanna", "Lea", "Sophia", "Lena", "Leonie", "Lina", "Ben",
+				"Luca", "Paul", "Lucas", "Finn", "Jonas", "Leon", "Felix", "Tim", "Max"};
+		String[] lastNames = {"Mueller", "Schmidt", "Schneider", "Fischer", "Meyer"};
 		
-		//gui.bookRoom(paymentTyp, userObject, firstName, lastName, birthday, street, city, zipCode, numberOfPersons);
+		Payment paymentTyp = null;
+		paymentTyp = new DebitCard("Name on Debit Card",
+					"Account Number",
+					"Bank number", "Name of bank");
+		paymentTyp = new CreditCard("Name on Credit card", "Credit card number",
+					"CVV", "Expiering Date");
+		
+		String firstName, lastName, street, city, zipCode, birthday;
+		Unit userObject;
+		DefaultMutableTreeNode tree;
+		int numberOfPersons = 1;
+		int random;
+		
+		birthday = "23.04.1977";
+		
+		for(int i = 0; i < number; i++)
+		{
+			do
+			{
+				random = (int)Math.random()* 10;
+			}
+			while(random >= firstNames.length);
+			firstName = firstNames[random];
+			
+			do
+			{
+				random = (int)Math.random()* 10;
+			}
+			while(random >= lastNames.length);
+			lastName = lastNames[random];
+			
+			tree = my_handler.showCheckInTree();
+			if (tree.isLeaf())							//If the tree element has no children there are no free rooms left
+			{
+				//TODO: Fehlermeldung
+			}
+			else
+			{
+				
+				userObject = getRandomUnit();
+			}
+			//gui.bookRoom(paymentTyp, userObject, firstName, lastName, birthday, street, city, zipCode, numberOfPersons);
+		}
 	}
 	
+
+	public Unit getRandomUnit(DefaultMutableTreeNode tree)
+	{
+		return new Unit("Fehler in ExampleData");
+	}
 	
 	public void announceModel(Model model)
 	{
