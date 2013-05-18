@@ -511,18 +511,18 @@ public class MainWindow {
 
 		tableCheckOutModel = new DefaultTableModel();
 		tableCheckOutModel.setColumnIdentifiers(columNames);
-		tableCheckOut = new JTable(tableCheckOutModel);
-		tableCheckOut.setBounds(91, 48, 500, 359);
-		tableCheckOut.setBackground(Color.LIGHT_GRAY);
+		tableCheckOut = new JTable((TableModel) null);
+		tableCheckOut.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableCheckOut.setForeground(Color.PINK);
+		tableCheckOut.setFillsViewportHeight(true);
+		tableCheckOut.setColumnSelectionAllowed(true);
+		tableCheckOut.setCellSelectionEnabled(true);
+		tableCheckOut.setBounds(10, 11, 788, 452);
+		tableCheckOut.setBackground(Color.YELLOW);
 		// tableCheckOut.setFillsViewportHeight(true);
 		tableCheckOut.setFont(new Font("Serif", Font.PLAIN, 14));
 		tableCheckOut.getTableHeader().setFont(
 				new Font("Serif", Font.PLAIN, 15));
-		tableCheckOut.getTableHeader().setReorderingAllowed(false);
-		tableCheckOut.getTableHeader().setResizingAllowed(false);
-		// Da die Tabelle nur zur Ausgabe von Werten dient, muss sie nicht
-		// nutzbar sein.
-		tableCheckOut.setEnabled(false);
 		panelCheckOut.add(tableCheckOut);
 
 		JButton btnCheckOut = new JButton("Check Out");
@@ -531,7 +531,7 @@ public class MainWindow {
 				g_handler.commitCheckOut();
 			}
 		});
-		btnCheckOut.setBounds(502, 446, 89, 29);
+		btnCheckOut.setBounds(709, 474, 89, 29);
 		panelCheckOut.add(btnCheckOut);
 
 		JMenuBar menuBar = new JMenuBar();
