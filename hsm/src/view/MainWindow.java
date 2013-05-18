@@ -587,6 +587,7 @@ public class MainWindow {
 			newBooking.setPaymentType(paymentTyp);
 			userObject.setOccupied(true);
 			model.addBookingToRoom(newBooking, userObject);
+			model.addBookingToList(newBooking);
 		}
 	}
 
