@@ -33,6 +33,7 @@ public class Unit {
 	private boolean isOccupied = false;
 	private float pricePerNight;
 	private float pricePerMonth;
+	private Unit superiorUnit;
 	
 	//Standard Constructor for the root element and buildings
 	public Unit(String name)
@@ -172,5 +173,19 @@ public class Unit {
 	}
 	public int getMAX_OCCUPANCY() {
 		return MAX_OCCUPANCY;
+	}
+
+	/**
+	 * @return the superiorUnit
+	 */
+	public Unit getSuperiorUnit() {
+		return superiorUnit;
+	}
+
+	/**
+	 * @param superiorUnit the superiorUnit to set
+	 */
+	public void setSuperiorUnit(Unit superiorUnit) {
+		this.superiorUnit = superiorUnit;
 	}
 }

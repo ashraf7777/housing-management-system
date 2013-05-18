@@ -37,6 +37,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -79,6 +80,10 @@ public class MainWindow {
 	private JTextField textFieldNameOfBank;
 	private JTable table;
 	private JTable tableCheckOut;
+	private DefaultTableModel tableCheckOutModel;
+
+	private String[] columNames = { "Room", "Lastname", "Firstname",
+			"Check-In Date", "Paymenttype", "Birthday" };
 
 	/**
 	 * Launch the application.
@@ -90,7 +95,7 @@ public class MainWindow {
 					Model model = new Model();
 					ExampleData exData = new ExampleData();
 					exData.announceModel(model);
-					
+
 					exData.loadSampleTreeData();
 					MainWindow window = new MainWindow(model);
 					GUI_handler my_handler = new GUI_handler();
@@ -99,7 +104,7 @@ public class MainWindow {
 					my_handler.announceModel(model);
 					my_handler.announceGui(window);
 					exData.announceGui(window);
-					
+
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -203,6 +208,13 @@ public class MainWindow {
 				TreeModel treeModel = new DefaultTreeModel(g_handler
 						.showCheckOutTree());
 				tree.setModel(treeModel);
+
+				Object[][] data = new Object[model.getAllBookings().size()][];
+				for (int i = 0; i < model.getAllBookings().size(); i++) {
+					data[i] = model.getAllBookings().get(i).returnObject();
+				}
+				tableCheckOutModel.setDataVector(data, columNames);
+				tableCheckOut.updateUI();
 			}
 		});
 		panel.add(btnCheckout);
@@ -385,9 +397,12 @@ public class MainWindow {
 						.getLastSelectedPathComponent();
 
 				Unit userObject = (Unit) treeS.getUserObject();
-					bookRoom(paymentTyp, userObject, textFieldFirstName.getText(), textFieldLastName.getText(), 
-							textFieldBirthday.getText(), textFieldStreet.getText(), textFieldCity.getText(), 
-							textFieldZipCode.getText(), 1);
+
+				bookRoom(paymentTyp, userObject, textFieldFirstName.getText(),
+						textFieldLastName.getText(),
+						textFieldBirthday.getText(), textFieldStreet.getText(),
+						textFieldCity.getText(), textFieldZipCode.getText(), 1);
+
 			}
 		});
 		btnSave.setBounds(586, 480, 89, 23);
@@ -487,17 +502,29 @@ public class MainWindow {
 		textFieldNameOfBank.setColumns(10);
 		textFieldNameOfBank.setBounds(124, 194, 150, 25);
 		panelDebitCard.add(textFieldNameOfBank);
-		
+
 		JPanel panelCheckOut = new JPanel();
 		panelCheckOut.setBackground(SystemColor.inactiveCaption);
 		panelCheckOut.setForeground(SystemColor.inactiveCaption);
 		panelCards.add(panelCheckOut, "CheckOut");
 		panelCheckOut.setLayout(null);
-		
-		tableCheckOut = new JTable();
+
+		tableCheckOutModel = new DefaultTableModel();
+		tableCheckOutModel.setColumnIdentifiers(columNames);
+		tableCheckOut = new JTable(tableCheckOutModel);
 		tableCheckOut.setBounds(91, 48, 500, 359);
+		tableCheckOut.setBackground(Color.LIGHT_GRAY);
+		// tableCheckOut.setFillsViewportHeight(true);
+		tableCheckOut.setFont(new Font("Serif", Font.PLAIN, 14));
+		tableCheckOut.getTableHeader().setFont(
+				new Font("Serif", Font.PLAIN, 15));
+		tableCheckOut.getTableHeader().setReorderingAllowed(false);
+		tableCheckOut.getTableHeader().setResizingAllowed(false);
+		// Da die Tabelle nur zur Ausgabe von Werten dient, muss sie nicht
+		// nutzbar sein.
+		tableCheckOut.setEnabled(false);
 		panelCheckOut.add(tableCheckOut);
-		
+
 		JButton btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -507,7 +534,6 @@ public class MainWindow {
 		btnCheckOut.setBounds(502, 446, 89, 29);
 		panelCheckOut.add(btnCheckOut);
 
-				
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBorderPainted(false);
 		frmHousingManagementSystem.setJMenuBar(menuBar);
@@ -540,17 +566,16 @@ public class MainWindow {
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
 	}
-	
-	public void bookRoom(Payment paymentTyp, Unit userObject, String firstName, String lastName, String birthday, String street, 
-							String city, String zipCode, int numberOfPersons)
-	{
+
+	public void bookRoom(Payment paymentTyp, Unit userObject, String firstName,
+			String lastName, String birthday, String street, String city,
+			String zipCode, int numberOfPersons) {
 		if (userObject.isHasChild() || userObject.isOccupied()) {
 			// TODO Fehlerpopup
 			System.out.println("Fehler");
 		} else {
 			Booking newBooking = new Booking();
-			newBooking.setFirstNameOfBooker(textFieldFirstName
-					.getText());
+			newBooking.setFirstNameOfBooker(textFieldFirstName.getText());
 			newBooking.setLastNameOfBooker(textFieldLastName.getText());
 			// newBooking.setBirthday(textFieldBirthday.getText());
 			newBooking.setStreet(textFieldStreet.getText());
@@ -558,8 +583,7 @@ public class MainWindow {
 			newBooking.setZipCode(textFieldZipCode.getText());
 			newBooking.setNumberOfPersons(1);
 			newBooking.setRoom(userObject);
-			newBooking.setCheckInDate(new Date(System
-					.currentTimeMillis()));
+			newBooking.setCheckInDate(new Date(System.currentTimeMillis()));
 			newBooking.setPaymentType(paymentTyp);
 			userObject.setOccupied(true);
 			model.addBookingToRoom(newBooking, userObject);

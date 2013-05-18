@@ -7,7 +7,7 @@ import java.util.Date;
  */
 
 public class Booking {
-	
+
 	private static int bookingCounter = 1;
 	private int bookingID;
 	private int numberOfPersons;
@@ -17,27 +17,38 @@ public class Booking {
 	private String city;
 	private String zipCode;
 	private Date birthday;
-	//TODO: Eventuell paymentType aufgliedern in Subtypes
+	// TODO: Eventuell paymentType aufgliedern in Subtypes
 	private Payment paymentType;
 	private Date checkInDate;
 	private Date checkOutDate;
 	private Unit room;
-	
+
 	/**
 	 * 
-	 * @param firstNameOfBooker Firstname
-	 * @param lastNameOfBooker	Lastname
-	 * @param birthday	Birthday
-	 * @param street	Street
-	 * @param city	City
-	 * @param zipCode Zip Code
-	 * @param numberOfPersons Number of Persons
-	 * @param room Room 
-	 * @param checkInDate Check-In Date
-	 * @param paymentTyp PaymentType
+	 * @param firstNameOfBooker
+	 *            Firstname
+	 * @param lastNameOfBooker
+	 *            Lastname
+	 * @param birthday
+	 *            Birthday
+	 * @param street
+	 *            Street
+	 * @param city
+	 *            City
+	 * @param zipCode
+	 *            Zip Code
+	 * @param numberOfPersons
+	 *            Number of Persons
+	 * @param room
+	 *            Room
+	 * @param checkInDate
+	 *            Check-In Date
+	 * @param paymentTyp
+	 *            PaymentType
 	 */
-	public Booking(String firstNameOfBooker, String lastNameOfBooker, Date birthday, String street, String city, String zipCode, int numberOfPersons, Unit room, Date checkInDate, Payment paymentTyp)
-	{
+	public Booking(String firstNameOfBooker, String lastNameOfBooker,
+			Date birthday, String street, String city, String zipCode,
+			int numberOfPersons, Unit room, Date checkInDate, Payment paymentTyp) {
 		this.bookingID = bookingCounter++;
 		this.firstNameOfBooker = firstNameOfBooker;
 		this.lastNameOfBooker = lastNameOfBooker;
@@ -50,115 +61,109 @@ public class Booking {
 		this.checkInDate = checkInDate;
 		this.paymentType = paymentTyp;
 	}
-	
-	
-	
-	//Getter & Setter
 
-
+	// Getter & Setter
 
 	public Booking() {
 		this.bookingID = bookingCounter++;
 	}
 
-
-
-	public 
-
-int getNumberOfPersons() {
+	public int getNumberOfPersons() {
 		return numberOfPersons;
 	}
+
 	public void setNumberOfPersons(int numberOfPersons) {
 		this.numberOfPersons = numberOfPersons;
 	}
+
 	public String getFirstNameOfBooker() {
 		return firstNameOfBooker;
 	}
-	public String getLastNameofBooker() {
-		return lastNameOfBooker;
-	}
+
 	public Payment getPaymentType() {
 		return paymentType;
 	}
+
 	public void setPaymentType(Payment paymentType) {
 		this.paymentType = paymentType;
 	}
+
 	public Date getCheckInDate() {
 		return checkInDate;
 	}
+
 	public void setCheckInDate(Date checkInDate) {
 		this.checkInDate = checkInDate;
 	}
+
 	public Date getCheckOutDate() {
 		return checkOutDate;
 	}
+
 	public void setCheckOutDate(Date checkOutDate) {
 		this.checkOutDate = checkOutDate;
 	}
+
 	public Unit getRoom() {
 		return room;
 	}
+
 	public void setRoom(Unit room) {
 		this.room = room;
 	}
+
 	public int getBookingID() {
 		return bookingID;
 	}
-	
+
 	public String getStreet() {
 		return street;
 	}
+
 	public String getCity() {
 		return city;
 	}
+
 	public String getZipCode() {
 		return zipCode;
 	}
+
 	public Date getBirthday() {
 		return birthday;
 	}
-
-
 
 	public String getLastNameOfBooker() {
 		return lastNameOfBooker;
 	}
 
-
-
 	public void setLastNameOfBooker(String lastNameOfBooker) {
 		this.lastNameOfBooker = lastNameOfBooker;
 	}
-
-
 
 	public void setFirstNameOfBooker(String firstNameOfBooker) {
 		this.firstNameOfBooker = firstNameOfBooker;
 	}
 
-
-
 	public void setStreet(String street) {
 		this.street = street;
 	}
-
-
 
 	public void setCity(String city) {
 		this.city = city;
 	}
 
-
-
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
-
-
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	
-	
+
+	public Object[] returnObject() {
+		Object[] data = { this.room.getName(), this.lastNameOfBooker,
+				this.firstNameOfBooker, this.checkInDate,
+				this.paymentType.getName(), this.birthday };
+		return data;
+	}
 }
