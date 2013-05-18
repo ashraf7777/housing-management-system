@@ -1,10 +1,13 @@
 package model;
 
-import model.Model;
+import controller.GUI_handler;
+import view.MainWindow;
+
 
 public class ExampleData {
 
 	private Model model;
+	private MainWindow gui;
 	
 	public void loadSampleTreeData()
 	{
@@ -52,9 +55,20 @@ public class ExampleData {
 		u.add(new TreeDataModel(new Unit("Deluxe", 100, 35.9f, 1075f)));
 	}
 	
+	public void loadSampleBookings()
+	{
+		
+		//gui.bookRoom(paymentTyp, userObject, firstName, lastName, birthday, street, city, zipCode, numberOfPersons);
+	}
+	
 	
 	public void announceModel(Model model)
 	{
 		this.model = model;
+	}
+	
+	public void announceGui(MainWindow gui)
+	{
+		this.gui = gui;
 	}
 }
