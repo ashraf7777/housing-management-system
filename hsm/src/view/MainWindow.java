@@ -103,7 +103,6 @@ public class MainWindow {
 					window.announceModel(model);
 					my_handler.announceModel(model);
 					my_handler.announceGui(window);
-					exData.announceGui(window);
 
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
