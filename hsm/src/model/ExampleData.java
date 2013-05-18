@@ -13,7 +13,6 @@ import view.MainWindow;
 public class ExampleData {
 
 	private Model model;
-	private MainWindow gui;
 	
 	public void loadSampleTreeData()
 	{
@@ -42,7 +41,7 @@ public class ExampleData {
 		addApartments(units[0][4], 4);	
 	}
 	
-	private static void addApartments(TreeDataModel u, int number)
+	private void addApartments(TreeDataModel u, int number)
 	{
 		TreeDataModel u2;
 		for (int i = 1; i <= number; i++)
@@ -54,7 +53,7 @@ public class ExampleData {
 	}
 	
 	
-	private static void addRooms(TreeDataModel u)
+	private void addRooms(TreeDataModel u)
 	{
 		u.add(new TreeDataModel(new Unit("Normal", 100, 32.5f, 975f)));
 		u.add(new TreeDataModel(new Unit("Large", 100, 33.2f, 995f)));
@@ -105,26 +104,24 @@ public class ExampleData {
 			}
 			else
 			{
-				
-				userObject = getRandomUnit();
+				userObject = getRandomUnit(my_handler.showCheckInTree());
 			}
-			//gui.bookRoom(paymentTyp, userObject, firstName, lastName, birthday, street, city, zipCode, numberOfPersons);
+			//new Unit(paymentTyp, userObject, firstName, lastName, birthday, street, city, zipCode, numberOfPersons);
 		}
 	}
 	
 
 	public Unit getRandomUnit(DefaultMutableTreeNode tree)
 	{
+		//Anzahl der Kinder holen
+		//Zufällig ein Kind auswählen
+		//... bis auf letzter Ebene angelangt
+		//Unit übergeben
 		return new Unit("Fehler in ExampleData");
 	}
 	
 	public void announceModel(Model model)
 	{
 		this.model = model;
-	}
-	
-	public void announceGui(MainWindow gui)
-	{
-		this.gui = gui;
 	}
 }
