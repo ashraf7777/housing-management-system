@@ -47,7 +47,6 @@ import model.DebitCard;
 import model.ExampleData;
 import model.Model;
 import model.Payment;
-import model.TreeDataModel;
 import model.Unit;
 import controller.GUI_handler;
 
@@ -91,6 +90,7 @@ public class MainWindow {
 					Model model = new Model();
 					ExampleData exData = new ExampleData();
 					exData.announceModel(model);
+					
 					exData.loadSampleTreeData();
 					MainWindow window = new MainWindow(model);
 					GUI_handler my_handler = new GUI_handler();
@@ -98,6 +98,8 @@ public class MainWindow {
 					window.announceModel(model);
 					my_handler.announceModel(model);
 					my_handler.announceGui(window);
+					exData.announceGui(window);
+					
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -383,26 +385,9 @@ public class MainWindow {
 						.getLastSelectedPathComponent();
 
 				Unit userObject = (Unit) treeS.getUserObject();
-				if (userObject.isHasChild() || userObject.isOccupied()) {
-					// TODO Fehlerpopup
-					System.out.println("Fehler");
-				} else {
-					Booking newBooking = new Booking();
-					newBooking.setFirstNameOfBooker(textFieldFirstName
-							.getText());
-					newBooking.setLastNameOfBooker(textFieldLastName.getText());
-					// newBooking.setBirthday(textFieldBirthday.getText());
-					newBooking.setStreet(textFieldStreet.getText());
-					newBooking.setCity(textFieldCity.getText());
-					newBooking.setZipCode(textFieldZipCode.getText());
-					newBooking.setNumberOfPersons(1);
-					newBooking.setRoom(userObject);
-					newBooking.setCheckInDate(new Date(System
-							.currentTimeMillis()));
-					newBooking.setPaymentType(paymentTyp);
-					userObject.setOccupied(true);
-					model.addBookingToRoom(newBooking, userObject);
-				}
+					bookRoom(paymentTyp, userObject, textFieldFirstName.getText(), textFieldLastName.getText(), 
+							textFieldBirthday.getText(), textFieldStreet.getText(), textFieldCity.getText(), 
+							textFieldZipCode.getText(), 1);
 			}
 		});
 		btnSave.setBounds(586, 480, 89, 23);
@@ -554,6 +539,31 @@ public class MainWindow {
 		JMenuItem menuItemAbout = new JMenuItem("About");
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
+	}
+	
+	public void bookRoom(Payment paymentTyp, Unit userObject, String firstName, String lastName, String birthday, String street, 
+							String city, String zipCode, int numberOfPersons)
+	{
+		if (userObject.isHasChild() || userObject.isOccupied()) {
+			// TODO Fehlerpopup
+			System.out.println("Fehler");
+		} else {
+			Booking newBooking = new Booking();
+			newBooking.setFirstNameOfBooker(textFieldFirstName
+					.getText());
+			newBooking.setLastNameOfBooker(textFieldLastName.getText());
+			// newBooking.setBirthday(textFieldBirthday.getText());
+			newBooking.setStreet(textFieldStreet.getText());
+			newBooking.setCity(textFieldCity.getText());
+			newBooking.setZipCode(textFieldZipCode.getText());
+			newBooking.setNumberOfPersons(1);
+			newBooking.setRoom(userObject);
+			newBooking.setCheckInDate(new Date(System
+					.currentTimeMillis()));
+			newBooking.setPaymentType(paymentTyp);
+			userObject.setOccupied(true);
+			model.addBookingToRoom(newBooking, userObject);
+		}
 	}
 
 	protected String checkText(JTextField textField) {
