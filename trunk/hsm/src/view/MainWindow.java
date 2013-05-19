@@ -511,7 +511,7 @@ public class MainWindow {
 
 		tableCheckOutModel = new DefaultTableModel();
 		tableCheckOutModel.setColumnIdentifiers(columNames);
-		tableCheckOut = new JTable((TableModel) null);
+		tableCheckOut = new JTable((tableCheckOutModel));
 		tableCheckOut.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableCheckOut.setForeground(Color.PINK);
 		tableCheckOut.setFillsViewportHeight(true);
