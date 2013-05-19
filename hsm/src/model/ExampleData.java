@@ -115,10 +115,6 @@ public class ExampleData {
 						"CVV", "Expiering Date");
 				paymentTyp.setName("Credit Card");
 			}
-			
-		
-			
-			
 			b = new Booking(firstName, lastName, birthday, street, city, zipCode, 
 					numberOfPersons, userObject, new Date(System.currentTimeMillis()), paymentTyp);
 			model.addBookingToRoom(b, userObject);
