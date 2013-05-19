@@ -64,12 +64,6 @@ public class ExampleData {
 		String[] lastNames = {"Mueller", "Schmidt", "Schneider", "Fischer", "Meyer"};
 		
 		Payment paymentTyp = null;
-		paymentTyp = new DebitCard("Name on Debit Card",
-					"Account Number",
-					"Bank number", "Name of bank");
-		paymentTyp = new CreditCard("Name on Credit card", "Credit card number",
-					"CVV", "Expiering Date");
-		
 		String firstName, lastName, street, city, zipCode;
 		Unit userObject = null;
 		Booking b = null;
@@ -107,6 +101,24 @@ public class ExampleData {
 			{
 				userObject = getRandomUnit(my_handler.showCheckInTree());
 			}
+			
+			if (Math.random() * 10 >= 5)
+			{
+				paymentTyp = new DebitCard(firstName + " " + lastName,
+						"Account Number",
+						"Bank number", "Name of bank");
+				paymentTyp.setName("Debit Card");
+			}
+			else
+			{
+				paymentTyp = new CreditCard(firstName + " " + lastName, "Credit card number",
+						"CVV", "Expiering Date");
+				paymentTyp.setName("Credit Card");
+			}
+			
+		
+			
+			
 			b = new Booking(firstName, lastName, birthday, street, city, zipCode, 
 					numberOfPersons, userObject, new Date(System.currentTimeMillis()), paymentTyp);
 			model.addBookingToRoom(b, userObject);
