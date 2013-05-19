@@ -513,12 +513,12 @@ public class MainWindow {
 		tableCheckOutModel.setColumnIdentifiers(columNames);
 		tableCheckOut = new JTable((tableCheckOutModel));
 		tableCheckOut.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableCheckOut.setForeground(Color.PINK);
+		tableCheckOut.setForeground(SystemColor.desktop);
 		tableCheckOut.setFillsViewportHeight(true);
 		tableCheckOut.setColumnSelectionAllowed(true);
 		tableCheckOut.setCellSelectionEnabled(true);
-		tableCheckOut.setBounds(10, 11, 788, 452);
-		tableCheckOut.setBackground(Color.YELLOW);
+		tableCheckOut.setBounds(10, 11, 705, 452);
+		tableCheckOut.setBackground(SystemColor.inactiveCaption);
 		// tableCheckOut.setFillsViewportHeight(true);
 		tableCheckOut.setFont(new Font("Serif", Font.PLAIN, 14));
 		tableCheckOut.getTableHeader().setFont(
@@ -531,7 +531,7 @@ public class MainWindow {
 				g_handler.commitCheckOut();
 			}
 		});
-		btnCheckOut.setBounds(709, 474, 89, 29);
+		btnCheckOut.setBounds(626, 474, 89, 29);
 		panelCheckOut.add(btnCheckOut);
 
 		JMenuBar menuBar = new JMenuBar();
