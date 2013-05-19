@@ -1,13 +1,10 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import controller.GUI_handler;
-
-import view.MainWindow;
 
 
 public class ExampleData {
@@ -73,26 +70,30 @@ public class ExampleData {
 		paymentTyp = new CreditCard("Name on Credit card", "Credit card number",
 					"CVV", "Expiering Date");
 		
-		String firstName, lastName, street, city, zipCode, birthday;
-		Unit userObject;
+		String firstName, lastName, street, city, zipCode;
+		Unit userObject = null;
+		Booking b = null;
 		DefaultMutableTreeNode tree;
 		int numberOfPersons = 1;
-		int random;
+		int random = 0;
 		
-		birthday = "23.04.1977";
+		Date birthday = null;
+		street = "2004 Oxford Ave. 9";
+		city = "Fullerton";
+		zipCode = "92831";
 		
 		for(int i = 0; i < number; i++)
 		{
 			do
 			{
-				random = (int)Math.random()* 10;
+				random = (int)(Math.random()* 10);
 			}
 			while(random >= firstNames.length);
 			firstName = firstNames[random];
 			
 			do
 			{
-				random = (int)Math.random()* 10;
+				random = (int)(Math.random() * 10);
 			}
 			while(random >= lastNames.length);
 			lastName = lastNames[random];
@@ -106,18 +107,28 @@ public class ExampleData {
 			{
 				userObject = getRandomUnit(my_handler.showCheckInTree());
 			}
-			//new Unit(paymentTyp, userObject, firstName, lastName, birthday, street, city, zipCode, numberOfPersons);
+			b = new Booking(firstName, lastName, birthday, street, city, zipCode, 
+					numberOfPersons, userObject, new Date(System.currentTimeMillis()), paymentTyp);
+			model.addBookingToRoom(b, userObject);
+			model.addBookingToList(b);
+			userObject.setOccupied(true);
 		}
 	}
 	
 
 	public Unit getRandomUnit(DefaultMutableTreeNode tree)
 	{
-		//Anzahl der Kinder holen
-		//Zufällig ein Kind auswählen
-		//... bis auf letzter Ebene angelangt
-		//Unit übergeben
-		return new Unit("Fehler in ExampleData");
+		int i = 0;
+		while(!tree.isLeaf())
+		{
+			do
+			{
+				i = (int)(Math.random()* 10);
+			}
+			while(i >= tree.getChildCount());
+			tree = (DefaultMutableTreeNode)tree.getChildAt(i);
+		}
+		return (Unit) tree.getUserObject();
 	}
 	
 	public void announceModel(Model model)
