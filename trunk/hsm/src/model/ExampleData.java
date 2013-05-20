@@ -45,6 +45,7 @@ public class ExampleData {
 			{
 				u2 = new TreeDataModel( new Unit((Integer.toString(i))));
 				u.add(u2);
+				((Unit)u2.getUserObject()).setSuperiorUnit((Unit)u.getUserObject());
 				addRooms(u2);
 			}
 	}
@@ -52,9 +53,15 @@ public class ExampleData {
 	
 	private void addRooms(TreeDataModel u)
 	{
-		u.add(new TreeDataModel(new Unit("Normal", 100, 32.5f, 975f)));
-		u.add(new TreeDataModel(new Unit("Large", 100, 33.2f, 995f)));
-		u.add(new TreeDataModel(new Unit("Deluxe", 100, 35.9f, 1075f)));
+		Unit u3 = new Unit("Normal", 100, 32.5f, 975f);
+		u3.setSuperiorUnit((Unit)u.getUserObject());
+		u.add(new TreeDataModel(u3));
+		u3 = new Unit("Large", 100, 33.2f, 995f);
+		u3.setSuperiorUnit((Unit)u.getUserObject());
+		u.add(new TreeDataModel(u3));
+		u3 = new Unit("Deluxe", 100, 35.9f, 1075f);
+		u3.setSuperiorUnit((Unit)u.getUserObject());
+		u.add(new TreeDataModel(u3));
 	}
 	
 	public void loadSampleBookings(int number, GUI_handler my_handler)
@@ -119,6 +126,7 @@ public class ExampleData {
 					numberOfPersons, userObject, new Date(System.currentTimeMillis()), paymentTyp);
 			model.addBookingToRoom(b, userObject);
 			model.addBookingToList(b);
+			userObject.addBooking(b);
 			userObject.setOccupied(true);
 		}
 	}

@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /*
@@ -161,9 +162,12 @@ public class Booking {
 	}
 
 	public Object[] returnObject() {
-		Object[] data = { this.room.getName(), this.lastNameOfBooker,
-				this.firstNameOfBooker, this.checkInDate,
-				this.paymentType.getName(), this.birthday };
+		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+		Object[] data = {
+				this.room.getSuperiorUnit().getSuperiorUnit().getName(),
+				this.room.getSuperiorUnit().getName(), this.room.getName(),
+				this.lastNameOfBooker, this.firstNameOfBooker,
+				sdf.format(this.checkInDate), this.paymentType.getName(), this.birthday };
 		return data;
 	}
 }
