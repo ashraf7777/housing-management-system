@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -26,6 +27,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -36,8 +38,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.TreeSelectionEvent;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -49,6 +51,7 @@ import model.ExampleData;
 import model.Model;
 import model.Payment;
 import model.Unit;
+import controller.Eventlistener;
 import controller.GUI_handler;
 
 public class MainWindow {
@@ -82,8 +85,8 @@ public class MainWindow {
 	private JTable tableCheckOut;
 	private DefaultTableModel tableCheckOutModel;
 
-	private String[] columNames = { "Room", "Lastname", "Firstname",
-			"Check-In Date", "Paymenttype", "Birthday" };
+	private String[] columNames = { "Building", "Apartment", "Room",
+			"Lastname", "Firstname", "Check-In Date", "Paymenttype", "Birthday" };
 
 	/**
 	 * Launch the application.
@@ -98,7 +101,7 @@ public class MainWindow {
 					exData.loadSampleTreeData();
 					MainWindow window = new MainWindow(model);
 					GUI_handler my_handler = new GUI_handler();
-					
+
 					window.announceHandler(my_handler, my_handler);
 					window.announceModel(model);
 					my_handler.announceModel(model);
@@ -134,6 +137,7 @@ public class MainWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void initialize() {
 		frmHousingManagementSystem = new JFrame();
 		frmHousingManagementSystem.setForeground(Color.WHITE);
@@ -233,6 +237,17 @@ public class MainWindow {
 
 		tree = new JTree(model.getRoot()); // model.getRoot()
 		mainPanel.add(tree, BorderLayout.WEST);
+		tree.addTreeSelectionListener(new Eventlistener() {
+			public void valueChanged(TreeSelectionEvent treeEvent) {
+
+				DefaultMutableTreeNode data = new DefaultMutableTreeNode();
+				data = (DefaultMutableTreeNode) tree.getSelectionPath()
+						.getLastPathComponent();
+				ArrayList<Object[]> list = new ArrayList<>();
+				getBuchungen(data, list);
+
+			}
+		});
 
 		panelCards = new JPanel();
 		mainPanel.add(panelCards, BorderLayout.CENTER);
@@ -511,19 +526,32 @@ public class MainWindow {
 
 		tableCheckOutModel = new DefaultTableModel();
 		tableCheckOutModel.setColumnIdentifiers(columNames);
-		tableCheckOut = new JTable((tableCheckOutModel));
+		tableCheckOut = new JTable(tableCheckOutModel) {
+			/**
+			 * Überschreibt die isCellEditable Methode aus der JTable Definition
+			 * und sorgt so dafür, dass die Zellen nicht editierbar sind.
+			 */
+			public boolean isCellEditable(int x, int y) {
+				return false;
+			}
+		};
 		tableCheckOut.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableCheckOut.setForeground(SystemColor.desktop);
 		tableCheckOut.setFillsViewportHeight(true);
 		tableCheckOut.setColumnSelectionAllowed(true);
 		tableCheckOut.setCellSelectionEnabled(true);
-		tableCheckOut.setBounds(10, 11, 705, 452);
+		tableCheckOut.getTableHeader().setReorderingAllowed(false);
+		tableCheckOut.getTableHeader().setResizingAllowed(false);
+		tableCheckOut.setAutoCreateColumnsFromModel(false);
 		tableCheckOut.setBackground(SystemColor.inactiveCaption);
 		// tableCheckOut.setFillsViewportHeight(true);
 		tableCheckOut.setFont(new Font("Serif", Font.PLAIN, 14));
 		tableCheckOut.getTableHeader().setFont(
 				new Font("Serif", Font.PLAIN, 15));
-		panelCheckOut.add(tableCheckOut);
+
+		JScrollPane scrollPane = new JScrollPane(tableCheckOut);
+		scrollPane.setBounds(10, 11, 705, 452);
+		panelCheckOut.add(scrollPane);
 
 		JButton btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
@@ -565,6 +593,24 @@ public class MainWindow {
 		JMenuItem menuItemAbout = new JMenuItem("About");
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
+	}
+
+	protected void getBuchungen(DefaultMutableTreeNode data,
+			ArrayList<Object[]> list) {
+		if (!data.isLeaf()) {
+			for (int i = 0; i < data.getChildCount(); i++) {
+				getBuchungen((DefaultMutableTreeNode) data.getChildAt(i), list);
+
+			}
+		} else {
+			Unit unit = (Unit) data.getUserObject();
+			if (unit.isOccupied() == true) {
+				Booking booking = unit.getBooking().get(
+						unit.getBooking().size() - 1);
+				list.add(booking.returnObject());
+			}
+		}
+
 	}
 
 	public void bookRoom(Payment paymentTyp, Unit userObject, String firstName,
