@@ -216,18 +216,12 @@ public class MainWindow {
 						.showCheckOutTree());
 				tree.setModel(treeModel);
 				tree.setSelectionRow(0);
-				Object[][] data = new Object[model.getAllBookings().size()][];
-				for (int i = 0; i < model.getAllBookings().size(); i++) {
-					data[i] = model.getAllBookings().get(i).returnObject();
-				}
-				tableCheckOutModel.setDataVector(data, columNames);
-				tableCheckOut.updateUI();
 			}
 		});
 		panel.add(btnCheckout);
 
-		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
-		panel.add(horizontalStrut_2);
+//		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+//		panel.add(horizontalStrut_2);
 
 		JButton btnOverview = new JButton("Overview");
 		btnOverview.addActionListener(new ActionListener() {
@@ -243,7 +237,6 @@ public class MainWindow {
 		mainPanel.add(tree, BorderLayout.WEST);
 		tree.addTreeSelectionListener(new Eventlistener() {
 			public void valueChanged(TreeSelectionEvent treeEvent) {
-
 				if (cardNumber == 3) {
 					DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode();
 					treeNode = (DefaultMutableTreeNode) tree.getSelectionPath()
