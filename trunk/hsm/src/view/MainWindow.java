@@ -215,7 +215,7 @@ public class MainWindow {
 				TreeModel treeModel = new DefaultTreeModel(g_handler
 						.showCheckOutTree());
 				tree.setModel(treeModel);
-				tree.setSelectionRow(0);
+
 			}
 		});
 		panel.add(btnCheckout);
@@ -420,6 +420,7 @@ public class MainWindow {
 						textFieldLastName.getText(),
 						textFieldBirthday.getText(), textFieldStreet.getText(),
 						textFieldCity.getText(), textFieldZipCode.getText(), 1);
+				
 
 			}
 		});
@@ -637,6 +638,7 @@ public class MainWindow {
 			userObject.setOccupied(true);
 			model.addBookingToRoom(newBooking, userObject);
 			model.addBookingToList(newBooking);
+			userObject.addBooking(newBooking);
 		}
 	}
 
