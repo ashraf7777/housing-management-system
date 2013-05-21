@@ -76,7 +76,7 @@ public class MainWindow {
 	private JTable tableOverview;
 	private JTable tableHome;
 	private JTree tree;
-
+	private int cardNumber;
 	private ActionListener my_handler;
 	private Model model;
 	private GUI_handler g_handler; // muss wieder gelöscht werden!!!!!!
@@ -178,6 +178,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "Home");
+				cardNumber = 1;
 				TreeModel treeModel = new DefaultTreeModel(g_handler.showHome());
 				tree.setModel(treeModel);
 			}
@@ -193,6 +194,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckIn");
+				cardNumber = 2;
 				TreeModel treeModel = new DefaultTreeModel(g_handler
 						.showCheckInTree());
 				tree.setModel(treeModel);
@@ -209,10 +211,11 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckOut");
+				cardNumber = 3;
 				TreeModel treeModel = new DefaultTreeModel(g_handler
 						.showCheckOutTree());
 				tree.setModel(treeModel);
-
+				tree.setSelectionRow(0);
 				Object[][] data = new Object[model.getAllBookings().size()][];
 				for (int i = 0; i < model.getAllBookings().size(); i++) {
 					data[i] = model.getAllBookings().get(i).returnObject();
@@ -231,6 +234,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "Overview");
+				cardNumber = 4;
 			}
 		});
 		panel.add(btnOverview);
@@ -240,12 +244,20 @@ public class MainWindow {
 		tree.addTreeSelectionListener(new Eventlistener() {
 			public void valueChanged(TreeSelectionEvent treeEvent) {
 
-				DefaultMutableTreeNode data = new DefaultMutableTreeNode();
-				data = (DefaultMutableTreeNode) tree.getSelectionPath()
-						.getLastPathComponent();
-				ArrayList<Object[]> list = new ArrayList<>();
-				getBuchungen(data, list);
-
+				if (cardNumber == 3) {
+					DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode();
+					treeNode = (DefaultMutableTreeNode) tree.getSelectionPath()
+							.getLastPathComponent();
+					ArrayList<Object[]> list = new ArrayList<>();
+					getBuchungen(treeNode, list);
+					
+					Object[][] data = new Object[list.size()][];
+					for (int i = 0; i < list.size(); i++) {
+						data[i] = list.get(i);
+					}
+					tableCheckOutModel.setDataVector(data, columNames);
+					tableCheckOut.updateUI();
+				}
 			}
 		});
 
@@ -268,8 +280,6 @@ public class MainWindow {
 		tableOverview.setBackground(Color.WHITE);
 		tableOverview.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableOverview.setFillsViewportHeight(true);
-		tableOverview.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] {}));
 		panelOverview.add(tableOverview);
 
 		JPanel panelCheckIn = new JPanel();
