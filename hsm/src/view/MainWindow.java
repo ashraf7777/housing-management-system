@@ -218,9 +218,9 @@ public class MainWindow {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckOut");
 				cardNumber = 3;
-				TreeModel treeModel = new DefaultTreeModel(g_handler
+				TreeModel treeModel2 = new DefaultTreeModel(g_handler
 						.showCheckOutTree());
-				tree.setModel(treeModel);
+				tree.setModel(treeModel2);
 
 			}
 		});
@@ -621,6 +621,23 @@ public class MainWindow {
 		menuHelp.add(menuItemAbout);
 	}
 
+	protected void resetTextfields() {
+		textFieldFirstName.setText(null);
+		textFieldLastName.setText(null);
+		textFieldStreet.setText(null);
+		textFieldCity.setText(null);
+		textFieldZipCode.setText(null);
+		textFieldBirthday.setText(null);
+		textFieldCardHoldersName.setText(null);
+		textFieldCreditCardNumber.setText(null);
+		textFieldCVVCode.setText(null);
+		textFieldExpieringDate.setText(null);
+		textFieldNameOnCard.setText(null);
+		textFieldAccountNumber.setText(null);
+		textFieldBankNumber.setText(null);
+
+	}
+
 	protected void getBuchungen(DefaultMutableTreeNode data,
 			ArrayList<Object[]> list) {
 		if (!data.isLeaf()) {
@@ -670,6 +687,7 @@ public class MainWindow {
 				model.addBookingToRoom(newBooking, userObject);
 				model.addBookingToList(newBooking);
 				userObject.addBooking(newBooking);
+				resetTextfields();
 			} catch (Exception e) {
 				System.out.println("birthday incorrect");
 			}
