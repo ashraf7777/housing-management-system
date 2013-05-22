@@ -15,6 +15,7 @@ import java.awt.event.FocusListener;
 
 import java.text.SimpleDateFormat;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -582,7 +583,7 @@ public class MainWindow {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				} 
 			}
 		});
 		btnCheckOut.setBounds(626, 474, 89, 29);
