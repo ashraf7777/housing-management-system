@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -144,7 +145,7 @@ public class MainWindow {
 	private void initialize() {
 		frmHousingManagementSystem = new JFrame();
 		frmHousingManagementSystem.setForeground(Color.WHITE);
-		frmHousingManagementSystem.setAlwaysOnTop(true);
+		frmHousingManagementSystem.setAlwaysOnTop(false);
 		frmHousingManagementSystem.setBackground(Color.BLUE);
 		frmHousingManagementSystem
 				.setFont(new Font("Agency FB", Font.PLAIN, 12));
@@ -624,7 +625,8 @@ public class MainWindow {
 			String lastName, String birthday, String street, String city,
 			String zipCode, int numberOfPersons) {
 		if (userObject.isHasChild() || userObject.isOccupied()) {
-			// TODO Fehlerpopup
+			JOptionPane.showMessageDialog(null, "You can't book this room. This room is already occupied or not a bookable unit!", 
+			"Invalid room", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Fehler");
 		} else {
 			Booking newBooking = new Booking();

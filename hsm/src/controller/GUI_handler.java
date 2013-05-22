@@ -63,7 +63,7 @@ public class GUI_handler implements ActionListener {
 		if (null != gui.getAusgewaehlterKnoten()) {
 			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
 			if (!room.isOccupied()) {
-				JOptionPane.showMessageDialog(null, "You haven't choosen a correct room.\n The choosen room is not occupied", 
+				JOptionPane.showMessageDialog(null, "You haven't choosen a correct room.\n The choosen unit is no room!", 
 						"Invalid room", JOptionPane.ERROR_MESSAGE);
 			} else {
 				Date moveInDate = model.getBookingFromRoom(room)
@@ -87,9 +87,8 @@ public class GUI_handler implements ActionListener {
 
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "This unit can not be selected for a Check-Out! Please use a valid unit!", 
-					"Invalid tier", JOptionPane.ERROR_MESSAGE);
-			// TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt
+			JOptionPane.showMessageDialog(null, "Please select a room for Check-Out!", 
+					"No room selected", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
