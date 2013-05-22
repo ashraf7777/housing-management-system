@@ -66,9 +66,12 @@ public class GUI_handler implements ActionListener {
 				JOptionPane.showMessageDialog(null, "You haven't choosen a correct room.\n The choosen unit is no room!", 
 						"Invalid room", JOptionPane.ERROR_MESSAGE);
 			} else {
-				Date moveInDate = model.getBookingFromRoom(room)
-						.getCheckInDate();
+				Booking booking = model.getBookingFromRoom(room);
+				
+				Date moveInDate = booking.getCheckInDate();
 				Date moveOutDate = new Date(System.currentTimeMillis());
+				booking.setCheckOutDate(moveOutDate);
+				
 				Date timeToPay = new Date(moveOutDate.getTime()
 						- moveInDate.getTime());
 				
@@ -82,6 +85,7 @@ public class GUI_handler implements ActionListener {
 				float total = years * 12 * room.getPricePerMonth();
 				total = total + months * room.getPricePerMonth() + days
 						* room.getPricePerNight();
+				booking.setTotalCosts(total);
 
 				System.out.println("Total costs: " + total);
 

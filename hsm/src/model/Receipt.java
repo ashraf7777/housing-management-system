@@ -19,8 +19,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class Receipt {
 
-	Booking booking;
-	 
 	
 	public String getFileDirectory()
 	{
@@ -41,7 +39,7 @@ public class Receipt {
 		  int result = chooser.showSaveDialog(null);
 
 		  File file = null;
-		  if (result == JFileChooser.APPROVE_OPTION)
+		  if (result == JFileChooser.APPROVE_OPTION)	//keine Leereingaben erlauben
 		  {
 			  file = chooser.getSelectedFile();
 			   
@@ -58,10 +56,10 @@ public class Receipt {
 	}
 	
 
-	    public void createPdf() throws DocumentException, IOException {
+	    public void createPdf(Booking booking) throws DocumentException, IOException {
 	    	String filename = getFileDirectory();
 	    	
-	    	if (null == filename)
+	    	if (null == filename)		//null wird beim abbrechen zurückgegeben... Fehlermeldung ändern
 	    	{
 	    		JOptionPane.showMessageDialog(null, "You haven't choosen a correct filename", "Empty filename", JOptionPane.ERROR_MESSAGE);
 	    	}
@@ -83,17 +81,17 @@ public class Receipt {
 	            Chunk ownAddress = new Chunk("UV\n2000 Oxford Ave.\nCA 92831\n\n\n");
 	            addresses.add(ownAddress);
 	            
-//	            String address = booking.getFirstNameOfBooker() + " " + booking.getLastNameOfBooker() + "\n" + booking.getStreet() + "\n"
-//	            		+ booking.getZipCode() + " " + booking.getCity();
-	            Chunk customerAddress = new Chunk("Test"); //address
+	            String address = booking.getFirstNameOfBooker() + " " + booking.getLastNameOfBooker() + "\n" + booking.getStreet() + "\n"
+	            		+ booking.getZipCode() + " " + booking.getCity();
+	            Chunk customerAddress = new Chunk(address); 
 	            addresses.add(customerAddress);
 	            
 	            
 	            Chunk subject = new Chunk("Receipt for your stay at UV\n\n");
-//	            Chunk text = new Chunk("The total amount of your stay from " + 
-//	            		booking.getCheckInDate() + " to " + booking.getCheckOutDate() + 
-//	            		" is $XX.YY\n\n\n\nThank you for your stay");
-//	            textPara.add(text);
+	            Chunk text = new Chunk("The total amount of your stay from " + 
+	            		booking.getCheckInDate() + " to " + booking.getCheckOutDate() + 
+	            		" is $"+ booking.getTotalCosts() +"\n\n\n\nThank you for your stay");
+	            textPara.add(text);
 		        
 	            document.add(addresses);
 	            document.add(subject);
