@@ -176,7 +176,7 @@ public class Booking {
 				this.room.getSuperiorUnit().getSuperiorUnit().getName(),
 				this.room.getSuperiorUnit().getName(), this.room.getName(),
 				this.lastNameOfBooker, this.firstNameOfBooker,
-				sdf.format(this.checkInDate), this.paymentType.getName(), this.birthday };
+				sdf.format(this.checkInDate), this.paymentType.getName(), sdf.format(this.birthday) };
 		return data;
 	}
 }

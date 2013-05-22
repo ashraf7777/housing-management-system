@@ -128,6 +128,7 @@ public class MainWindow {
 	public MainWindow(Model model) {
 		this.model = model;
 		initialize();
+		this.frmHousingManagementSystem.setVisible(true);
 	}
 
 	public void announceHandler(ActionListener handler, GUI_handler g_handler) {
@@ -225,8 +226,8 @@ public class MainWindow {
 		});
 		panel.add(btnCheckout);
 
-//		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
-//		panel.add(horizontalStrut_2);
+		// Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		// panel.add(horizontalStrut_2);
 
 		JButton btnOverview = new JButton("Overview");
 		btnOverview.addActionListener(new ActionListener() {
@@ -248,7 +249,7 @@ public class MainWindow {
 							.getLastPathComponent();
 					ArrayList<Object[]> list = new ArrayList<>();
 					getBuchungen(treeNode, list);
-					
+
 					Object[][] data = new Object[list.size()][];
 					for (int i = 0; i < list.size(); i++) {
 						data[i] = list.get(i);
@@ -420,18 +421,16 @@ public class MainWindow {
 						.getLastSelectedPathComponent();
 				try {
 					Unit userObject = (Unit) treeS.getUserObject();
-					bookRoom(paymentTyp, userObject, textFieldFirstName.getText(),
+					bookRoom(paymentTyp, userObject,
+							textFieldFirstName.getText(),
 							textFieldLastName.getText(),
-							textFieldBirthday.getText(), textFieldStreet.getText(),
-							textFieldCity.getText(), textFieldZipCode.getText(), 1);
+							textFieldBirthday.getText(),
+							textFieldStreet.getText(), textFieldCity.getText(),
+							textFieldZipCode.getText(), 1);
 				} catch (Exception e2) {
 					// TODO: handle exception
 					System.out.println("chose room");
 				}
-				
-
-			
-				
 
 			}
 		});
@@ -574,7 +573,9 @@ public class MainWindow {
 				g_handler.commitCheckOut();
 				Receipt r = new Receipt();
 				try {
-					r.createPdf(model.getBookingFromRoom((Unit)getAusgewaehlterKnoten().getUserObject()));
+					r.createPdf(model
+							.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
+									.getUserObject()));
 				} catch (DocumentException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -642,31 +643,37 @@ public class MainWindow {
 			String lastName, String birthday, String street, String city,
 			String zipCode, int numberOfPersons) {
 		if (userObject.isHasChild() || userObject.isOccupied()) {
-			JOptionPane.showMessageDialog(null, "You can't book this room. This room is already occupied or not a bookable unit!", 
-			"Invalid room", JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"You can't book this room. This room is already occupied or not a bookable unit!",
+							"Invalid room", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Fehler");
 		} else {
-			Booking newBooking = new Booking();
-			newBooking.setFirstNameOfBooker(textFieldFirstName.getText());
-			newBooking.setLastNameOfBooker(textFieldLastName.getText());
-			// newBooking.setBirthday(textFieldBirthday.getText());
-			newBooking.setStreet(textFieldStreet.getText());
-			newBooking.setCity(textFieldCity.getText());
-			newBooking.setZipCode(textFieldZipCode.getText());
-			newBooking.setNumberOfPersons(1);
-			newBooking.setRoom(userObject);
-			newBooking.setCheckInDate(new Date(System.currentTimeMillis()));
-			newBooking.setPaymentType(paymentTyp);
-			userObject.setOccupied(true);
 			try {
-				Date date = new SimpleDateFormat("MM.dd.yyyy").parse(textFieldBirthday.getText());
+				Booking newBooking = new Booking();
+				newBooking.setFirstNameOfBooker(textFieldFirstName.getText());
+				newBooking.setLastNameOfBooker(textFieldLastName.getText());
+				// newBooking.setBirthday(textFieldBirthday.getText());
+				newBooking.setStreet(textFieldStreet.getText());
+				newBooking.setCity(textFieldCity.getText());
+				newBooking.setZipCode(textFieldZipCode.getText());
+				newBooking.setNumberOfPersons(1);
+				newBooking.setRoom(userObject);
+				newBooking.setCheckInDate(new Date(System.currentTimeMillis()));
+				newBooking.setPaymentType(paymentTyp);
+				userObject.setOccupied(true);
+
+				Date date = new SimpleDateFormat("MM.dd.yyyy")
+						.parse(textFieldBirthday.getText());
 				newBooking.setBirthday(date);
+				model.addBookingToRoom(newBooking, userObject);
+				model.addBookingToList(newBooking);
+				userObject.addBooking(newBooking);
 			} catch (Exception e) {
 				System.out.println("birthday incorrect");
 			}
-			model.addBookingToRoom(newBooking, userObject);
-			model.addBookingToList(newBooking);
-			userObject.addBooking(newBooking);
+
 		}
 	}
 
