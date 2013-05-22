@@ -90,10 +90,10 @@ public class Receipt {
 	            
 	            
 	            Chunk subject = new Chunk("Receipt for your stay at UV\n\n");
-	            Chunk text = new Chunk("The total amount of your stay from " + 
-	            		booking.getCheckInDate() + " to " + booking.getCheckOutDate() + 
-	            		" is $XX.YY\n\n\n\nThank you for your stay");
-	            textPara.add(text);
+//	            Chunk text = new Chunk("The total amount of your stay from " + 
+//	            		booking.getCheckInDate() + " to " + booking.getCheckOutDate() + 
+//	            		" is $XX.YY\n\n\n\nThank you for your stay");
+//	            textPara.add(text);
 		        
 	            document.add(addresses);
 	            document.add(subject);
