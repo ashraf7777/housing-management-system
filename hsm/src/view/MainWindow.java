@@ -573,9 +573,9 @@ public class MainWindow {
 				g_handler.commitCheckOut();
 				Receipt r = new Receipt();
 				try {
-					r.createPdf(model
-							.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
-									.getUserObject()));
+					r.writePdf(model.getBookingFromRoom((Unit)getAusgewaehlterKnoten().getUserObject()));
+					r.createPDF();
+					model.addReceipts(r);
 				} catch (DocumentException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
