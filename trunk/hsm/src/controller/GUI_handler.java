@@ -87,6 +87,8 @@ public class GUI_handler implements ActionListener {
 
 			}
 		} else {
+			JOptionPane.showMessageDialog(null, "This unit can not be selected for a Check-Out! Please use a valid unit!", 
+					"Invalid tier", JOptionPane.ERROR_MESSAGE);
 			// TODO: Fehlermeldung: Falschr Hierarchieebene ausgewählt
 		}
 	}
