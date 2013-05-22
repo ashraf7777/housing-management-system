@@ -12,6 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+
+import java.text.SimpleDateFormat;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,11 +85,9 @@ public class MainWindow {
 	private JTable tableHome;
 	private JTree tree;
 	private int cardNumber;
-	private ActionListener my_handler;
 	private Model model;
 	private GUI_handler g_handler; // muss wieder gelöscht werden!!!!!!
 	private JTextField textFieldNameOfBank;
-	private JTable table;
 	private JTable tableCheckOut;
 	private DefaultTableModel tableCheckOutModel;
 
@@ -130,7 +131,6 @@ public class MainWindow {
 	}
 
 	public void announceHandler(ActionListener handler, GUI_handler g_handler) {
-		this.my_handler = handler;
 		this.g_handler = g_handler;
 
 	}
@@ -367,7 +367,7 @@ public class MainWindow {
 		});
 
 		comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
 				"Credit Card", "Debit Card" }));
 		comboBox.setBounds(107, 370, 142, 25);
 		comboBox.addActionListener(new ActionListener() {
@@ -418,13 +418,19 @@ public class MainWindow {
 				// Payment payment = new Payment();
 				DefaultMutableTreeNode treeS = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
+				try {
+					Unit userObject = (Unit) treeS.getUserObject();
+					bookRoom(paymentTyp, userObject, textFieldFirstName.getText(),
+							textFieldLastName.getText(),
+							textFieldBirthday.getText(), textFieldStreet.getText(),
+							textFieldCity.getText(), textFieldZipCode.getText(), 1);
+				} catch (Exception e2) {
+					// TODO: handle exception
+					System.out.println("chose room");
+				}
+				
 
-				Unit userObject = (Unit) treeS.getUserObject();
-
-				bookRoom(paymentTyp, userObject, textFieldFirstName.getText(),
-						textFieldLastName.getText(),
-						textFieldBirthday.getText(), textFieldStreet.getText(),
-						textFieldCity.getText(), textFieldZipCode.getText(), 1);
+			
 				
 
 			}
@@ -652,6 +658,12 @@ public class MainWindow {
 			newBooking.setCheckInDate(new Date(System.currentTimeMillis()));
 			newBooking.setPaymentType(paymentTyp);
 			userObject.setOccupied(true);
+			try {
+				Date date = new SimpleDateFormat("MM.dd.yyyy").parse(textFieldBirthday.getText());
+				newBooking.setBirthday(date);
+			} catch (Exception e) {
+				System.out.println("birthday incorrect");
+			}
 			model.addBookingToRoom(newBooking, userObject);
 			model.addBookingToList(newBooking);
 			userObject.addBooking(newBooking);
