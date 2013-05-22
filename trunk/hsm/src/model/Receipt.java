@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -28,6 +30,8 @@ public class Receipt {
 	Chunk subject;
 	Chunk text;
 	Booking booking;
+	SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.YYYY");
+	DecimalFormat df = new DecimalFormat("####.00");
 
 	public String getFileDirectory() {
 		JFileChooser chooser = new JFileChooser("c:/");
@@ -80,10 +84,10 @@ public class Receipt {
 		customerAddress = new Chunk(address);
 		addresses.add(customerAddress);
 
-		subject = new Chunk("Receipt for your stay at UV\n\n");
+		subject = new Chunk("Receipt for your stay at UV\n\n\n");
 		text = new Chunk("The total amount of your stay from "
-				+ booking.getCheckInDate() + " to " + booking.getCheckOutDate()
-				+ " is $" + booking.getTotalCosts()
+				+ sdf.format(booking.getCheckInDate()) + " to " + sdf.format(booking.getCheckOutDate())
+				+ " is $" + df.format(booking.getTotalCosts()) + "." 
 				+ "\n\n\n\nThank you for your stay");
 		textPara.add(text);
 	}
