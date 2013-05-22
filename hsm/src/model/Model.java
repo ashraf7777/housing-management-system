@@ -8,6 +8,7 @@ import java.util.Map;
 public class Model {
 
 	private List<Booking> allBookings = new ArrayList<Booking>();  
+	private List<Receipt> allReceipts = new ArrayList<Receipt>();
 	private Map<Unit, Booking> assignmentUnitBooking = new HashMap<Unit, Booking>();
 	private TreeDataModel root;
 	
@@ -44,6 +45,16 @@ public class Model {
 	public void setRoot(TreeDataModel root) {
 		this.root = root;
 	}
+
+	public List<Receipt> getAllReceipts() {
+		return allReceipts;
+	}
+
+	public void addReceipts(Receipt receipts) {
+		allReceipts.add(receipts);
+	}
+	
+	
 	
 	
 	
