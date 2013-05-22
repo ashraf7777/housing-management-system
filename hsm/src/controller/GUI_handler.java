@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import model.Booking;
@@ -62,8 +63,8 @@ public class GUI_handler implements ActionListener {
 		if (null != gui.getAusgewaehlterKnoten()) {
 			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
 			if (!room.isOccupied()) {
-				// TODO: Fehlermeldung: Falscher Knoten ausgewählt. Raum ist
-				// nicht belegt
+				JOptionPane.showMessageDialog(null, "You haven't choosen a correct room.\n The choosen room is not occupied", 
+						"Invalid room", JOptionPane.ERROR_MESSAGE);
 			} else {
 				Date moveInDate = model.getBookingFromRoom(room)
 						.getCheckInDate();
