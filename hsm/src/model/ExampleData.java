@@ -1,5 +1,7 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -78,7 +80,13 @@ public class ExampleData {
 		int numberOfPersons = 1;
 		int random = 0;
 		
+		
 		Date birthday = null;
+		try {
+			birthday = new SimpleDateFormat("MM.dd.yyyy").parse("12.17.1991");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		};
 		street = "2004 Oxford Ave. 9";
 		city = "Fullerton";
 		zipCode = "92831";
