@@ -82,7 +82,6 @@ public class MainWindow {
 	private JPanel panelCards;
 	private JComboBox<String> comboBox;
 	private JPanel panelPayMethod;
-	private JTable tableOverview;
 	private JTable tableHome;
 	private JTree tree;
 	private int cardNumber;
@@ -94,6 +93,8 @@ public class MainWindow {
 
 	private String[] columNames = { "Building", "Apartment", "Room",
 			"Lastname", "Firstname", "Check-In Date", "Paymenttype", "Birthday" };
+	private JTextField textFieldSearch;
+	private JTable tableSearch;
 
 	/**
 	 * Launch the application.
@@ -240,7 +241,7 @@ public class MainWindow {
 		});
 		panel.add(btnOverview);
 
-		tree = new JTree(model.getRoot()); // model.getRoot()
+		tree = new JTree(); // model.getRoot()
 		mainPanel.add(tree, BorderLayout.WEST);
 		tree.addTreeSelectionListener(new Eventlistener() {
 			public void valueChanged(TreeSelectionEvent treeEvent) {
@@ -273,16 +274,23 @@ public class MainWindow {
 		tableHome = new JTable();
 		panelHome.add(tableHome);
 
-		JPanel panelOverview = new JPanel();
-		panelCards.add(panelOverview, "Overview");
-		panelOverview.setLayout(new BorderLayout(0, 0));
-
-		tableOverview = new JTable();
-		tableOverview.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tableOverview.setBackground(Color.WHITE);
-		tableOverview.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tableOverview.setFillsViewportHeight(true);
-		panelOverview.add(tableOverview);
+		JPanel panelSearch = new JPanel();
+		panelCards.add(panelSearch, "Overview");
+		panelSearch.setLayout(null);
+		
+		textFieldSearch = new JTextField();
+		textFieldSearch.setBounds(56, 32, 122, 28);
+		panelSearch.add(textFieldSearch);
+		textFieldSearch.setColumns(10);
+		
+		JButton btnSearch = new JButton("Ok");
+		btnSearch.setBounds(188, 35, 89, 23);
+		panelSearch.add(btnSearch);
+		
+		tableSearch = new JTable();
+		JScrollPane pane = new JScrollPane(tableSearch);
+		pane.setBounds(56, 88, 674, 355);
+		panelSearch.add(pane);
 
 		JPanel panelCheckIn = new JPanel();
 		panelCards.add(panelCheckIn, "CheckIn");
