@@ -87,7 +87,7 @@ public class GUI_handler implements ActionListener {
 						* room.getPricePerNight();
 				booking.setTotalCosts(total);
 				
-				//FIXME: Raum wieder auf frei setzen
+				room.setOccupied(false);
 
 				System.out.println("Total costs: " + total);
 

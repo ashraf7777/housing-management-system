@@ -1,10 +1,8 @@
 package model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
@@ -17,13 +15,13 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class Receipt {
 
 	Document document;
 	Image logo;
+	Image logo_description;
 	Paragraph addresses;
 	Paragraph textPara;
 	Chunk ownAddress;
@@ -48,6 +46,11 @@ public class Receipt {
 			}
 		});
 
+		
+		//Set the tenants name as the default filename of the receipt
+		chooser.setSelectedFile(new File(booking.getLastNameOfBooker() + "_"
+				+ booking.getFirstNameOfBooker() + "_" 
+				+ sdf.format(booking.getCheckOutDate())));
 		int result = chooser.showSaveDialog(null);
 
 		File file = null;
@@ -87,8 +90,9 @@ public class Receipt {
 
 		subject = new Chunk("Receipt for your stay at UV\n\n\n");
 		text = new Chunk("The total amount of your stay from "
-				+ sdf.format(booking.getCheckInDate()) + " to " + sdf.format(booking.getCheckOutDate())
-				+ " is $" + df.format(booking.getTotalCosts()) + "." 
+				+ sdf.format(booking.getCheckInDate()) + " to "
+				+ sdf.format(booking.getCheckOutDate()) + " is $"
+				+ df.format(booking.getTotalCosts()) + "."
 				+ "\n\n\n\nThank you for your stay");
 		textPara.add(text);
 	}
@@ -104,28 +108,25 @@ public class Receipt {
 					JOptionPane.ERROR_MESSAGE);
 		} else {
 			document = new Document();
-			PdfWriter writer = PdfWriter.getInstance(document,
+			PdfWriter.getInstance(document,
 					new FileOutputStream(filename));
 			logo = Image.getInstance("images/home_big.png");
-			logo.setAbsolutePosition(430f, 680f);
-			//Logo beschreibung als Bild einfügen
-			
+			logo.setAbsolutePosition(450f, 720f);
+			logo.scalePercent(60);
+			logo_description = Image.getInstance("images/Logo_Description.png");
+			logo_description.setAbsolutePosition(433f, 680f);
+			logo_description.scalePercent(70f);
+
 			document.open();
 
 			document.add(logo);
+			document.add(logo_description);
 			document.add(addresses);
 			document.add(subject);
 			document.add(textPara);
+
+			// Unterschrift als Bild einfügen
 			document.close();
 		}
 	}
-
-	private void setImage(PdfContentByte cb, String imgPath, float scalePercent)
-			throws MalformedURLException, IOException, DocumentException {
-		Image img = Image.getInstance(imgPath);
-		img.scalePercent(scalePercent);
-		img.setAbsolutePosition(cb.getXTLM(), cb.getYTLM());
-		cb.addImage(img);
-	}
-
 }
