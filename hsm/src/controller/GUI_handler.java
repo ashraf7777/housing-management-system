@@ -135,9 +135,10 @@ public class GUI_handler implements ActionListener {
 																// be addedto
 																// the new tree
 								{
-									//If we need the check-in tree the occupied rooms should not be considered
-									if (!(isCheckIn && ((Unit) room.getUserObject())			
-											.isOccupied())) {
+									// If we need the check-in tree the occupied
+									// rooms should not be considered
+									if (!(isCheckIn && ((Unit) room
+											.getUserObject()).isOccupied())) {
 										new_room = new TreeDataModel(
 												(Unit) room.getUserObject());
 
@@ -173,23 +174,25 @@ public class GUI_handler implements ActionListener {
 		return newTree;
 	}
 
-	
-	public List<Booking> searchName(String lastName)
-	{
+	/**
+	 * Search for a lastname if there are any bookings available. This function
+	 * provides also to search instantly during the typing of the user
+	 * 
+	 * @param lastName
+	 * @return
+	 */
+	public List<Booking> searchName(String lastName) {
 		List<Booking> bookings = model.getAllBookings();
 		List<Booking> results = new ArrayList<Booking>();
-		for (int i = 0; i < bookings.size(); i++)
-		{
-			if (bookings.get(i).getLastNameOfBooker().startsWith(lastName))
-				{
-					results.add(bookings.get(i));
-				}
+		for (int i = 0; i < bookings.size(); i++) {
+			if (bookings.get(i).getLastNameOfBooker().startsWith(lastName)) {
+				results.add(bookings.get(i));
+			}
 		}
-		
+
 		return results;
 	}
-	
-	
+
 	private void showOverview() {
 
 		// TODO: Ansicht wechseln
