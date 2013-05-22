@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -44,6 +45,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+
+import com.itextpdf.text.DocumentException;
 
 import model.Booking;
 import model.CreditCard;
@@ -563,6 +566,16 @@ public class MainWindow {
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				g_handler.commitCheckOut();
+				Receipt r = new Receipt();
+				try {
+					r.createPdf(model.getBookingFromRoom((Unit)getAusgewaehlterKnoten().getUserObject()));
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnCheckOut.setBounds(626, 474, 89, 29);

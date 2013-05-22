@@ -12,6 +12,7 @@ public class Booking {
 	private static int bookingCounter = 1;
 	private int bookingID;
 	private int numberOfPersons;
+	private float totalCosts;
 	private String firstNameOfBooker;
 	private String lastNameOfBooker;
 	private String street;
@@ -87,6 +88,14 @@ public class Booking {
 
 	public void setPaymentType(Payment paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public float getTotalCosts() {
+		return totalCosts;
+	}
+
+	public void setTotalCosts(float totalCosts) {
+		this.totalCosts = totalCosts;
 	}
 
 	public Date getCheckInDate() {
