@@ -78,10 +78,8 @@ public class ExampleData {
 		Booking b = null;
 		DefaultMutableTreeNode tree;
 		int numberOfPersons = 1;
-		int random = 0;
-		
-		
 		Date birthday = null;
+		
 		try {
 			birthday = new SimpleDateFormat("MM.dd.yyyy").parse("12.17.1991");
 		} catch (ParseException e) {
@@ -93,19 +91,8 @@ public class ExampleData {
 		
 		for(int i = 0; i < number; i++)
 		{
-			do
-			{
-				random = (int)(Math.random()* 10);
-			}
-			while(random >= firstNames.length);
-			firstName = firstNames[random];
-			
-			do
-			{
-				random = (int)(Math.random() * 10);
-			}
-			while(random >= lastNames.length);
-			lastName = lastNames[random];
+			firstName = firstNames[getRandomIndex(firstNames.length)];
+			lastName = lastNames[getRandomIndex(lastNames.length)];
 			
 			tree = my_handler.showCheckInTree();
 			if (tree.isLeaf())							//If the tree element has no children there are no free rooms left
@@ -140,7 +127,7 @@ public class ExampleData {
 	}
 	
 
-	public Unit getRandomUnit(DefaultMutableTreeNode tree)
+	private Unit getRandomUnit(DefaultMutableTreeNode tree)
 	{
 		int i = 0;
 		while(!tree.isLeaf())
@@ -153,6 +140,17 @@ public class ExampleData {
 			tree = (DefaultMutableTreeNode)tree.getChildAt(i);
 		}
 		return (Unit) tree.getUserObject();
+	}
+	
+	private int getRandomIndex(int i)
+	{
+		int index;
+		do
+		{
+			index = (int)(Math.random()* 10);
+		}
+		while(index >= i);
+		return index;
 	}
 	
 	public void announceModel(Model model)

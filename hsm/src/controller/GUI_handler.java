@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,38 +64,42 @@ public class GUI_handler implements ActionListener {
 		if (null != gui.getAusgewaehlterKnoten()) {
 			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
 			if (!room.isOccupied()) {
-				JOptionPane.showMessageDialog(null, "You haven't choosen a correct room.\n The choosen unit is no room!", 
-						"Invalid room", JOptionPane.ERROR_MESSAGE);
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"You haven't choosen a correct room.\n The choosen unit is no room!",
+								"Invalid room", JOptionPane.ERROR_MESSAGE);
 			} else {
 				Booking booking = model.getBookingFromRoom(room);
-				
+
 				Date moveInDate = booking.getCheckInDate();
 				Date moveOutDate = new Date(System.currentTimeMillis());
 				booking.setCheckOutDate(moveOutDate);
-				
+
 				Date timeToPay = new Date(moveOutDate.getTime()
 						- moveInDate.getTime());
-				
-				int years = (int) (timeToPay.getTime()/ 1000/60/60/24/365);
-				int months = (int)(timeToPay.getTime()/ 1000/60/60/24 % 365) * 365 / 12;
-				int days = (int)(timeToPay.getTime()/ 1000/60/60/24 % 365) * 365 % 12 * 12;
+
+				int years = (int) (timeToPay.getTime() / 1000 / 60 / 60 / 24 / 365);
+				int months = (int) (timeToPay.getTime() / 1000 / 60 / 60 / 24 % 365) * 365 / 12;
+				int days = (int) (timeToPay.getTime() / 1000 / 60 / 60 / 24 % 365) * 365 % 12 * 12;
 
 				if (years == 0 && months == 0 && days == 0)
 					days++;
-				
+
 				float total = years * 12 * room.getPricePerMonth();
 				total = total + months * room.getPricePerMonth() + days
 						* room.getPricePerNight();
 				booking.setTotalCosts(total);
-				
+
 				room.setOccupied(false);
 
 				System.out.println("Total costs: " + total);
 
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Please select a room for Check-Out!", 
-					"No room selected", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Please select a room for Check-Out!", "No room selected",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -130,24 +135,30 @@ public class GUI_handler implements ActionListener {
 																// be addedto
 																// the new tree
 								{
-									new_room = new TreeDataModel(
-											(Unit) room.getUserObject());
+									//If we need the check-in tree the occupied rooms should not be considered
+									if (!(isCheckIn && ((Unit) room.getUserObject())			
+											.isOccupied())) {
+										new_room = new TreeDataModel(
+												(Unit) room.getUserObject());
 
-									if (!isNodeAlreadyAdded(new_building,
-											newTree)) // If the building isn't
-														// yet added to the new
-														// tree
-									{
-										newTree.add(new_building);
-									}
+										if (!isNodeAlreadyAdded(new_building,
+												newTree)) // If the building
+															// isn't
+															// yet added to the
+															// new
+															// tree
+										{
+											newTree.add(new_building);
+										}
 
-									if (!isNodeAlreadyAdded(new_apartment,
-											new_building)) {
-										new_building.add(new_apartment);
-									}
-									if (!isNodeAlreadyAdded(new_room,
-											new_apartment)) {
-										new_apartment.add(new_room);
+										if (!isNodeAlreadyAdded(new_apartment,
+												new_building)) {
+											new_building.add(new_apartment);
+										}
+										if (!isNodeAlreadyAdded(new_room,
+												new_apartment)) {
+											new_apartment.add(new_room);
+										}
 									}
 								}
 							}
@@ -162,6 +173,23 @@ public class GUI_handler implements ActionListener {
 		return newTree;
 	}
 
+	
+	public List<Booking> searchName(String lastName)
+	{
+		List<Booking> bookings = model.getAllBookings();
+		List<Booking> results = new ArrayList<Booking>();
+		for (int i = 0; i < bookings.size(); i++)
+		{
+			if (bookings.get(i).getLastNameOfBooker().startsWith(lastName))
+				{
+					results.add(bookings.get(i));
+				}
+		}
+		
+		return results;
+	}
+	
+	
 	private void showOverview() {
 
 		// TODO: Ansicht wechseln
