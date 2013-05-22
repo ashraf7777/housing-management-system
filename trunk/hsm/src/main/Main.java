@@ -5,11 +5,8 @@ import model.Model;
 import view.MainWindow;
 import controller.GUI_handler;
 
-public class main {
+public class Main {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		Model model = new Model();
 		ExampleData exData = new ExampleData();
