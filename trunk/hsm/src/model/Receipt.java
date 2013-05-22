@@ -23,6 +23,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class Receipt {
 
 	Document document;
+	Image logo;
 	Paragraph addresses;
 	Paragraph textPara;
 	Chunk ownAddress;
@@ -105,8 +106,13 @@ public class Receipt {
 			document = new Document();
 			PdfWriter writer = PdfWriter.getInstance(document,
 					new FileOutputStream(filename));
+			logo = Image.getInstance("images/home_big.png");
+			logo.setAbsolutePosition(430f, 680f);
+			//Logo beschreibung als Bild einfügen
+			
 			document.open();
 
+			document.add(logo);
 			document.add(addresses);
 			document.add(subject);
 			document.add(textPara);
