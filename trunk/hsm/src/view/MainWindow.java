@@ -244,19 +244,21 @@ public class MainWindow {
 		mainPanel.add(tree, BorderLayout.WEST);
 		tree.addTreeSelectionListener(new Eventlistener() {
 			public void valueChanged(TreeSelectionEvent treeEvent) {
-				if (cardNumber == 3) {
-					DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode();
-					treeNode = (DefaultMutableTreeNode) tree.getSelectionPath()
-							.getLastPathComponent();
-					ArrayList<Object[]> list = new ArrayList<>();
-					getBuchungen(treeNode, list);
+				DefaultMutableTreeNode treeNode;
+				treeNode = getAusgewaehlterKnoten();
+				if (null != treeNode) {
+					if (cardNumber == 3) {
 
-					Object[][] data = new Object[list.size()][];
-					for (int i = 0; i < list.size(); i++) {
-						data[i] = list.get(i);
+						ArrayList<Object[]> list = new ArrayList<>();
+						getBuchungen(treeNode, list);
+
+						Object[][] data = new Object[list.size()][];
+						for (int i = 0; i < list.size(); i++) {
+							data[i] = list.get(i);
+						}
+						tableCheckOutModel.setDataVector(data, columNames);
+						tableCheckOut.updateUI();
 					}
-					tableCheckOutModel.setDataVector(data, columNames);
-					tableCheckOut.updateUI();
 				}
 			}
 		});
@@ -574,7 +576,9 @@ public class MainWindow {
 				g_handler.commitCheckOut();
 				Receipt r = new Receipt();
 				try {
-					r.writePdf(model.getBookingFromRoom((Unit)getAusgewaehlterKnoten().getUserObject()));
+					r.writePdf(model
+							.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
+									.getUserObject()));
 					r.createPDF();
 					model.addReceipts(r);
 				} catch (DocumentException e1) {
@@ -583,7 +587,7 @@ public class MainWindow {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} 
+				}
 			}
 		});
 		btnCheckOut.setBounds(626, 474, 89, 29);
