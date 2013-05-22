@@ -74,9 +74,6 @@ public class Receipt {
 		        
 		        addresses.setSpacingAfter(100);
 	            addresses.setSpacingBefore(25);
-	//            para.setAlignment(Element.ALIGN_LEFT);
-	//            para.setIndentationLeft(50);
-	//            para.setIndentationRight(50);
 	            
 	            Chunk ownAddress = new Chunk("UV\n2000 Oxford Ave.\nCA 92831\n\n\n");
 	            addresses.add(ownAddress);
