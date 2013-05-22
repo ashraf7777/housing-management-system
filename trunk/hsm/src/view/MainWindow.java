@@ -111,8 +111,6 @@ public class MainWindow {
 					exData.loadSampleBookings(5, my_handler);
 
 					window.frmHousingManagementSystem.setVisible(true);
-//					Receipt r = new Receipt();
-//					r.createPdf();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
