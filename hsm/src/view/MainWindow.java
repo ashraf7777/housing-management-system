@@ -50,6 +50,7 @@ import model.DebitCard;
 import model.ExampleData;
 import model.Model;
 import model.Payment;
+import model.Receipt;
 import model.Unit;
 import controller.Eventlistener;
 import controller.GUI_handler;
@@ -109,6 +110,8 @@ public class MainWindow {
 					exData.loadSampleBookings(5, my_handler);
 
 					window.frmHousingManagementSystem.setVisible(true);
+//					Receipt r = new Receipt();
+//					r.createPdf();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
