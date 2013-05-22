@@ -5,7 +5,7 @@ import model.Model;
 import view.MainWindow;
 import controller.GUI_handler;
 
-public class HSW_System {
+public class HSM_System {
 
 	public static void main(String[] args) {
 		Model model = new Model();
