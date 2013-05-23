@@ -641,8 +641,7 @@ public class MainWindow {
 				// data and safe it to the object
 				switch (comboBox.getSelectedItem().toString()) {
 				case "Debit Card":
-					if(textFieldNameOnCard.getText().equals(""))
-					{
+					if (textFieldNameOnCard.getText().equals("")) {
 						showErrorMsg(textFieldNameOnCard, "Name on Card");
 						return;
 					}
@@ -654,8 +653,7 @@ public class MainWindow {
 						showErrorMsg(textFieldBankNumber, "Bank Number");
 						return;
 					}
-					if(textFieldNameOfBank.getText().equals(""))
-					{
+					if (textFieldNameOfBank.getText().equals("")) {
 						showErrorMsg(textFieldNameOfBank, "Name of Bank");
 						return;
 					}
@@ -663,12 +661,12 @@ public class MainWindow {
 							textFieldAccountNumber.getText(),
 							textFieldBankNumber.getText(), textFieldNameOfBank
 									.getText());
-					paymentTyp.setName("Debit Card"); 
+					paymentTyp.setName("Debit Card");
 					break;
 				case "Credit Card":
-					if(textFieldCardHoldersName.getText().equals(""))
-					{
-						showErrorMsg(textFieldCardHoldersName, "Card Holders Name");
+					if (textFieldCardHoldersName.getText().equals("")) {
+						showErrorMsg(textFieldCardHoldersName,
+								"Card Holders Name");
 						return;
 					}
 					if (!isStringANumber(textFieldCreditCardNumber.getText())) {
@@ -680,8 +678,7 @@ public class MainWindow {
 						showErrorMsg(textFieldCVVCode, "CVV Number");
 						return;
 					}
-					if(textFieldExpieringDate.getText().equals(""))
-					{
+					if (textFieldExpieringDate.getText().equals("")) {
 						showErrorMsg(textFieldExpieringDate, "Expiring Date");
 						return;
 					}
@@ -714,7 +711,8 @@ public class MainWindow {
 							"Please choose a room in the tree first", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				//FIXME: nach dem speichern werden alle Felder gelöscht bis auf name of bank bei der debit card
+				// FIXME: nach dem speichern werden alle Felder gelöscht bis auf
+				// name of bank bei der debit card
 			}
 		});
 		btnSave.setBounds(586, 480, 89, 23);
@@ -871,7 +869,7 @@ public class MainWindow {
 						r.writePdf(model
 								.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
 										.getUserObject()));
-						r.createPDF();
+						r.createPDF(cardNumber);
 						model.addInvoices(r);
 						// refresh the tree and clear table
 						tableCheckOutModel.setDataVector(null,
@@ -880,9 +878,12 @@ public class MainWindow {
 								.showCheckOutTree());
 						tree.setModel(treeModel);
 					} catch (DocumentException e1) {
-						JOptionPane.showMessageDialog(null, "The invoice document can't be created.");
+						JOptionPane.showMessageDialog(null,
+								"The invoice document can't be created.");
 					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(null, "The images for the invoice creation can't be loaded.");
+						JOptionPane
+								.showMessageDialog(null,
+										"The images for the invoice creation can't be loaded.");
 					}
 				}
 			}
@@ -952,12 +953,15 @@ public class MainWindow {
 				try {
 					model.getAllInvoices()
 							.get(tableInvoices.getSelectedRowCount() - 1)
-							.createPDF();
-				} catch (IOException e1) {
+							.createPDF(cardNumber);
+				} catch (DocumentException e1) {
+					JOptionPane.showMessageDialog(null,
+							"The invoice can not be created", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null,
 							"Please choose an invoice", "Error",
 							JOptionPane.ERROR_MESSAGE);
-				} catch (DocumentException e1) {
 				}
 			}
 		});
