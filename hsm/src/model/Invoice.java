@@ -25,7 +25,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * 
  */
 
-public class Receipt {
+public class Invoice {
 
 	// Attributes to store the receipt's information
 	Document document;
@@ -164,35 +164,37 @@ public class Receipt {
 			// Set the directory for the file output
 			PdfWriter.getInstance(document, new FileOutputStream(filename));
 			// Load a picture for the receipt's logo
-			 logo = Image.getInstance(this.getClass().getResource("/home_big.png"));
+			logo = Image.getInstance(this.getClass().getResource(
+					"/home_big.png"));
 			// Set the picture's position in the PDF file
-			 logo.setAbsolutePosition(450f, 720f);
+			logo.setAbsolutePosition(450f, 720f);
 			// Set the size of the logo
-			 logo.scalePercent(60);
+			logo.scalePercent(60);
 			// Load the logo description as a picture
-			// logo_description =
-			// Image.getInstance("images/Logo_Description.png");
+			logo_description = Image.getInstance(this.getClass().getResource(
+					"/Logo_Description.png"));
 			// Set the position
-			// logo_description.setAbsolutePosition(433f, 680f);
+			logo_description.setAbsolutePosition(433f, 680f);
 			// Set the size
-			// logo_description.scalePercent(70f);
+			logo_description.scalePercent(70f);
 			// Load a sample signature
-			// signature = Image.getInstance("images/signature.jpg");
+			signature = Image.getInstance(this.getClass().getResource(
+					"/signature.jpg"));
 			// Set the position for the signature
-			// signature.setAbsolutePosition(30, 325);
+			signature.setAbsolutePosition(30, 325);
 			// Set the size
-			// signature.scalePercent(15);
+			signature.scalePercent(15);
 
 			// Open the PDF structure for editing
 			document.open();
 			// Add all the earlier setted structual items with the booking
 			// information
-			 document.add(logo);
-			// document.add(logo_description);
+			document.add(logo);
+			document.add(logo_description);
 			document.add(addresses);
 			document.add(subject);
 			document.add(textPara);
-			// document.add(signature);
+			document.add(signature);
 
 			// Finish the editing and save the file to the choosen directory
 			document.close();
@@ -201,6 +203,7 @@ public class Receipt {
 
 	/**
 	 * Provides an object list for the invoice overview table
+	 * 
 	 * @return
 	 */
 	public Object[] returnForInvoices() {
