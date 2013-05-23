@@ -92,9 +92,6 @@ public class GUI_handler implements ActionListener {
 				booking.setTotalCosts(total);
 
 				room.setOccupied(false);
-
-				System.out.println("Total costs: " + total);
-
 			}
 		} else {
 			JOptionPane.showMessageDialog(null,
