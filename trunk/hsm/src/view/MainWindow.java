@@ -191,7 +191,7 @@ public class MainWindow {
 							tableHome.updateUI();
 							Unit unit = (Unit) treeNode.getUserObject();
 							if(!unit.getFinishedBookings().isEmpty()){
-								Object[][] data = new Object[unit.getBooking().size()][];
+								Object[][] data = new Object[unit.getBooking().size()-1][];
 								for (int i = 0; i < unit.getBooking().size()-1; i++) {
 									data[i] = unit.getBooking().get(i).returnObjectForHome();
 								}
