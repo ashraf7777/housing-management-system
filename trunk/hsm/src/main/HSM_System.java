@@ -22,7 +22,7 @@ public class HSM_System {
 		MainWindow window = new MainWindow(model);
 		GUI_handler my_handler = new GUI_handler();
 
-		window.announceHandler(my_handler, my_handler);
+		window.announceHandler(my_handler);
 		window.announceModel(model);
 		my_handler.announceModel(model);
 		my_handler.announceGui(window);

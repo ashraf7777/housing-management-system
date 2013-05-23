@@ -64,9 +64,10 @@ import controller.Eventlistener;
 import controller.GUI_handler;
 
 /**
- *
- * This class create the GUI and handles the action on buttons, on the tree and in tables.
- *
+ * 
+ * This class create the GUI and handles the action on buttons, on the tree and
+ * in tables.
+ * 
  */
 public class MainWindow {
 
@@ -132,10 +133,9 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		// create the Window and chose the title, bounds, closing
+		// operation and icon
 		frmHousingManagementSystem = new JFrame();
-		frmHousingManagementSystem.setForeground(Color.WHITE);
-		frmHousingManagementSystem.setAlwaysOnTop(false);
-		frmHousingManagementSystem.setBackground(Color.BLUE);
 		frmHousingManagementSystem
 				.setFont(new Font("Agency FB", Font.PLAIN, 12));
 		frmHousingManagementSystem.setTitle("Housing Management System");
@@ -145,11 +145,14 @@ public class MainWindow {
 
 		frmHousingManagementSystem.setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("images/Home.png"));
-		mainPanel = new JPanel();
+		// create the main panel for the application and add it to the frame
+		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED,
 				Color.LIGHT_GRAY, null));
 		frmHousingManagementSystem.getContentPane().add(mainPanel);
-		mainPanel.setLayout(new BorderLayout(0, 0));
+
+		// set the look and feel for our application to give the aplication a
+		// cool look we chose the niumbus look and feel
 		try {
 			UIManager
 					.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -158,21 +161,41 @@ public class MainWindow {
 			e1.printStackTrace();
 		}
 
-		tree = new JTree(model.getRoot()); // model.getRoot()
+		// creates the panel for the card. cardlayout means that we can switch
+		// between card on show different views on the same position
+		panelCards = new JPanel();
+		mainPanel.add(panelCards, BorderLayout.CENTER);
+		panelCards.setLayout(new CardLayout(0, 0));
+
+		// create the tree which shows the structure of the property and add the
+		// tree to the main panel
+		tree = new JTree(model.getRoot());
 		mainPanel.add(tree, BorderLayout.WEST);
+		// add an actionlistner to the tree which fires an action if you select
+		// a node
 		tree.addTreeSelectionListener(new Eventlistener() {
 			public void valueChanged(TreeSelectionEvent treeEvent) {
+				// get the node
 				DefaultMutableTreeNode treeNode;
 				treeNode = getAusgewaehlterKnoten();
+				// if something is selected in the tree
 				if (null != treeNode) {
+					// distinguish between the checkout and home panel, because
+					// the need different actions on the tree
 					switch (cardNumber) {
 					case 1:
+						// if the tree node is a leaf it will write information
+						// about all finished bookings for this leaf in to the
+						// table
 						if (treeNode.isLeaf()) {
 							tableHomeModel.setDataVector(null,
 									columnNamesLastBooking);
 							tableHome.updateUI();
 							Unit unit = (Unit) treeNode.getUserObject();
+							// if any finished bookings are availabel for this
+							// room
 							if (!unit.getFinishedBookings().isEmpty()) {
+								// get the data for each booking
 								Object[][] data = new Object[unit
 										.getFinishedBookings().size()][];
 								for (int i = 0; i < unit.getFinishedBookings()
@@ -180,13 +203,16 @@ public class MainWindow {
 									data[i] = unit.getFinishedBookings().get(i)
 											.returnObjectForHome();
 								}
+								// and write it in the table
 								tableHomeModel.setDataVector(data,
 										columnNamesLastBooking);
 								tableHome.updateUI();
 							}
 						}
 						break;
-
+					// in case three the function getBuchungen returns all open
+					// booking for the leaf or node and will wirte them in to
+					// the table
 					case 3:
 						ArrayList<Object[]> list = new ArrayList<>();
 						getBuchungen(treeNode, list);
@@ -222,77 +248,109 @@ public class MainWindow {
 		createMenubar();
 	}
 
+	/**
+	 * create the home panel with all its components
+	 */
 	private void createHomePanel() {
-		panelCards = new JPanel();
-		mainPanel.add(panelCards, BorderLayout.CENTER);
-		panelCards.setLayout(new CardLayout(0, 0));
-
+		// create the panel for the home card
 		JPanel panelHome = new JPanel();
 		panelHome.setBackground(SystemColor.inactiveCaption);
 		panelCards.add(panelHome, "Home");
 		panelHome.setLayout(null);
 
+		// create the tablemodel for the table which stores the data
 		tableHomeModel = new DefaultTableModel();
 		tableHomeModel.setColumnIdentifiers(columnNamesLastBooking);
-		tableHome = new JTable(tableHomeModel);
+
+		// create the table to show the data
+		tableHome = new JTable(tableHomeModel) {
+			/**
+			 * overides the isCellEditable function from the JTable definition
+			 * the cells are not editable anymore
+			 */
+			public boolean isCellEditable(int x, int y) {
+				return false;
+			}
+		};
 		tableHome.setBackground(SystemColor.activeCaption);
 		JScrollPane pane = new JScrollPane(tableHome);
 		pane.setBounds(20, 57, 608, 406);
 		panelHome.add(pane);
 
+		// create a label for information purpose
 		JLabel lblLastBookingsFor = new JLabel("Last Bookings for this Room:");
 		lblLastBookingsFor.setBounds(25, 32, 189, 14);
 		panelHome.add(lblLastBookingsFor);
 	}
 
+	/**
+	 * create the panel for the button which are used to switch between the
+	 * different cards
+	 */
 	private void createButtonPanel() {
+		// create the panel
 		JPanel panelButtons = new JPanel();
 		mainPanel.add(panelButtons, BorderLayout.SOUTH);
 		panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.X_AXIS));
 
+		// create the button
 		JButton btnHome = new JButton("Home");
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// get the layout and switch to the card with the name home
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "Home");
 				cardNumber = 1;
+				// show the version of the tree for the home card
 				TreeModel treeModel = new DefaultTreeModel(g_handler.showHome());
 				tree.setModel(treeModel);
+				// set the visibility of the tree true
+				tree.setVisible(true);
 			}
 		});
+		// add the button to the panel
 		btnHome.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panelButtons.add(btnHome);
 
+		// add a gap between the buttons
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		panelButtons.add(horizontalStrut);
 
+		// create the button
 		JButton btnCheckIn = new JButton("Check-In");
 		btnCheckIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// get the layout and switch to the card with the name checkin
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckIn");
 				cardNumber = 2;
+				// show the version of the tree for the check in card
 				TreeModel treeModel = new DefaultTreeModel(g_handler
 						.showCheckInTree());
 				tree.setModel(treeModel);
-				// Aufruf der Check In Methode
+				tree.setVisible(true);
 			}
 		});
+		// add the button
 		panelButtons.add(btnCheckIn);
 
+		// creta a gap between the buttons
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panelButtons.add(horizontalStrut_1);
 
+		// see above
 		JButton btnCheckout = new JButton("Check-Out");
 		btnCheckout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// get the layout and switch to the card with the name checkout
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "CheckOut");
 				cardNumber = 3;
+				// show the version of the tree for the check in card
 				TreeModel treeModel2 = new DefaultTreeModel(g_handler
 						.showCheckOutTree());
 				tree.setModel(treeModel2);
-
+				tree.setVisible(true);
 			}
 		});
 		panelButtons.add(btnCheckout);
@@ -300,12 +358,16 @@ public class MainWindow {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// get the layout and switch to the card with the name search
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "Search");
 				cardNumber = 4;
+				// set the visiblility of the tree false
+				tree.setVisible(false);
 			}
 		});
 
+		// create gaps between the buttons
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panelButtons.add(horizontalStrut_2);
 		panelButtons.add(btnSearch);
@@ -319,53 +381,70 @@ public class MainWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// get the layout and show the card with the name invoices
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "Invoices");
 				cardNumber = 5;
 
+				// get al invoices and write them into the table
 				Object[][] data = new Object[model.getAllReceipts().size()][];
 				for (int i = 0; i < model.getAllReceipts().size(); i++) {
 					data[i] = model.getAllReceipts().get(i).returnForInvoices();
 				}
 				tableInvoicesModel.setDataVector(data, columnNamesInvoices);
 				tableInvoices.updateUI();
+				tree.setVisible(false);
 
 			}
 		});
 	}
 
+	/**
+	 * create the search panel
+	 */
 	@SuppressWarnings("serial")
 	private void createSearchPanel() {
+		// create the panel
 		JPanel panelSearch = new JPanel();
 		panelSearch.setBackground(SystemColor.inactiveCaption);
 		panelCards.add(panelSearch, "Search");
 		panelSearch.setLayout(null);
 
+		// create the search textfield
 		textFieldSearch = new JTextField();
-		textFieldSearch.setBounds(148, 49, 122, 28);
+		textFieldSearch.setBounds(197, 49, 122, 28);
 		panelSearch.add(textFieldSearch);
 		textFieldSearch.setColumns(10);
+		// add a keylistener for the textfield
 		textFieldSearch.addKeyListener(new Eventlistener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
+				// if the press key is an letter from to z or A to Z..
 				if ((e.getKeyChar() >= 60 && e.getKeyChar() <= 90)
 						|| (e.getKeyChar() >= 97 && e.getKeyChar() <= 122)) {
+					// Use the method searchName to find a name which starts
+					// with the letters in the textfield
 					textFieldSearch.setText(textFieldSearch.getText()
 							+ e.getKeyChar());
 					List<Booking> names = g_handler.searchName(textFieldSearch
 							.getText());
-
+					// enter the data of all bookings and names that start with
+					// the prefix from the textfield in the table
 					Object[][] data = new Object[names.size()][];
 					for (int i = 0; i < names.size(); i++) {
 						data[i] = names.get(i).returnObjectForCheckIn();
 					}
+					// set the data in the table
 					tableSearchModel.setDataVector(data, columnNamesBooking);
 					tableSearch.updateUI();
 					textFieldSearch.setText(textFieldSearch.getText()
 							.substring(0,
 									textFieldSearch.getText().length() - 1));
 				}
+				// if the press key is backspace..
 				if (e.getKeyChar() == 8) {
+					// delete the last letter in the tetfield and refresh the
+					// table
 					textFieldSearch.setText(textFieldSearch.getText());
 					List<Booking> names = g_handler.searchName(textFieldSearch
 							.getText());
@@ -379,8 +458,11 @@ public class MainWindow {
 			}
 		});
 
+		// create the tablemodel for the search table that stores the data
 		tableSearchModel = new DefaultTableModel();
 		tableSearchModel.setColumnIdentifiers(columnNamesBooking);
+
+		// create table for search table
 		tableSearch = new JTable(tableSearchModel) {
 			/**
 			 * Überschreibt die isCellEditable Methode aus der JTable Definition
@@ -390,34 +472,48 @@ public class MainWindow {
 				return false;
 			}
 		};
+		// set border
 		tableSearch.setBorder(new LineBorder(new Color(0, 0, 0)));
+		// set the color of the foreground
 		tableSearch.setForeground(SystemColor.desktop);
 		tableSearch.setFillsViewportHeight(true);
 		tableSearch.setColumnSelectionAllowed(true);
 		tableSearch.setCellSelectionEnabled(true);
+		// disables the reordering and resizing of the table header
 		tableSearch.getTableHeader().setReorderingAllowed(false);
 		tableSearch.getTableHeader().setResizingAllowed(false);
-		tableSearch.setAutoCreateColumnsFromModel(false);
+		// set background color
 		tableSearch.setBackground(SystemColor.activeCaption);
 		tableSearch.setFillsViewportHeight(true);
+		// set font of table and header
 		tableSearch.setFont(new Font("Serif", Font.PLAIN, 14));
 		tableSearch.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 15));
 
+		// the table to a scrollpane so that the table has a scrollbar
 		JScrollPane pane = new JScrollPane(tableSearch);
-		pane.setBounds(30, 88, 702, 355);
+		pane.setBounds(88, 88, 702, 355);
 		panelSearch.add(pane);
 
+		// create label for information purpose
 		JLabel lblSearch = new JLabel("Enter Lastname:");
-		lblSearch.setBounds(30, 56, 108, 14);
+		lblSearch.setBounds(88, 56, 108, 14);
 		panelSearch.add(lblSearch);
 	}
 
+	/**
+	 * create the checkin panel
+	 */
 	private void createCheckinPanel() {
+		// in this method a lot of components are create is always the same
+		// procedure so they are not all commented just once
+
+		// create panel and set color
 		JPanel panelCheckIn = new JPanel();
 		panelCards.add(panelCheckIn, "CheckIn");
 		panelCheckIn.setBackground(SystemColor.inactiveCaption);
 		panelCheckIn.setLayout(null);
 
+		// create a label for information purpose
 		JLabel lblFirstname = new JLabel("Firstname:");
 		lblFirstname.setBounds(40, 75, 69, 14);
 		panelCheckIn.add(lblFirstname);
@@ -446,6 +542,7 @@ public class MainWindow {
 		lblPaymethod.setBounds(40, 375, 69, 14);
 		panelCheckIn.add(lblPaymethod);
 
+		// create a textfield for entering input data
 		textFieldFirstName = new JTextField();
 		textFieldFirstName.setBounds(107, 70, 142, 25);
 		panelCheckIn.add(textFieldFirstName);
@@ -482,6 +579,9 @@ public class MainWindow {
 		textFieldBirthday.setColumns(10);
 		textFieldBirthday.setText("e.g. 05.24.1992");
 		textFieldBirthday.setName("textfield Birthday");
+		// if you click in the textfield the example text disappears. If you
+		// leave the textfield without writing anything the example texte
+		// appears again
 		textFieldBirthday.addFocusListener(new FocusListener() {
 
 			@Override
@@ -499,6 +599,7 @@ public class MainWindow {
 			}
 		});
 
+		// create a combobox to chose the payment type
 		comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
 				"Credit Card", "Debit Card" }));
@@ -506,6 +607,7 @@ public class MainWindow {
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// show the inputcard for credit crad or debit card payment
 				CardLayout c1 = (CardLayout) panelPayMethod.getLayout();
 				if (comboBox.getSelectedIndex() == 0) {
 					c1.show(panelPayMethod, "CreditCard");
@@ -516,6 +618,7 @@ public class MainWindow {
 		});
 		panelCheckIn.add(comboBox);
 
+		// create a separator for design prupose
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBackground(SystemColor.desktop);
@@ -528,10 +631,13 @@ public class MainWindow {
 		lblPersonalData.setBounds(40, 25, 153, 14);
 		panelCheckIn.add(lblPersonalData);
 
+		// create the button to save the check in
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Payment paymentTyp = null;
+				// distinguish between the choosen payment type and ready the
+				// data and safe it to the object
 				switch (comboBox.getSelectedItem().toString()) {
 				case "Debit Card":
 					paymentTyp = new DebitCard(textFieldNameOnCard.getText(),
@@ -548,21 +654,26 @@ public class MainWindow {
 				default:
 					break;
 				}
-				// Payment payment = new Payment();
+				// get the selected unit in the tree
 				DefaultMutableTreeNode treeS = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 				try {
+					// get the unit object from the tree to safe the booking to
+					// the unit
 					Unit userObject = (Unit) treeS.getUserObject();
+					// book the room
 					bookRoom(paymentTyp, userObject,
 							textFieldFirstName.getText(),
 							textFieldLastName.getText(),
 							textFieldBirthday.getText(),
 							textFieldStreet.getText(), textFieldCity.getText(),
 							textFieldZipCode.getText(), 1);
+					// refresh the tree
 					TreeModel treeModel = new DefaultTreeModel(g_handler
 							.showCheckInTree());
 					tree.setModel(treeModel);
 				} catch (Exception e2) {
+					// show error message if an mistake occurs
 					JOptionPane.showMessageDialog(null,
 							"Please choose a room in the tree first", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -573,6 +684,7 @@ public class MainWindow {
 		btnSave.setBounds(586, 480, 89, 23);
 		panelCheckIn.add(btnSave);
 
+		// create the panel with the cardlayout for the pyment type
 		panelPayMethod = new JPanel();
 		panelPayMethod.setBackground(SystemColor.activeCaption);
 		panelPayMethod.setBounds(332, 72, 343, 317);
@@ -670,14 +782,18 @@ public class MainWindow {
 		panelDebitCard.add(textFieldNameOfBank);
 	}
 
+	/**
+	 * create the checkout panel
+	 */
 	@SuppressWarnings("serial")
 	private void createCheckoutPanel() {
+		// create the panel
 		panelCheckOut = new JPanel();
-		panelCheckOut.setBackground(SystemColor.inactiveCaption);
 		panelCheckOut.setForeground(SystemColor.inactiveCaption);
 		panelCards.add(panelCheckOut, "CheckOut");
 		panelCheckOut.setLayout(null);
 
+		// create the table for the checkout card
 		tableCheckOutModel = new DefaultTableModel();
 		tableCheckOutModel.setColumnIdentifiers(columnNamesBooking);
 		tableCheckOut = new JTable(tableCheckOutModel) {
@@ -689,6 +805,7 @@ public class MainWindow {
 				return false;
 			}
 		};
+		// do the the same settings for the table as mentioned above
 		tableCheckOut.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tableCheckOut.setForeground(SystemColor.desktop);
 		tableCheckOut.setFillsViewportHeight(true);
@@ -696,20 +813,22 @@ public class MainWindow {
 		tableCheckOut.setCellSelectionEnabled(true);
 		tableCheckOut.getTableHeader().setReorderingAllowed(false);
 		tableCheckOut.getTableHeader().setResizingAllowed(false);
-		tableCheckOut.setAutoCreateColumnsFromModel(false);
 		tableCheckOut.setBackground(SystemColor.activeCaption);
-		// tableCheckOut.setFillsViewportHeight(true);
 		tableCheckOut.setFont(new Font("Serif", Font.PLAIN, 14));
 		tableCheckOut.getTableHeader().setFont(
 				new Font("Serif", Font.PLAIN, 15));
 
+		// create a scrollpane and add the table to it, so that the table has a
+		// scrollbar
 		JScrollPane scrollPane = new JScrollPane(tableCheckOut);
-		scrollPane.setBounds(10, 11, 718, 452);
+		scrollPane.setBounds(20, 11, 718, 452);
 		panelCheckOut.add(scrollPane);
 
+		// create the button to checkout the person
 		btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// TODO
 				if (g_handler.commitCheckOut()) {
 					Receipt r = new Receipt();
 					try {
@@ -718,17 +837,16 @@ public class MainWindow {
 										.getUserObject()));
 						r.createPDF();
 						model.addReceipts(r);
-						//refresh the tree and clear table
-						tableCheckOutModel.setDataVector(null, columnNamesBooking);
+						// refresh the tree and clear table
+						tableCheckOutModel.setDataVector(null,
+								columnNamesBooking);
 						TreeModel treeModel = new DefaultTreeModel(g_handler
 								.showCheckOutTree());
 						tree.setModel(treeModel);
 					} catch (DocumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+
 					}
 				}
 			}
@@ -738,15 +856,20 @@ public class MainWindow {
 
 	}
 
+	/**
+	 * create the invoice panel
+	 */
 	@SuppressWarnings("serial")
 	private void createInvoicesPanel() {
+		// create the panel
 		JPanel panelInvoices = new JPanel();
 		panelInvoices.setBackground(SystemColor.inactiveCaption);
 		panelCards.add(panelInvoices, "Invoices");
 		panelInvoices.setLayout(null);
 
+		// create a scrollpane for the table
 		JScrollPane pane = new JScrollPane();
-		pane.setBounds(40, 44, 598, 399);
+		pane.setBounds(88, 88, 702, 355);
 		panelInvoices.add(pane);
 
 		tableInvoicesModel = new DefaultTableModel();
@@ -762,13 +885,32 @@ public class MainWindow {
 			}
 		};
 		tableInvoices.setBackground(SystemColor.activeCaption);
+		// do the the same settings for the table as mentioned above
+		tableInvoices.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableInvoices.setForeground(SystemColor.desktop);
+		tableInvoices.setFillsViewportHeight(true);
+		tableInvoices.setColumnSelectionAllowed(true);
+		tableInvoices.setCellSelectionEnabled(true);
+		tableInvoices.getTableHeader().setReorderingAllowed(false);
+		tableInvoices.getTableHeader().setResizingAllowed(false);
+		tableInvoices.setBackground(SystemColor.activeCaption);
+		tableInvoices.setFont(new Font("Serif", Font.PLAIN, 14));
+		tableInvoices.getTableHeader().setFont(
+				new Font("Serif", Font.PLAIN, 15));
 		pane.setViewportView(tableInvoices);
 
-		JButton btnPrint = new JButton("Print");
-		btnPrint.setBounds(549, 454, 89, 23);
-		panelInvoices.add(btnPrint);
-		btnPrint.addActionListener(new ActionListener() {
+		// create label for information purposes
+		JLabel lblInvoices = new JLabel("Invoices:");
+		lblInvoices.setBounds(88, 63, 89, 14);
+		panelInvoices.add(lblInvoices);
 
+		// create the button to print the invoice
+		JButton btnPrint = new JButton("Print");
+		btnPrint.setBounds(701, 454, 89, 23);
+		panelInvoices.add(btnPrint);
+
+		btnPrint.addActionListener(new ActionListener() {
+			// create the pdf
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -785,22 +927,26 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * create the menubar
+	 */
 	private void createMenubar() {
+		// create the menubar and add it to the frame
 		menuBar = new JMenuBar();
 		menuBar.setBorderPainted(false);
 		frmHousingManagementSystem.setJMenuBar(menuBar);
 
+		// create a menu for the menubar
 		menuFile = new JMenu("File");
-		menuFile.setIcon(null);
-		menuFile.setForeground(Color.BLACK);
-		menuFile.setBackground(Color.WHITE);
 		menuBar.add(menuFile);
 
+		// create a menuitem and add it to the menu
 		menuItemClose = new JMenuItem("Close");
 		menuItemClose.setIcon(new ImageIcon("images/Close-icon.png"));
 		menuItemClose.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// shut down the application
 				System.exit(0);
 			}
 		});
@@ -809,16 +955,19 @@ public class MainWindow {
 		menuHelp = new JMenu("Help");
 		menuHelp.setForeground(Color.BLACK);
 		menuBar.add(menuHelp);
-
+		// TODO
 		menuItemManual = new JMenuItem("Manual");
 		menuItemManual.setIcon(new ImageIcon("images/Manual.png"));
 		menuHelp.add(menuItemManual);
-
+		// TODO
 		menuItemAbout = new JMenuItem("About");
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
 	}
 
+	/**
+	 * reset the textfields for the next checkin process
+	 */
 	private void resetTextfields() {
 		textFieldFirstName.setText(null);
 		textFieldLastName.setText(null);
@@ -835,13 +984,23 @@ public class MainWindow {
 		textFieldBankNumber.setText(null);
 	}
 
+	/**
+	 * returns the data for the table in checkout. This is a recursiv method
+	 * 
+	 * @param data
+	 *            selected treenode
+	 * @param list
+	 *            list to safe the data in
+	 */
 	private void getBuchungen(DefaultMutableTreeNode data,
 			ArrayList<Object[]> list) {
+		// if the treenode is not a leaf call getbuchen again for all children
 		if (!data.isLeaf()) {
 			for (int i = 0; i < data.getChildCount(); i++) {
 				getBuchungen((DefaultMutableTreeNode) data.getChildAt(i), list);
 			}
 		} else {
+			// if it is a leaf safe the data for the table in the list
 			Unit unit = (Unit) data.getUserObject();
 			if (unit.isOccupied() == true) {
 				Booking booking = unit.getBooking().get(
@@ -851,9 +1010,32 @@ public class MainWindow {
 		}
 	}
 
+	/**
+	 * the method to book a room
+	 * 
+	 * @param paymentTyp
+	 *            payment type
+	 * @param userObject
+	 *            the unit to add the booking on
+	 * @param firstName
+	 *            fistname
+	 * @param lastName
+	 *            lastname
+	 * @param birthday
+	 *            brithday
+	 * @param street
+	 *            street
+	 * @param city
+	 *            city
+	 * @param zipCode
+	 *            zipcode
+	 * @param numberOfPersons
+	 *            number of the personen who can live in this unit
+	 */
 	public void bookRoom(Payment paymentTyp, Unit userObject, String firstName,
 			String lastName, String birthday, String street, String city,
 			String zipCode, int numberOfPersons) {
+		// If it is not a leaf or the room is already book show error
 		if (userObject.isHasChild() || userObject.isOccupied()) {
 			JOptionPane
 					.showMessageDialog(
@@ -862,6 +1044,7 @@ public class MainWindow {
 							"Invalid room", JOptionPane.ERROR_MESSAGE);
 		} else {
 			try {
+				// set all the fields for the new booking
 				Date date = new SimpleDateFormat("MM.dd.yyyy")
 						.parse(textFieldBirthday.getText());
 				Booking newBooking = new Booking();
@@ -875,11 +1058,15 @@ public class MainWindow {
 				newBooking.setRoom(userObject);
 				newBooking.setCheckInDate(new Date(System.currentTimeMillis()));
 				newBooking.setPaymentType(paymentTyp);
+				// set room occupied
 				userObject.setOccupied(true);
 				newBooking.setBirthday(date);
+				// add the booking to the room, to the overall booking list and
+				// to the room
 				model.addBookingToRoom(newBooking, userObject);
 				model.addBookingToList(newBooking);
 				userObject.addBooking(newBooking);
+				// reset the textfields
 				resetTextfields();
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null,
@@ -889,22 +1076,31 @@ public class MainWindow {
 		}
 	}
 
-	private String checkText(JTextField textField) {
-		if (textField.getText().equals("")) {
-			// show Popup
-			System.out.println("Mistake in " + textField.getName());
-		}
-		return textField.getText();
-	}
-
-	public void announceHandler(ActionListener handler, GUI_handler g_handler) {
+	/**
+	 * announce the contoller to the view so that they know each other
+	 * 
+	 * @param g_handler
+	 *            controller
+	 */
+	public void announceHandler(GUI_handler g_handler) {
 		this.g_handler = g_handler;
 	}
 
+	/**
+	 * annopunce the model to the view so that they knwo each other
+	 * 
+	 * @param model
+	 *            model
+	 */
 	public void announceModel(Model model) {
 		this.model = model;
 	}
 
+	/**
+	 * get the selected tree node in the tree
+	 * 
+	 * @return treenode
+	 */
 	public DefaultMutableTreeNode getAusgewaehlterKnoten() {
 		return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 	}
