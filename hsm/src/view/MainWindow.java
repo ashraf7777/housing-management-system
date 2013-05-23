@@ -63,6 +63,11 @@ import com.itextpdf.text.DocumentException;
 import controller.Eventlistener;
 import controller.GUI_handler;
 
+/**
+ *
+ * This class create the GUI and handles the action on buttons, on the tree and in tables.
+ *
+ */
 public class MainWindow {
 
 	private JFrame frmHousingManagementSystem;
@@ -554,6 +559,9 @@ public class MainWindow {
 							textFieldBirthday.getText(),
 							textFieldStreet.getText(), textFieldCity.getText(),
 							textFieldZipCode.getText(), 1);
+					TreeModel treeModel = new DefaultTreeModel(g_handler
+							.showCheckInTree());
+					tree.setModel(treeModel);
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null,
 							"Please choose a room in the tree first", "Error",
@@ -710,6 +718,11 @@ public class MainWindow {
 										.getUserObject()));
 						r.createPDF();
 						model.addReceipts(r);
+						//refresh the tree and clear table
+						tableCheckOutModel.setDataVector(null, columnNamesBooking);
+						TreeModel treeModel = new DefaultTreeModel(g_handler
+								.showCheckOutTree());
+						tree.setModel(treeModel);
 					} catch (DocumentException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
