@@ -844,9 +844,10 @@ public class MainWindow {
 								.showCheckOutTree());
 						tree.setModel(treeModel);
 					} catch (DocumentException e1) {
+						JOptionPane.showMessageDialog(null, "Document");
 
 					} catch (IOException e1) {
-
+						JOptionPane.showMessageDialog(null, "IO");
 					}
 				}
 			}
