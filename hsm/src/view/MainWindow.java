@@ -92,8 +92,8 @@ public class MainWindow {
 
 	private String[] columnNamesBooking = { "Building", "Apartment", "Room",
 			"Lastname", "Firstname", "Check-In", "Paymenttype", "Birthday" };
-	private String[] columnNamesLastBooking = { "Room", "Lastname", "Firstname",
-			"Check-In", "Check-Out", "Cost" };
+	private String[] columnNamesLastBooking = { "Room", "Lastname",
+			"Firstname", "Check-In", "Check-Out", "Cost" };
 	private String[] columnNamesInvoices = { "Booking ID", "Lastname",
 			"Firstname", "Checkin", "CheckOut", "Cost" };
 
@@ -350,8 +350,7 @@ public class MainWindow {
 				for (int i = 0; i < model.getAllReceipts().size(); i++) {
 					data[i] = model.getAllReceipts().get(i).returnForInvoices();
 				}
-				tableInvoicesModel.setDataVector(data,
-						columnNamesInvoices);
+				tableInvoicesModel.setDataVector(data, columnNamesInvoices);
 				tableInvoices.updateUI();
 
 			}
@@ -731,20 +730,21 @@ public class MainWindow {
 		btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g_handler.commitCheckOut();
-				Receipt r = new Receipt();
-				try {
-					r.writePdf(model
-							.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
-									.getUserObject()));
-					r.createPDF();
-					model.addReceipts(r);
-				} catch (DocumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (g_handler.commitCheckOut()) {
+					Receipt r = new Receipt();
+					try {
+						r.writePdf(model
+								.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
+										.getUserObject()));
+						r.createPDF();
+						model.addReceipts(r);
+					} catch (DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -767,7 +767,7 @@ public class MainWindow {
 		tableInvoicesModel = new DefaultTableModel();
 		tableInvoicesModel.setColumnIdentifiers(columnNamesInvoices);
 
-		tableInvoices = new JTable(tableInvoicesModel){
+		tableInvoices = new JTable(tableInvoicesModel) {
 			/**
 			 * Überschreibt die isCellEditable Methode aus der JTable Definition
 			 * und sorgt so dafür, dass die Zellen nicht editierbar sind.
@@ -787,9 +787,13 @@ public class MainWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					model.getAllReceipts().get(tableInvoices.getSelectedRowCount()-1).createPDF();
+					model.getAllReceipts()
+							.get(tableInvoices.getSelectedRowCount() - 1)
+							.createPDF();
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "Please choose an invoice", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Please choose an invoice", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				} catch (DocumentException e1) {
 				}
 			}
