@@ -13,12 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import java.text.SimpleDateFormat;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +37,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -53,8 +48,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
-import com.itextpdf.text.DocumentException;
-
 import model.Booking;
 import model.CreditCard;
 import model.DebitCard;
@@ -63,6 +56,9 @@ import model.Model;
 import model.Payment;
 import model.Receipt;
 import model.Unit;
+
+import com.itextpdf.text.DocumentException;
+
 import controller.Eventlistener;
 import controller.GUI_handler;
 
@@ -85,7 +81,6 @@ public class MainWindow {
 	private JPanel panelCards;
 	private JComboBox<String> comboBox;
 	private JPanel panelPayMethod;
-	private JTable tableHome;
 	private JTree tree;
 	private int cardNumber;
 	private Model model;
@@ -99,6 +94,15 @@ public class MainWindow {
 	private JTextField textFieldSearch;
 	private JTable tableSearch;
 	private DefaultTableModel tableSearchModel;
+	private JMenu menuHelp;
+	private JMenuItem menuItemManual;
+	private JMenuItem menuItemAbout;
+	private JMenuItem menuItemClose;
+	private JMenu menuFile;
+	private JMenuBar menuBar;
+	private JButton btnCheckOut;
+	private JPanel panelCheckOut;
+	private JPanel mainPanel;
 
 	/**
 	 * Launch the application.
@@ -137,19 +141,9 @@ public class MainWindow {
 		this.frmHousingManagementSystem.setVisible(true);
 	}
 
-	public void announceHandler(ActionListener handler, GUI_handler g_handler) {
-		this.g_handler = g_handler;
-
-	}
-
-	public void announceModel(Model model) {
-		this.model = model;
-	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("serial")
 	private void initialize() {
 		frmHousingManagementSystem = new JFrame();
 		frmHousingManagementSystem.setForeground(Color.WHITE);
@@ -161,92 +155,21 @@ public class MainWindow {
 		frmHousingManagementSystem.setBounds(100, 100, 900, 600);
 		frmHousingManagementSystem
 				.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmHousingManagementSystem.getContentPane().setLayout(
-				new CardLayout(0, 0));
+
 		frmHousingManagementSystem.setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("images/Home.png"));
-
-		JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		mainPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED,
 				Color.LIGHT_GRAY, null));
-		frmHousingManagementSystem.getContentPane().add(mainPanel,
-				"name_4935076455183");
+		frmHousingManagementSystem.getContentPane().add(mainPanel);
 		mainPanel.setLayout(new BorderLayout(0, 0));
 		try {
 			UIManager
 					.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		JPanel panel = new JPanel();
-		mainPanel.add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-
-		JButton btnHome = new JButton("Home");
-		btnHome.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards, "Home");
-				cardNumber = 1;
-				TreeModel treeModel = new DefaultTreeModel(g_handler.showHome());
-				tree.setModel(treeModel);
-			}
-		});
-		btnHome.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(btnHome);
-
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		panel.add(horizontalStrut);
-
-		JButton btnCheckIn = new JButton("Check-In");
-		btnCheckIn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards, "CheckIn");
-				cardNumber = 2;
-				TreeModel treeModel = new DefaultTreeModel(g_handler
-						.showCheckInTree());
-				tree.setModel(treeModel);
-				// Aufruf der Check In Methode
-			}
-		});
-		panel.add(btnCheckIn);
-
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		panel.add(horizontalStrut_1);
-
-		JButton btnCheckout = new JButton("Check-Out");
-		btnCheckout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards, "CheckOut");
-				cardNumber = 3;
-				TreeModel treeModel2 = new DefaultTreeModel(g_handler
-						.showCheckOutTree());
-				tree.setModel(treeModel2);
-
-			}
-		});
-		panel.add(btnCheckout);
-
-		// Component horizontalStrut_2 = Box.createHorizontalStrut(20);
-		// panel.add(horizontalStrut_2);
-
-		JButton btnOverview = new JButton("Search");
-		btnOverview.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout c1 = (CardLayout) panelCards.getLayout();
-				c1.show(panelCards, "Overview");
-				cardNumber = 4;
-			}
-		});
-
-		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
-		panel.add(horizontalStrut_2);
-		panel.add(btnOverview);
 
 		tree = new JTree(model.getRoot()); // model.getRoot()
 		mainPanel.add(tree, BorderLayout.WEST);
@@ -278,9 +201,85 @@ public class MainWindow {
 		JPanel panelHome = new JPanel();
 		panelCards.add(panelHome, "Home");
 
-		tableHome = new JTable();
-		panelHome.add(tableHome);
+		createButtonPanel();
 
+		createSearchPanel();
+
+		createCheckinPanel();
+
+		createCheckoutPanel();
+
+		createMenubar();
+	}
+
+	private void createButtonPanel() {
+		JPanel panelButtons = new JPanel();
+		mainPanel.add(panelButtons, BorderLayout.SOUTH);
+		panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.X_AXIS));
+
+		JButton btnHome = new JButton("Home");
+		btnHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c1 = (CardLayout) panelCards.getLayout();
+				c1.show(panelCards, "Home");
+				cardNumber = 1;
+				TreeModel treeModel = new DefaultTreeModel(g_handler.showHome());
+				tree.setModel(treeModel);
+			}
+		});
+		btnHome.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panelButtons.add(btnHome);
+
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		panelButtons.add(horizontalStrut);
+
+		JButton btnCheckIn = new JButton("Check-In");
+		btnCheckIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c1 = (CardLayout) panelCards.getLayout();
+				c1.show(panelCards, "CheckIn");
+				cardNumber = 2;
+				TreeModel treeModel = new DefaultTreeModel(g_handler
+						.showCheckInTree());
+				tree.setModel(treeModel);
+				// Aufruf der Check In Methode
+			}
+		});
+		panelButtons.add(btnCheckIn);
+
+		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		panelButtons.add(horizontalStrut_1);
+
+		JButton btnCheckout = new JButton("Check-Out");
+		btnCheckout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c1 = (CardLayout) panelCards.getLayout();
+				c1.show(panelCards, "CheckOut");
+				cardNumber = 3;
+				TreeModel treeModel2 = new DefaultTreeModel(g_handler
+						.showCheckOutTree());
+				tree.setModel(treeModel2);
+
+			}
+		});
+		panelButtons.add(btnCheckout);
+
+		JButton btnOverview = new JButton("Search");
+		btnOverview.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c1 = (CardLayout) panelCards.getLayout();
+				c1.show(panelCards, "Overview");
+				cardNumber = 4;
+			}
+		});
+
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		panelButtons.add(horizontalStrut_2);
+		panelButtons.add(btnOverview);
+	}
+
+	@SuppressWarnings("serial")
+	private void createSearchPanel() {
 		JPanel panelSearch = new JPanel();
 		panelCards.add(panelSearch, "Overview");
 		panelSearch.setLayout(null);
@@ -354,7 +353,9 @@ public class MainWindow {
 		JLabel lblSearch = new JLabel("Enter Lastname:");
 		lblSearch.setBounds(30, 56, 108, 14);
 		panelSearch.add(lblSearch);
+	}
 
+	private void createCheckinPanel() {
 		JPanel panelCheckIn = new JPanel();
 		panelCards.add(panelCheckIn, "CheckIn");
 		panelCheckIn.setBackground(SystemColor.inactiveCaption);
@@ -502,8 +503,9 @@ public class MainWindow {
 							textFieldStreet.getText(), textFieldCity.getText(),
 							textFieldZipCode.getText(), 1);
 				} catch (Exception e2) {
-					// TODO: handle exception
-					System.out.println("chose room");
+					JOptionPane.showMessageDialog(null,
+							"Please choose a room in the tree first", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -605,8 +607,11 @@ public class MainWindow {
 		textFieldNameOfBank.setColumns(10);
 		textFieldNameOfBank.setBounds(124, 194, 150, 25);
 		panelDebitCard.add(textFieldNameOfBank);
+	}
 
-		JPanel panelCheckOut = new JPanel();
+	@SuppressWarnings("serial")
+	private void createCheckoutPanel() {
+		panelCheckOut = new JPanel();
 		panelCheckOut.setBackground(SystemColor.inactiveCaption);
 		panelCheckOut.setForeground(SystemColor.inactiveCaption);
 		panelCards.add(panelCheckOut, "CheckOut");
@@ -641,7 +646,7 @@ public class MainWindow {
 		scrollPane.setBounds(10, 11, 718, 452);
 		panelCheckOut.add(scrollPane);
 
-		JButton btnCheckOut = new JButton("Check Out");
+		btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				g_handler.commitCheckOut();
@@ -663,18 +668,20 @@ public class MainWindow {
 		});
 		btnCheckOut.setBounds(639, 474, 89, 29);
 		panelCheckOut.add(btnCheckOut);
+	}
 
-		JMenuBar menuBar = new JMenuBar();
+	private void createMenubar() {
+		menuBar = new JMenuBar();
 		menuBar.setBorderPainted(false);
 		frmHousingManagementSystem.setJMenuBar(menuBar);
 
-		JMenu menuFile = new JMenu("File");
+		menuFile = new JMenu("File");
 		menuFile.setIcon(null);
 		menuFile.setForeground(Color.BLACK);
 		menuFile.setBackground(Color.WHITE);
 		menuBar.add(menuFile);
 
-		JMenuItem menuItemClose = new JMenuItem("Close");
+		menuItemClose = new JMenuItem("Close");
 		menuItemClose.setIcon(new ImageIcon("images/Close-icon.png"));
 		menuItemClose.addActionListener(new ActionListener() {
 			@Override
@@ -684,20 +691,20 @@ public class MainWindow {
 		});
 		menuFile.add(menuItemClose);
 
-		JMenu menuHelp = new JMenu("Help");
+		menuHelp = new JMenu("Help");
 		menuHelp.setForeground(Color.BLACK);
 		menuBar.add(menuHelp);
 
-		JMenuItem menuItemManual = new JMenuItem("Manual");
+		menuItemManual = new JMenuItem("Manual");
 		menuItemManual.setIcon(new ImageIcon("images/Manual.png"));
 		menuHelp.add(menuItemManual);
 
-		JMenuItem menuItemAbout = new JMenuItem("About");
+		menuItemAbout = new JMenuItem("About");
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
 	}
 
-	protected void resetTextfields() {
+	private void resetTextfields() {
 		textFieldFirstName.setText(null);
 		textFieldLastName.setText(null);
 		textFieldStreet.setText(null);
@@ -711,15 +718,13 @@ public class MainWindow {
 		textFieldNameOnCard.setText(null);
 		textFieldAccountNumber.setText(null);
 		textFieldBankNumber.setText(null);
-
 	}
 
-	protected void getBuchungen(DefaultMutableTreeNode data,
+	private void getBuchungen(DefaultMutableTreeNode data,
 			ArrayList<Object[]> list) {
 		if (!data.isLeaf()) {
 			for (int i = 0; i < data.getChildCount(); i++) {
 				getBuchungen((DefaultMutableTreeNode) data.getChildAt(i), list);
-
 			}
 		} else {
 			Unit unit = (Unit) data.getUserObject();
@@ -729,7 +734,6 @@ public class MainWindow {
 				list.add(booking.returnObject());
 			}
 		}
-
 	}
 
 	public void bookRoom(Payment paymentTyp, Unit userObject, String firstName,
@@ -741,9 +745,10 @@ public class MainWindow {
 							null,
 							"You can't book this room. This room is already occupied or not a bookable unit!",
 							"Invalid room", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Fehler");
 		} else {
 			try {
+				Date date = new SimpleDateFormat("MM.dd.yyyy")
+						.parse(textFieldBirthday.getText());
 				Booking newBooking = new Booking();
 				newBooking.setFirstNameOfBooker(textFieldFirstName.getText());
 				newBooking.setLastNameOfBooker(textFieldLastName.getText());
@@ -756,22 +761,20 @@ public class MainWindow {
 				newBooking.setCheckInDate(new Date(System.currentTimeMillis()));
 				newBooking.setPaymentType(paymentTyp);
 				userObject.setOccupied(true);
-
-				Date date = new SimpleDateFormat("MM.dd.yyyy")
-						.parse(textFieldBirthday.getText());
 				newBooking.setBirthday(date);
 				model.addBookingToRoom(newBooking, userObject);
 				model.addBookingToList(newBooking);
 				userObject.addBooking(newBooking);
 				resetTextfields();
 			} catch (Exception e) {
-				System.out.println("birthday incorrect");
+				JOptionPane.showMessageDialog(null,
+						"Format of the birthday is not correct", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
-
 		}
 	}
 
-	protected String checkText(JTextField textField) {
+	private String checkText(JTextField textField) {
 		if (textField.getText().equals("")) {
 			// show Popup
 			System.out.println("Mistake in " + textField.getName());
@@ -779,6 +782,14 @@ public class MainWindow {
 		return textField.getText();
 	}
 
+	public void announceHandler(ActionListener handler, GUI_handler g_handler) {
+		this.g_handler = g_handler;
+	}
+
+	public void announceModel(Model model) {
+		this.model = model;
+	}
+	
 	public DefaultMutableTreeNode getAusgewaehlterKnoten() {
 		return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 	}
