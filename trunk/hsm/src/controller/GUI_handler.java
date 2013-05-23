@@ -60,7 +60,7 @@ public class GUI_handler implements ActionListener {
 		return buildTreeCheckInAndOut(false);
 	}
 
-	public void commitCheckOut() {
+	public boolean commitCheckOut() {
 		if (null != gui.getAusgewaehlterKnoten()) {
 			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
 			if (!room.isOccupied()) {
@@ -69,6 +69,7 @@ public class GUI_handler implements ActionListener {
 								null,
 								"You haven't choosen a correct room.\n The choosen unit is no room!",
 								"Invalid room", JOptionPane.ERROR_MESSAGE);
+				return false;
 			} else {
 				Booking booking = model.getBookingFromRoom(room);
 
@@ -92,11 +93,13 @@ public class GUI_handler implements ActionListener {
 				booking.setTotalCosts(total);
 
 				room.setOccupied(false);
+				return true;
 			}
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"Please select a room for Check-Out!", "No room selected",
 					JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 	}
 
