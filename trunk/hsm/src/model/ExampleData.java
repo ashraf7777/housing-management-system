@@ -86,7 +86,8 @@ public class ExampleData {
 	}
 	
 	/**
-	 * Excecute sample 
+	 * Excecute sample bookings.
+	 * Tenants names are randomly choosen from a given sample list
 	 * @param number
 	 * @param my_handler
 	 */
