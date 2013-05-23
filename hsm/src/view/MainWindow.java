@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import java.text.SimpleDateFormat;
 
@@ -19,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -92,9 +95,10 @@ public class MainWindow {
 	private DefaultTableModel tableCheckOutModel;
 
 	private String[] columNames = { "Building", "Apartment", "Room",
-			"Lastname", "Firstname", "Check-In Date", "Paymenttype", "Birthday" };
+			"Lastname", "Firstname", "Check-In", "Paymenttype", "Birthday" };
 	private JTextField textFieldSearch;
 	private JTable tableSearch;
+	private DefaultTableModel tableSearchModel;
 
 	/**
 	 * Launch the application.
@@ -231,7 +235,7 @@ public class MainWindow {
 		// Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		// panel.add(horizontalStrut_2);
 
-		JButton btnOverview = new JButton("Overview");
+		JButton btnOverview = new JButton("Search");
 		btnOverview.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
@@ -239,6 +243,9 @@ public class MainWindow {
 				cardNumber = 4;
 			}
 		});
+		
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		panel.add(horizontalStrut_2);
 		panel.add(btnOverview);
 
 		tree = new JTree(); // model.getRoot()
@@ -279,17 +286,59 @@ public class MainWindow {
 		panelSearch.setLayout(null);
 		
 		textFieldSearch = new JTextField();
-		textFieldSearch.setBounds(56, 32, 122, 28);
+		textFieldSearch.setBounds(30, 49, 122, 28);
 		panelSearch.add(textFieldSearch);
 		textFieldSearch.setColumns(10);
+		textFieldSearch.addKeyListener(new Eventlistener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if ((e.getKeyChar()>=60 && e.getKeyChar()<=90)|| (e.getKeyChar()>=97 && e.getKeyChar()<=122)) {		
+					textFieldSearch.setText(textFieldSearch.getText()+e.getKeyChar());
+					List<Booking> names = g_handler.searchName(textFieldSearch.getText());
+					System.out.println(textFieldSearch.getText());
+					ArrayList<Object[]> list = new ArrayList<>();
+			
+					Object[][] data = new Object[list.size()][];
+					for (int i = 0; i < names.size(); i++) {
+						data[i] = names.get(i).returnObject();
+					}
+					tableSearchModel.setDataVector(data, columNames);
+					tableSearch.updateUI();
+				}
+			}
+		});
 		
 		JButton btnSearch = new JButton("Ok");
-		btnSearch.setBounds(188, 35, 89, 23);
+		btnSearch.setBounds(162, 52, 89, 23);
 		panelSearch.add(btnSearch);
 		
-		tableSearch = new JTable();
+		tableSearchModel = new DefaultTableModel();
+		tableSearchModel.setColumnIdentifiers(columNames);
+		tableSearch = new JTable(tableSearchModel){
+			/**
+			 * Überschreibt die isCellEditable Methode aus der JTable Definition
+			 * und sorgt so dafür, dass die Zellen nicht editierbar sind.
+			 */
+			public boolean isCellEditable(int x, int y) {
+				return false;
+			}
+		};
+		tableSearch.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableSearch.setForeground(SystemColor.desktop);
+		tableSearch.setFillsViewportHeight(true);
+		tableSearch.setColumnSelectionAllowed(true);
+		tableSearch.setCellSelectionEnabled(true);
+		tableSearch.getTableHeader().setReorderingAllowed(false);
+		tableSearch.getTableHeader().setResizingAllowed(false);
+		tableSearch.setAutoCreateColumnsFromModel(false);
+		tableSearch.setBackground(SystemColor.inactiveCaption);
+		tableSearch.setFillsViewportHeight(true);
+		tableSearch.setFont(new Font("Serif", Font.PLAIN, 14));
+		tableSearch.getTableHeader().setFont(
+				new Font("Serif", Font.PLAIN, 15));
+
 		JScrollPane pane = new JScrollPane(tableSearch);
-		pane.setBounds(56, 88, 674, 355);
+		pane.setBounds(30, 88, 702, 355);
 		panelSearch.add(pane);
 
 		JPanel panelCheckIn = new JPanel();
@@ -575,7 +624,7 @@ public class MainWindow {
 				new Font("Serif", Font.PLAIN, 15));
 
 		JScrollPane scrollPane = new JScrollPane(tableCheckOut);
-		scrollPane.setBounds(10, 11, 705, 452);
+		scrollPane.setBounds(10, 11, 718, 452);
 		panelCheckOut.add(scrollPane);
 
 		JButton btnCheckOut = new JButton("Check Out");
@@ -598,7 +647,7 @@ public class MainWindow {
 				}
 			}
 		});
-		btnCheckOut.setBounds(626, 474, 89, 29);
+		btnCheckOut.setBounds(639, 474, 89, 29);
 		panelCheckOut.add(btnCheckOut);
 
 		JMenuBar menuBar = new JMenuBar();
