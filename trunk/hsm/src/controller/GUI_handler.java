@@ -184,13 +184,19 @@ public class GUI_handler implements ActionListener {
 	public List<Booking> searchName(String lastName) {
 		List<Booking> bookings = model.getAllBookings();
 		List<Booking> results = new ArrayList<Booking>();
-		for (int i = 0; i < bookings.size(); i++) {
-			if (bookings.get(i).getLastNameOfBooker().startsWith(lastName)) {
-				results.add(bookings.get(i));
+		if (lastName.equals("")) {
+			return results;
+		} else {
+			for (int i = 0; i < bookings.size(); i++) {
+				if (bookings.get(i).getLastNameOfBooker().toLowerCase()
+						.startsWith(lastName.toLowerCase())) {
+					results.add(bookings.get(i));
+				}
 			}
+			return results;
 		}
+		
 
-		return results;
 	}
 
 	private void showOverview() {
