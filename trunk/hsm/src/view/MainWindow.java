@@ -90,10 +90,13 @@ public class MainWindow {
 	private JTable tableCheckOut;
 	private DefaultTableModel tableCheckOutModel;
 
-	private String[] columNamesBooking = { "Building", "Apartment", "Room",
+	private String[] columnNamesBooking = { "Building", "Apartment", "Room",
 			"Lastname", "Firstname", "Check-In", "Paymenttype", "Birthday" };
-	private String[] columNamesLastBooking = { "Room", "Lastname", "Firstname",
+	private String[] columnNamesLastBooking = { "Room", "Lastname", "Firstname",
 			"Check-In", "Check-Out", "Cost" };
+	private String[] columnNamesInvoices = { "Booking ID", "Lastname",
+			"Firstname", "Checkin", "CheckOut", "Cost" };
+
 	private JTextField textFieldSearch;
 	private JTable tableSearch;
 	private DefaultTableModel tableSearchModel;
@@ -108,6 +111,8 @@ public class MainWindow {
 	private JPanel mainPanel;
 	private JTable tableHome;
 	private DefaultTableModel tableHomeModel;
+	private JTable tableInvoices;
+	private DefaultTableModel tableInvoicesModel;
 
 	/**
 	 * Launch the application.
@@ -187,21 +192,24 @@ public class MainWindow {
 					case 1:
 						if (treeNode.isLeaf()) {
 							tableHomeModel.setDataVector(null,
-									columNamesLastBooking);
+									columnNamesLastBooking);
 							tableHome.updateUI();
 							Unit unit = (Unit) treeNode.getUserObject();
-							if(!unit.getFinishedBookings().isEmpty()){
-								Object[][] data = new Object[unit.getBooking().size()][];
-								for (int i = 0; i < unit.getBooking().size(); i++) {
-									data[i] = unit.getBooking().get(i).returnObjectForHome();
+							if (!unit.getFinishedBookings().isEmpty()) {
+								Object[][] data = new Object[unit
+										.getFinishedBookings().size()][];
+								for (int i = 0; i < unit.getFinishedBookings()
+										.size(); i++) {
+									data[i] = unit.getFinishedBookings().get(i)
+											.returnObjectForHome();
 								}
 								tableHomeModel.setDataVector(data,
-										columNamesLastBooking);
+										columnNamesLastBooking);
 								tableHome.updateUI();
 							}
 						}
 						break;
-						
+
 					case 3:
 						ArrayList<Object[]> list = new ArrayList<>();
 						getBuchungen(treeNode, list);
@@ -211,7 +219,7 @@ public class MainWindow {
 							data[i] = list.get(i);
 						}
 						tableCheckOutModel.setDataVector(data,
-								columNamesBooking);
+								columnNamesBooking);
 						tableCheckOut.updateUI();
 						break;
 
@@ -232,6 +240,8 @@ public class MainWindow {
 
 		createCheckoutPanel();
 
+		createInvoicesPanel();
+
 		createMenubar();
 	}
 
@@ -246,7 +256,7 @@ public class MainWindow {
 		panelHome.setLayout(null);
 
 		tableHomeModel = new DefaultTableModel();
-		tableHomeModel.setColumnIdentifiers(columNamesLastBooking);
+		tableHomeModel.setColumnIdentifiers(columnNamesLastBooking);
 		tableHome = new JTable(tableHomeModel);
 		tableHome.setBackground(SystemColor.activeCaption);
 		JScrollPane pane = new JScrollPane(tableHome);
@@ -322,6 +332,30 @@ public class MainWindow {
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panelButtons.add(horizontalStrut_2);
 		panelButtons.add(btnSearch);
+
+		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
+		panelButtons.add(horizontalStrut_3);
+
+		JButton btnInvoice = new JButton("Invoices");
+		panelButtons.add(btnInvoice);
+		btnInvoice.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c1 = (CardLayout) panelCards.getLayout();
+				c1.show(panelCards, "Invoices");
+				cardNumber = 5;
+
+				Object[][] data = new Object[model.getAllReceipts().size()][];
+				for (int i = 0; i < model.getAllReceipts().size(); i++) {
+					data[i] = model.getAllReceipts().get(i).returnForInvoices();
+				}
+				tableInvoicesModel.setDataVector(data,
+						columnNamesInvoices);
+				tableInvoices.updateUI();
+
+			}
+		});
 	}
 
 	@SuppressWarnings("serial")
@@ -349,7 +383,7 @@ public class MainWindow {
 					for (int i = 0; i < names.size(); i++) {
 						data[i] = names.get(i).returnObjectForCheckIn();
 					}
-					tableSearchModel.setDataVector(data, columNamesBooking);
+					tableSearchModel.setDataVector(data, columnNamesBooking);
 					tableSearch.updateUI();
 					textFieldSearch.setText(textFieldSearch.getText()
 							.substring(0,
@@ -363,14 +397,14 @@ public class MainWindow {
 					for (int i = 0; i < names.size(); i++) {
 						data[i] = names.get(i).returnObjectForCheckIn();
 					}
-					tableSearchModel.setDataVector(data, columNamesBooking);
+					tableSearchModel.setDataVector(data, columnNamesBooking);
 					tableSearch.updateUI();
 				}
 			}
 		});
 
 		tableSearchModel = new DefaultTableModel();
-		tableSearchModel.setColumnIdentifiers(columNamesBooking);
+		tableSearchModel.setColumnIdentifiers(columnNamesBooking);
 		tableSearch = new JTable(tableSearchModel) {
 			/**
 			 * Überschreibt die isCellEditable Methode aus der JTable Definition
@@ -666,7 +700,7 @@ public class MainWindow {
 		panelCheckOut.setLayout(null);
 
 		tableCheckOutModel = new DefaultTableModel();
-		tableCheckOutModel.setColumnIdentifiers(columNamesBooking);
+		tableCheckOutModel.setColumnIdentifiers(columnNamesBooking);
 		tableCheckOut = new JTable(tableCheckOutModel) {
 			/**
 			 * Überschreibt die isCellEditable Methode aus der JTable Definition
@@ -716,6 +750,50 @@ public class MainWindow {
 		});
 		btnCheckOut.setBounds(639, 474, 89, 29);
 		panelCheckOut.add(btnCheckOut);
+
+	}
+
+	@SuppressWarnings("serial")
+	private void createInvoicesPanel() {
+		JPanel panelInvoices = new JPanel();
+		panelInvoices.setBackground(SystemColor.inactiveCaption);
+		panelCards.add(panelInvoices, "Invoices");
+		panelInvoices.setLayout(null);
+
+		JScrollPane pane = new JScrollPane();
+		pane.setBounds(40, 44, 598, 399);
+		panelInvoices.add(pane);
+
+		tableInvoicesModel = new DefaultTableModel();
+		tableInvoicesModel.setColumnIdentifiers(columnNamesInvoices);
+
+		tableInvoices = new JTable(tableInvoicesModel){
+			/**
+			 * Überschreibt die isCellEditable Methode aus der JTable Definition
+			 * und sorgt so dafür, dass die Zellen nicht editierbar sind.
+			 */
+			public boolean isCellEditable(int x, int y) {
+				return false;
+			}
+		};
+		tableInvoices.setBackground(SystemColor.activeCaption);
+		pane.setViewportView(tableInvoices);
+
+		JButton btnPrint = new JButton("Print");
+		btnPrint.setBounds(549, 454, 89, 23);
+		panelInvoices.add(btnPrint);
+		btnPrint.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					model.getAllReceipts().get(tableInvoices.getSelectedRowCount()-1).createPDF();
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "Please choose an invoice", "Error", JOptionPane.ERROR_MESSAGE);
+				} catch (DocumentException e1) {
+				}
+			}
+		});
 	}
 
 	private void createMenubar() {

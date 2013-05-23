@@ -158,6 +158,7 @@ public class Receipt {
 							"Your checkout is completed. You can print the receipt later out of the receipt overview.",
 							"Print receipt - aborted",
 							JOptionPane.INFORMATION_MESSAGE);
+			//TODO invoice abrechen des ausdruckens
 		} else {
 			// Create an empty PDF structure
 			document = new Document();
@@ -196,5 +197,11 @@ public class Receipt {
 			// Finish the editing and save the file to the choosen directory
 			document.close();
 		}
+	}
+	public Object[] returnForInvoices(){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+		Object[] data = {this.booking.getBookingID(),this.booking.getLastNameOfBooker(), this.booking.getFirstNameOfBooker(),
+				sdf.format(this.booking.getCheckInDate()), sdf.format(this.booking.getCheckOutDate()), this.booking.getTotalCosts() };
+		return data;
 	}
 }
