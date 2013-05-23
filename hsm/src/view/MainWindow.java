@@ -313,8 +313,6 @@ public class MainWindow {
 					textFieldSearch.setText(textFieldSearch.getText());
 					List<Booking> names = g_handler.searchName(textFieldSearch
 							.getText());
-					System.out.println(textFieldSearch.getText());
-
 					Object[][] data = new Object[names.size()][];
 					for (int i = 0; i < names.size(); i++) {
 						data[i] = names.get(i).returnObject();
