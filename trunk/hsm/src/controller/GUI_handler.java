@@ -21,24 +21,11 @@ import view.MainWindow;
  * @author D20018
  * 
  */
-public class GUI_handler implements ActionListener {
+public class GUI_handler {
 
 	private Model model;
 	private MainWindow gui;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().toLowerCase().equals(("Home").toLowerCase())) {
-			showHome();
-		} else if (e.getActionCommand().toLowerCase()
-				.equals(("Check-In").toLowerCase())) {
-			// checkIn();
-		} else if (e.getActionCommand().toLowerCase()
-				.equals(("Check-Out").toLowerCase())) {
-			// checkOut();
-		}
-
-	}
 
 	public DefaultMutableTreeNode showHome() {
 		return model.getRoot();
