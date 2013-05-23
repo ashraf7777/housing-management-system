@@ -5,6 +5,13 @@ import model.Model;
 import view.MainWindow;
 import controller.GUI_handler;
 
+/**
+ * Main method of the application. This mehtod starts the application and
+ * controls its beginning.
+ * 
+ * @author D20018
+ * 
+ */
 public class HSM_System {
 
 	public static void main(String[] args) {
@@ -20,10 +27,6 @@ public class HSM_System {
 		my_handler.announceModel(model);
 		my_handler.announceGui(window);
 		exData.loadSampleBookings(5, my_handler);
-
-		
-//		Receipt r = new Receipt();
-//		r.createPdf();
 	}
 
 }

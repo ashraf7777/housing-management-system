@@ -64,7 +64,7 @@ public class Receipt {
 			}
 
 			public String getDescription() {
-				return "Adobe PDF-Dateien (*.pdf)";
+				return "Adobe PDF-Data (*.pdf)";
 			}
 		});
 
@@ -127,8 +127,8 @@ public class Receipt {
 		subject = new Chunk("Receipt for your stay at UV with Booking ID: "
 				+ dfbookingID.format(booking.getBookingID()) + "\n\n\n");
 		// Formatting of the text and put it into a structure item
-		text = new Chunk("Dear Mrs./Mr. " + booking.getLastNameOfBooker() + ",\n\n"
-				+ "the total amount of your stay from "
+		text = new Chunk("Dear Mrs./Mr. " + booking.getLastNameOfBooker()
+				+ ",\n\n" + "the total amount of your stay from "
 				+ sdf.format(booking.getCheckInDate()) + " to "
 				+ sdf.format(booking.getCheckOutDate()) + " is $"
 				+ df.format(booking.getTotalCosts()) + "."
@@ -158,50 +158,59 @@ public class Receipt {
 							"Your checkout is completed. You can print the receipt later out of the receipt overview.",
 							"Print receipt - aborted",
 							JOptionPane.INFORMATION_MESSAGE);
-			//TODO invoice abrechen des ausdruckens
+			// TODO invoice abrechen des ausdruckens
 		} else {
 			// Create an empty PDF structure
 			document = new Document();
 			// Set the directory for the file output
 			PdfWriter.getInstance(document, new FileOutputStream(filename));
 			// Load a picture for the receipt's logo
-//			logo = Image.getInstance("images/home_big.png");
+			// logo = Image.getInstance("images/home_big.png");
 			// Set the picture's position in the PDF file
-//			logo.setAbsolutePosition(450f, 720f);
+			// logo.setAbsolutePosition(450f, 720f);
 			// Set the size of the logo
-//			logo.scalePercent(60);
+			// logo.scalePercent(60);
 			// Load the logo description as a picture
-//			logo_description = Image.getInstance("images/Logo_Description.png");
+			// logo_description =
+			// Image.getInstance("images/Logo_Description.png");
 			// Set the position
-//			logo_description.setAbsolutePosition(433f, 680f);
+			// logo_description.setAbsolutePosition(433f, 680f);
 			// Set the size
-//			logo_description.scalePercent(70f);
-			//Load a sample signature
-//			signature = Image.getInstance("images/signature.jpg");
-			//Set the position for the signature
-//			signature.setAbsolutePosition(30, 325);
-			//Set the size
-//			signature.scalePercent(15);
+			// logo_description.scalePercent(70f);
+			// Load a sample signature
+			// signature = Image.getInstance("images/signature.jpg");
+			// Set the position for the signature
+			// signature.setAbsolutePosition(30, 325);
+			// Set the size
+			// signature.scalePercent(15);
 
 			// Open the PDF structure for editing
 			document.open();
 			// Add all the earlier setted structual items with the booking
 			// information
-//			document.add(logo);
-//			document.add(logo_description);
+			// document.add(logo);
+			// document.add(logo_description);
 			document.add(addresses);
 			document.add(subject);
 			document.add(textPara);
-//			document.add(signature);
+			// document.add(signature);
 
 			// Finish the editing and save the file to the choosen directory
 			document.close();
 		}
 	}
-	public Object[] returnForInvoices(){
-		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
-		Object[] data = {this.booking.getBookingID(),this.booking.getLastNameOfBooker(), this.booking.getFirstNameOfBooker(),
-				sdf.format(this.booking.getCheckInDate()), sdf.format(this.booking.getCheckOutDate()), this.booking.getTotalCosts() };
+
+	/**
+	 * Provides an object list for the invoice overview table
+	 * @return
+	 */
+	public Object[] returnForInvoices() {
+		Object[] data = { this.booking.getBookingID(),
+				this.booking.getLastNameOfBooker(),
+				this.booking.getFirstNameOfBooker(),
+				sdf.format(this.booking.getCheckInDate()),
+				sdf.format(this.booking.getCheckOutDate()),
+				this.booking.getTotalCosts() };
 		return data;
 	}
 }
