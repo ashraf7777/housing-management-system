@@ -55,7 +55,7 @@ import model.DebitCard;
 import model.ExampleData;
 import model.Model;
 import model.Payment;
-import model.Receipt;
+import model.Invoice;
 import model.Unit;
 
 import com.itextpdf.text.DocumentException;
@@ -866,7 +866,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				// TODO
 				if (g_handler.commitCheckOut()) {
-					Receipt r = new Receipt();
+					Invoice r = new Invoice();
 					try {
 						r.writePdf(model
 								.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
@@ -880,11 +880,9 @@ public class MainWindow {
 								.showCheckOutTree());
 						tree.setModel(treeModel);
 					} catch (DocumentException e1) {
-						// TODO: Pop Ups entfernen
-						JOptionPane.showMessageDialog(null, "Document");
-
+						JOptionPane.showMessageDialog(null, "The invoice document can't be created.");
 					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(null, "IO");
+						JOptionPane.showMessageDialog(null, "The images for the invoice creation can't be loaded.");
 					}
 				}
 			}
