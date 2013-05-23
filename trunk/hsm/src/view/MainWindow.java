@@ -350,6 +350,7 @@ public class MainWindow {
 				TreeModel treeModel2 = new DefaultTreeModel(g_handler
 						.showCheckOutTree());
 				tree.setModel(treeModel2);
+				tree.setSelectionRow(0);
 				tree.setVisible(true);
 			}
 		});
@@ -640,16 +641,55 @@ public class MainWindow {
 				// data and safe it to the object
 				switch (comboBox.getSelectedItem().toString()) {
 				case "Debit Card":
+					if(textFieldNameOnCard.getText().equals(""))
+					{
+						showErrorMsg(textFieldNameOnCard, "Name on Card");
+						return;
+					}
+					if (!isStringANumber(textFieldAccountNumber.getText())) {
+						showErrorMsg(textFieldAccountNumber, "Account Number");
+						return;
+					}
+					if (!isStringANumber(textFieldBankNumber.getText())) {
+						showErrorMsg(textFieldBankNumber, "Bank Number");
+						return;
+					}
+					if(textFieldNameOfBank.getText().equals(""))
+					{
+						showErrorMsg(textFieldNameOfBank, "Name of Bank");
+						return;
+					}
 					paymentTyp = new DebitCard(textFieldNameOnCard.getText(),
 							textFieldAccountNumber.getText(),
 							textFieldBankNumber.getText(), textFieldNameOfBank
 									.getText());
+					paymentTyp.setName("Debit Card"); 
 					break;
 				case "Credit Card":
+					if(textFieldCardHoldersName.getText().equals(""))
+					{
+						showErrorMsg(textFieldCardHoldersName, "Card Holders Name");
+						return;
+					}
+					if (!isStringANumber(textFieldCreditCardNumber.getText())) {
+						showErrorMsg(textFieldCreditCardNumber,
+								"CreditCard Number");
+						return;
+					}
+					if (!isStringANumber(textFieldCVVCode.getText())) {
+						showErrorMsg(textFieldCVVCode, "CVV Number");
+						return;
+					}
+					if(textFieldExpieringDate.getText().equals(""))
+					{
+						showErrorMsg(textFieldExpieringDate, "Expiring Date");
+						return;
+					}
 					paymentTyp = new CreditCard(textFieldCardHoldersName
 							.getText(), textFieldCreditCardNumber.getText(),
 							textFieldCVVCode.getText(), textFieldExpieringDate
 									.getText());
+					paymentTyp.setName("Credit Card");
 					break;
 				default:
 					break;
@@ -662,23 +702,19 @@ public class MainWindow {
 					// the unit
 					Unit userObject = (Unit) treeS.getUserObject();
 					// book the room
-					bookRoom(paymentTyp, userObject,
-							textFieldFirstName.getText(),
-							textFieldLastName.getText(),
-							textFieldBirthday.getText(),
-							textFieldStreet.getText(), textFieldCity.getText(),
-							textFieldZipCode.getText(), 1);
-					// refresh the tree
-					TreeModel treeModel = new DefaultTreeModel(g_handler
-							.showCheckInTree());
-					tree.setModel(treeModel);
+					if (bookRoom(paymentTyp, userObject)) {
+						// refresh the tree
+						TreeModel treeModel = new DefaultTreeModel(g_handler
+								.showCheckInTree());
+						tree.setModel(treeModel);
+					}
 				} catch (Exception e2) {
 					// show error message if an mistake occurs
 					JOptionPane.showMessageDialog(null,
 							"Please choose a room in the tree first", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
+				//FIXME: nach dem speichern werden alle Felder gelöscht bis auf name of bank bei der debit card
 			}
 		});
 		btnSave.setBounds(586, 480, 89, 23);
@@ -707,9 +743,9 @@ public class MainWindow {
 		lblCvvCode.setBounds(10, 150, 104, 14);
 		panelCreditCard.add(lblCvvCode);
 
-		JLabel lblExperingDate = new JLabel("Expering Date:");
-		lblExperingDate.setBounds(10, 200, 104, 14);
-		panelCreditCard.add(lblExperingDate);
+		JLabel lblExpiringDate = new JLabel("Expiring Date:");
+		lblExpiringDate.setBounds(10, 200, 104, 14);
+		panelCreditCard.add(lblExpiringDate);
 
 		textFieldCardHoldersName = new JTextField();
 		textFieldCardHoldersName.setBounds(135, 45, 150, 25);
@@ -844,6 +880,7 @@ public class MainWindow {
 								.showCheckOutTree());
 						tree.setModel(treeModel);
 					} catch (DocumentException e1) {
+						// TODO: Pop Ups entfernen
 						JOptionPane.showMessageDialog(null, "Document");
 
 					} catch (IOException e1) {
@@ -983,6 +1020,7 @@ public class MainWindow {
 		textFieldNameOnCard.setText(null);
 		textFieldAccountNumber.setText(null);
 		textFieldBankNumber.setText(null);
+		textFieldNameOfBank.setText(null);
 	}
 
 	/**
@@ -1033,9 +1071,7 @@ public class MainWindow {
 	 * @param numberOfPersons
 	 *            number of the personen who can live in this unit
 	 */
-	public void bookRoom(Payment paymentTyp, Unit userObject, String firstName,
-			String lastName, String birthday, String street, String city,
-			String zipCode, int numberOfPersons) {
+	public boolean bookRoom(Payment paymentTyp, Unit userObject) {
 		// If it is not a leaf or the room is already book show error
 		if (userObject.isHasChild() || userObject.isOccupied()) {
 			JOptionPane
@@ -1043,7 +1079,30 @@ public class MainWindow {
 							null,
 							"You can't book this room. This room is already occupied or not a bookable unit!",
 							"Invalid room", JOptionPane.ERROR_MESSAGE);
+			return false;
 		} else {
+			// TODO: Idioten sicher machen
+
+			if (textFieldFirstName.getText().equals("")) {
+				showErrorMsg(textFieldFirstName, "First name");
+				return false;
+			}
+			if (textFieldLastName.getText().equals("")) {
+				showErrorMsg(textFieldLastName, "Last name");
+				return false;
+			}
+			if (textFieldStreet.getText().equals("")) {
+				showErrorMsg(textFieldStreet, "Street");
+				return false;
+			}
+			if (textFieldCity.getText().equals("")) {
+				showErrorMsg(textFieldCity, "City");
+				return false;
+			}
+			if (!isStringANumber(textFieldZipCode.getText())) {
+				showErrorMsg(textFieldZipCode, "ZIP Code");
+				return false;
+			}
 			try {
 				// set all the fields for the new booking
 				Date date = new SimpleDateFormat("MM.dd.yyyy")
@@ -1051,7 +1110,6 @@ public class MainWindow {
 				Booking newBooking = new Booking();
 				newBooking.setFirstNameOfBooker(textFieldFirstName.getText());
 				newBooking.setLastNameOfBooker(textFieldLastName.getText());
-				// newBooking.setBirthday(textFieldBirthday.getText());
 				newBooking.setStreet(textFieldStreet.getText());
 				newBooking.setCity(textFieldCity.getText());
 				newBooking.setZipCode(textFieldZipCode.getText());
@@ -1069,12 +1127,35 @@ public class MainWindow {
 				userObject.addBooking(newBooking);
 				// reset the textfields
 				resetTextfields();
+				return true;
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null,
-						"Format of the birthday is not correct", "Error",
-						JOptionPane.ERROR_MESSAGE);
+				showErrorMsg(textFieldBirthday, "Birthday");
+				return false;
 			}
 		}
+	}
+
+	/**
+	 * Checks if the provided string is a number
+	 * 
+	 * @param s
+	 *            to be checked string
+	 * @return true if the string is a number
+	 */
+	private boolean isStringANumber(String s) {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	private void showErrorMsg(JTextField textField, String sourceOfError) {
+		JOptionPane.showMessageDialog(null,
+				"Please control your input in the field " + sourceOfError,
+				"Invalid input", JOptionPane.ERROR_MESSAGE);
+		textField.setText("");
 	}
 
 	/**
