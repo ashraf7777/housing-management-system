@@ -36,9 +36,6 @@ public class GUI_handler implements ActionListener {
 		} else if (e.getActionCommand().toLowerCase()
 				.equals(("Check-Out").toLowerCase())) {
 			// checkOut();
-		} else if (e.getActionCommand().toLowerCase()
-				.equals(("Overview").toLowerCase())) {
-			showOverview();
 		}
 
 	}
@@ -149,59 +146,59 @@ public class GUI_handler implements ActionListener {
 	 * @return
 	 */
 	private DefaultMutableTreeNode buildTreeCheckInAndOut(boolean isCheckIn) {
-		//Get the original unit structure
+		// Get the original unit structure
 		TreeDataModel normalTree = model.getRoot();
-		//Create an new tree structure and set the same unit element into the root
-		DefaultMutableTreeNode newTree = new TreeDataModel((Unit) normalTree.getUserObject()); 
+		// Create an new tree structure and set the same unit element into the
+		// root
+		DefaultMutableTreeNode newTree = new TreeDataModel(
+				(Unit) normalTree.getUserObject());
 		DefaultMutableTreeNode building, apartment, room;
 		DefaultMutableTreeNode new_building, new_apartment, new_room;
-		//Traverse the root's children (buildings)
+		// Traverse the root's children (buildings)
 		for (int j = 0; j < normalTree.getChildCount(); j++) {
 			if (!normalTree.getChildAt(j).isLeaf()) {
 				building = (DefaultMutableTreeNode) normalTree.getChildAt(j);
 				new_building = new TreeDataModel(
 						(Unit) building.getUserObject());
-				//Traverse the building's children (apartments)
+				// Traverse the building's children (apartments)
 				for (int i = 0; i < building.getChildCount(); i++) {
 					if (!building.getChildAt(i).isLeaf()) {
 						apartment = (DefaultMutableTreeNode) building
 								.getChildAt(i);
 						new_apartment = new TreeDataModel(
 								(Unit) apartment.getUserObject());
-						//Traverse the apartment's children (rooms)
+						// Traverse the apartment's children (rooms)
 						for (int k = 0; k < apartment.getChildCount(); k++) {
-							//If the apartment's child is the deepest element in the tree (room)
+							// If the apartment's child is the deepest element
+							// in the tree (room)
 							if (apartment.getChildAt(k).isLeaf()) {
 								room = (DefaultMutableTreeNode) apartment
 										.getChildAt(k);
+								// Prevents a check out situation with a non
+								// occupied room
 								if (isCheckIn
 										|| ((Unit) room.getUserObject())
-												.isOccupied()) // If the room is
-																// free it will
-																// be addedto
-																// the new tree
-								{
+												.isOccupied()) {
 									// If we need the check-in tree the occupied
 									// rooms should not be considered
 									if (!(isCheckIn && ((Unit) room
 											.getUserObject()).isOccupied())) {
 										new_room = new TreeDataModel(
 												(Unit) room.getUserObject());
-
+										// If the building isn't yet added to
+										// the new tree...
 										if (!isNodeAlreadyAdded(new_building,
-												newTree)) // If the building
-															// isn't
-															// yet added to the
-															// new
-															// tree
-										{
+												newTree)) {
 											newTree.add(new_building);
 										}
-
+										// If the apartment isn't yet added to
+										// the new tree...
 										if (!isNodeAlreadyAdded(new_apartment,
 												new_building)) {
 											new_building.add(new_apartment);
 										}
+										// If the room isn't yet added to the
+										// new tree...
 										if (!isNodeAlreadyAdded(new_room,
 												new_apartment)) {
 											new_apartment.add(new_room);
@@ -215,6 +212,7 @@ public class GUI_handler implements ActionListener {
 				}
 			}
 		}
+		// If there are no free rooms available for a check in
 		if (newTree.getChildCount() == 0)
 			return new DefaultMutableTreeNode("No rooms available");
 		return newTree;
@@ -233,6 +231,7 @@ public class GUI_handler implements ActionListener {
 		if (lastName.equals("")) {
 			return results;
 		} else {
+			// Search for a matching last name
 			for (int i = 0; i < bookings.size(); i++) {
 				if (bookings.get(i).getLastNameOfBooker().toLowerCase()
 						.startsWith(lastName.toLowerCase())) {
@@ -243,21 +242,20 @@ public class GUI_handler implements ActionListener {
 		}
 	}
 
-	private void showOverview() {
-
-		// TODO: Ansicht wechseln
-
-		List<Booking> bookings = model.getAllBookings();
-		for (int i = 0; i < bookings.size(); i++) {
-			//
-		}
-
-	}
-
+	/**
+	 * Announce the gui object to provide the functions of the MainWindow class
+	 * 
+	 * @param gui
+	 */
 	public void announceGui(MainWindow gui) {
 		this.gui = gui;
 	}
 
+	/**
+	 * Announce the model object to get access to the stored data
+	 * 
+	 * @param model
+	 */
 	public void announceModel(Model model) {
 		this.model = model;
 	}
