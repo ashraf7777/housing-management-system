@@ -25,7 +25,7 @@ public class Booking {
 	private Unit room;
 
 	/**
-	 * 
+	 * Customized Constructor to create a booking
 	 * @param firstNameOfBooker
 	 *            Firstname
 	 * @param lastNameOfBooker
@@ -63,12 +63,17 @@ public class Booking {
 		this.paymentType = paymentTyp;
 	}
 
-	// Getter & Setter
 
+
+	/**
+	 * Standard Constructor
+	 */
 	public Booking() {
 		this.bookingID = bookingCounter++;
 	}
-
+	
+	
+	// Getter & Setter
 
 	/**
 	 * @return the bookingID
