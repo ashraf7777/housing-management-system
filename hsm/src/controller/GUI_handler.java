@@ -15,6 +15,12 @@ import model.TreeDataModel;
 import model.Unit;
 import view.MainWindow;
 
+
+/**
+ * This class provides calculating and logic operations for the GUI.
+ * @author D20018
+ *
+ */
 public class GUI_handler implements ActionListener {
 
 	private Model model;
@@ -41,11 +47,26 @@ public class GUI_handler implements ActionListener {
 		return model.getRoot();
 	}
 
+	/**
+	 * Get all free rooms
+	 * @return tree object
+	 * 		retruns all free rooms in a tree structure
+	 */
 	public DefaultMutableTreeNode showCheckInTree() {
 
 		return buildTreeCheckInAndOut(true);
 	}
 
+	/**
+	 * Check if the node is already added to the top level node
+	 * @param node
+	 * 			node to be proved if it is already added to the superiour node
+	 * @param topNode
+	 * 			superiour node
+	 * @return
+	 * 			true if the node is already added
+	 * 			false if the node isn't added to the superiour node
+	 */
 	private boolean isNodeAlreadyAdded(DefaultMutableTreeNode node,
 			DefaultMutableTreeNode topNode) {
 		for (int i = 0; i < topNode.getChildCount(); i++) {
@@ -60,9 +81,19 @@ public class GUI_handler implements ActionListener {
 		return buildTreeCheckInAndOut(false);
 	}
 
+	/**
+	 * Logic operations for the check out.
+	 * Move out date will be setted and the costs are calculated
+	 * @return
+	 * 			true if the check out was successful
+	 * 			false if the check out was NOT successful
+	 */
 	public boolean commitCheckOut() {
+		//if no room was selected the check out can not be proceeded
 		if (null != gui.getAusgewaehlterKnoten()) {
+			//Load the room object out of the tree element object
 			Unit room = (Unit) gui.getAusgewaehlterKnoten().getUserObject();
+			//if the room is not occupied the check out can not be proceeded
 			if (!room.isOccupied()) {
 				JOptionPane
 						.showMessageDialog(
