@@ -388,9 +388,9 @@ public class MainWindow {
 				cardNumber = 5;
 
 				// get al invoices and write them into the table
-				Object[][] data = new Object[model.getAllReceipts().size()][];
-				for (int i = 0; i < model.getAllReceipts().size(); i++) {
-					data[i] = model.getAllReceipts().get(i).returnForInvoices();
+				Object[][] data = new Object[model.getAllInvoices().size()][];
+				for (int i = 0; i < model.getAllInvoices().size(); i++) {
+					data[i] = model.getAllInvoices().get(i).returnForInvoices();
 				}
 				tableInvoicesModel.setDataVector(data, columnNamesInvoices);
 				tableInvoices.updateUI();
@@ -872,7 +872,7 @@ public class MainWindow {
 								.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
 										.getUserObject()));
 						r.createPDF();
-						model.addReceipts(r);
+						model.addInvoices(r);
 						// refresh the tree and clear table
 						tableCheckOutModel.setDataVector(null,
 								columnNamesBooking);
@@ -950,7 +950,7 @@ public class MainWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					model.getAllReceipts()
+					model.getAllInvoices()
 							.get(tableInvoices.getSelectedRowCount() - 1)
 							.createPDF();
 				} catch (IOException e1) {
