@@ -3,9 +3,9 @@ package model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/*
- * This class provides all necessary information about a booking of one or more rooms.
- */
+/**
+* This class provides all necessary information about a booking of one or more rooms.
+*/
 
 public class Booking {
 
@@ -19,7 +19,6 @@ public class Booking {
 	private String city;
 	private String zipCode;
 	private Date birthday;
-	// TODO: Eventuell paymentType aufgliedern in Subtypes
 	private Payment paymentType;
 	private Date checkInDate;
 	private Date checkOutDate;
@@ -70,106 +69,186 @@ public class Booking {
 		this.bookingID = bookingCounter++;
 	}
 
-	public int getNumberOfPersons() {
-		return numberOfPersons;
-	}
 
-	public void setNumberOfPersons(int numberOfPersons) {
-		this.numberOfPersons = numberOfPersons;
-	}
-
-	public String getFirstNameOfBooker() {
-		return firstNameOfBooker;
-	}
-
-	public Payment getPaymentType() {
-		return paymentType;
-	}
-
-	public void setPaymentType(Payment paymentType) {
-		this.paymentType = paymentType;
-	}
-
-	public float getTotalCosts() {
-		return totalCosts;
-	}
-
-	public void setTotalCosts(float totalCosts) {
-		this.totalCosts = totalCosts;
-	}
-
-	public Date getCheckInDate() {
-		return checkInDate;
-	}
-
-	public void setCheckInDate(Date checkInDate) {
-		this.checkInDate = checkInDate;
-	}
-
-	public Date getCheckOutDate() {
-		return checkOutDate;
-	}
-
-	public void setCheckOutDate(Date checkOutDate) {
-		this.checkOutDate = checkOutDate;
-	}
-
-	public Unit getRoom() {
-		return room;
-	}
-
-	public void setRoom(Unit room) {
-		this.room = room;
-	}
-
+	/**
+	 * @return the bookingID
+	 */
 	public int getBookingID() {
 		return bookingID;
 	}
 
-	public String getStreet() {
-		return street;
+	/**
+	 * @param bookingID the bookingID to set
+	 */
+	public void setBookingID(int bookingID) {
+		this.bookingID = bookingID;
 	}
 
-	public String getCity() {
-		return city;
+	/**
+	 * @return the totalCosts
+	 */
+	public float getTotalCosts() {
+		return totalCosts;
 	}
 
-	public String getZipCode() {
-		return zipCode;
+	/**
+	 * @param totalCosts the totalCosts to set
+	 */
+	public void setTotalCosts(float totalCosts) {
+		this.totalCosts = totalCosts;
 	}
 
-	public Date getBirthday() {
-		return birthday;
+	/**
+	 * @return the firstNameOfBooker
+	 */
+	public String getFirstNameOfBooker() {
+		return firstNameOfBooker;
 	}
 
-	public String getLastNameOfBooker() {
-		return lastNameOfBooker;
-	}
-
-	public void setLastNameOfBooker(String lastNameOfBooker) {
-		this.lastNameOfBooker = lastNameOfBooker;
-	}
-
+	/**
+	 * @param firstNameOfBooker the firstNameOfBooker to set
+	 */
 	public void setFirstNameOfBooker(String firstNameOfBooker) {
 		this.firstNameOfBooker = firstNameOfBooker;
 	}
 
+	/**
+	 * @return the lastNameOfBooker
+	 */
+	public String getLastNameOfBooker() {
+		return lastNameOfBooker;
+	}
+
+	/**
+	 * @param lastNameOfBooker the lastNameOfBooker to set
+	 */
+	public void setLastNameOfBooker(String lastNameOfBooker) {
+		this.lastNameOfBooker = lastNameOfBooker;
+	}
+
+	/**
+	 * @return the street
+	 */
+	public String getStreet() {
+		return street;
+	}
+
+	/**
+	 * @param street the street to set
+	 */
 	public void setStreet(String street) {
 		this.street = street;
 	}
 
+	/**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+	/**
+	 * @param city the city to set
+	 */
 	public void setCity(String city) {
 		this.city = city;
 	}
 
+	/**
+	 * @return the zipCode
+	 */
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	/**
+	 * @param zipCode the zipCode to set
+	 */
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
+	/**
+	 * @return the birthday
+	 */
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	/**
+	 * @param birthday the birthday to set
+	 */
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 
+	/**
+	 * @return the paymentType
+	 */
+	public Payment getPaymentType() {
+		return paymentType;
+	}
+
+	/**
+	 * @param paymentType the paymentType to set
+	 */
+	public void setPaymentType(Payment paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	/**
+	 * @return the checkInDate
+	 */
+	public Date getCheckInDate() {
+		return checkInDate;
+	}
+
+	/**
+	 * @param checkInDate the checkInDate to set
+	 */
+	public void setCheckInDate(Date checkInDate) {
+		this.checkInDate = checkInDate;
+	}
+
+	/**
+	 * @return the checkOutDate
+	 */
+	public Date getCheckOutDate() {
+		return checkOutDate;
+	}
+
+	/**
+	 * @param checkOutDate the checkOutDate to set
+	 */
+	public void setCheckOutDate(Date checkOutDate) {
+		this.checkOutDate = checkOutDate;
+	}
+
+	/**
+	 * @return the room
+	 */
+	public Unit getRoom() {
+		return room;
+	}
+
+	/**
+	 * @param room the room to set
+	 */
+	public void setRoom(Unit room) {
+		this.room = room;
+	}
+
+	/**
+	 * @param numberOfPersons the numberOfPersons to set
+	 */
+	public void setNumberOfPersons(int numberOfPersons) {
+		this.numberOfPersons = numberOfPersons;
+	}
+
+	/**
+	 * Returns objects for the tables
+	 * @return objects formated for the tables
+	 */
 	public Object[] returnObject() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
 		Object[] data = {
