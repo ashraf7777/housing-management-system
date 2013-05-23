@@ -67,8 +67,11 @@ public class ExampleData {
 			{
 				//Create a new apartment
 				u2 = new TreeDataModel( new Unit((Integer.toString(i))));
+				//Add the apartment to the building
 				u.add(u2);
+				//Set the superiour unit
 				((Unit)u2.getUserObject()).setSuperiorUnit((Unit)u.getUserObject());
+				//Add rooms to the apartment
 				addRooms(u2);
 			}
 	}
