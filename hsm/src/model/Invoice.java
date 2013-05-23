@@ -145,19 +145,23 @@ public class Invoice {
 	 * @throws IOException
 	 * @throws DocumentException
 	 */
-	public void createPDF() throws IOException, DocumentException {
+	public void createPDF(int activeCardID) throws IOException,
+			DocumentException {
 		// Ask the user for a filename and directory to save the invoice
 		String filename = getFileDirectory();
 
 		// If you have aborted or closed the UI dialog of choosing a directory
 		// you get a notice that you can print the invoice also it later
 		if (null == filename) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Your checkout is completed. You can print the invoice later out of the invoice overview.",
-							"Print invoice - aborted",
-							JOptionPane.INFORMATION_MESSAGE);
+			if (activeCardID == 3) {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Your checkout is completed. You can print the invoice later out of the invoice overview.",
+								"Print invoice - aborted",
+								JOptionPane.INFORMATION_MESSAGE);
+			}
+
 		} else {
 			// Create an empty PDF structure
 			document = new Document();
