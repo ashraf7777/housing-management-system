@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -13,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -998,7 +1000,20 @@ public class MainWindow {
 		// TODO: Pop- up About us hinzufügen
 		menuItemManual = new JMenuItem("Manual");
 		menuItemManual.setIcon(new ImageIcon("images/Manual.png"));
+		menuItemManual.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					//load the manual from the source folder
+					Desktop.getDesktop().open(new File("ManualHMS.pdf"));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		menuHelp.add(menuItemManual);
+		
 		// TODO: weitere Punkte zum Menü hinzufügen
 		menuItemAbout = new JMenuItem("About");
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
