@@ -956,11 +956,11 @@ public class MainWindow {
 		menuHelp = new JMenu("Help");
 		menuHelp.setForeground(Color.BLACK);
 		menuBar.add(menuHelp);
-		// TODO
+		// TODO: Pop- up About us hinzufügen
 		menuItemManual = new JMenuItem("Manual");
 		menuItemManual.setIcon(new ImageIcon("images/Manual.png"));
 		menuHelp.add(menuItemManual);
-		// TODO
+		// TODO: weitere Punkte zum Menü hinzufügen
 		menuItemAbout = new JMenuItem("About");
 		menuItemAbout.setIcon(new ImageIcon("images/about-us.png"));
 		menuHelp.add(menuItemAbout);
