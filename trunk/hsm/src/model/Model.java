@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class which stores our data for the runtime
+ * @author T16879
+ *
+ */
 public class Model {
 
 	private List<Booking> allBookings = new ArrayList<Booking>();  
