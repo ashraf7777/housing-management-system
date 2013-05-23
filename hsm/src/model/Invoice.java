@@ -18,7 +18,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * This class creates a PDF receipt for the customer. It contains the addresses,
+ * This class creates a PDF invoice for the customer. It contains the addresses,
  * duration and total costs of the booking.
  * 
  * @author D20018
@@ -27,7 +27,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class Invoice {
 
-	// Attributes to store the receipt's information
+	// Attributes to store the invoice's information
 	Document document;
 	Image logo;
 	Image logo_description;
@@ -68,7 +68,7 @@ public class Invoice {
 			}
 		});
 
-		// Set the tenants name as the default filename of the receipt
+		// Set the tenants name as the default filename of the invoice
 		chooser.setSelectedFile(new File(booking.getLastNameOfBooker() + "_"
 				+ booking.getFirstNameOfBooker() + "_"
 				+ sdf.format(booking.getCheckOutDate())));
@@ -91,14 +91,14 @@ public class Invoice {
 	}
 
 	/**
-	 * This function stores the data from the booking into the receipt's
-	 * attributes. Provide all the necessary data for the receipt so that it can
+	 * This function stores the data from the booking into the invoice's
+	 * attributes. Provide all the necessary data for the invoice so that it can
 	 * be printed afterwards. The data are getting already structured and
 	 * categoriced for the PDF.
 	 * 
 	 * @param b
 	 *            represents the booking data element which stores all the
-	 *            necessary data for the receipt
+	 *            necessary data for the invoice
 	 */
 	public void writePdf(Booking b) {
 
@@ -110,7 +110,7 @@ public class Invoice {
 		addresses.setSpacingAfter(100);
 		addresses.setSpacingBefore(25);
 
-		// Set the own address for the receipts
+		// Set the own address for the invoices
 		ownAddress = new Chunk("UV\n2000 Oxford Ave.\nCA 92831\n\n\n\n");
 		addresses.add(ownAddress);
 
@@ -123,8 +123,8 @@ public class Invoice {
 		// Add the small structure item to the bigger one
 		addresses.add(customerAddress);
 
-		// Set the subject of the receipt
-		subject = new Chunk("Receipt for your stay at UV with Booking ID: "
+		// Set the subject of the invoice
+		subject = new Chunk("Invoice for your stay at UV with Booking ID: "
 				+ dfbookingID.format(booking.getBookingID()) + "\n\n\n");
 		// Formatting of the text and put it into a structure item
 		text = new Chunk("Dear Mrs./Mr. " + booking.getLastNameOfBooker()
@@ -146,24 +146,24 @@ public class Invoice {
 	 * @throws DocumentException
 	 */
 	public void createPDF() throws IOException, DocumentException {
-		// Ask the user for a filename and directory to save the receipt
+		// Ask the user for a filename and directory to save the invoice
 		String filename = getFileDirectory();
 
 		// If you have aborted or closed the UI dialog of choosing a directory
-		// you get a notice that you can print the receipt also it later
+		// you get a notice that you can print the invoice also it later
 		if (null == filename) {
 			JOptionPane
 					.showMessageDialog(
 							null,
-							"Your checkout is completed. You can print the receipt later out of the receipt overview.",
-							"Print receipt - aborted",
+							"Your checkout is completed. You can print the invoice later out of the invoice overview.",
+							"Print invoice - aborted",
 							JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			// Create an empty PDF structure
 			document = new Document();
 			// Set the directory for the file output
 			PdfWriter.getInstance(document, new FileOutputStream(filename));
-			// Load a picture for the receipt's logo
+			// Load a picture for the invoice's logo
 			logo = Image.getInstance(this.getClass().getResource(
 					"/home_big.png"));
 			// Set the picture's position in the PDF file

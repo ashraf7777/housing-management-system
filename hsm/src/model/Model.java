@@ -16,7 +16,7 @@ public class Model {
 
 	// Lists to store the data
 	private List<Booking> allBookings = new ArrayList<Booking>();
-	private List<Invoice> allReceipts = new ArrayList<Invoice>();
+	private List<Invoice> allInvoices = new ArrayList<Invoice>();
 	// Map to improve the search for bookings if you have the unit
 	private Map<Unit, Booking> assignmentUnitBooking = new HashMap<Unit, Booking>();
 	private TreeDataModel root;
@@ -82,21 +82,21 @@ public class Model {
 	}
 	
 	/**
-	 *	Get the list with all receipts
+	 *	Get the list with all invoices
 	 * @return
-	 * 		receipt list
+	 * 		invoice list
 	 */
-	public List<Invoice> getAllReceipts() {
-		return allReceipts;
+	public List<Invoice> getAllInvoices() {
+		return allInvoices;
 	}
 
 	/**
-	 * Add a new receipt to the list
-	 * @param receipts
+	 * Add a new invoice to the list
+	 * @param invoices
 	 * 		new element to add to the list
 	 */
-	public void addReceipts(Invoice receipts) {
-		allReceipts.add(receipts);
+	public void addInvoices(Invoice invoices) {
+		allInvoices.add(invoices);
 	}
 
 }
