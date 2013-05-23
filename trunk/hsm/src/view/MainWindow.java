@@ -44,6 +44,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.TabExpander;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -89,8 +90,10 @@ public class MainWindow {
 	private JTable tableCheckOut;
 	private DefaultTableModel tableCheckOutModel;
 
-	private String[] columNames = { "Building", "Apartment", "Room",
+	private String[] columNamesBooking = { "Building", "Apartment", "Room",
 			"Lastname", "Firstname", "Check-In", "Paymenttype", "Birthday" };
+	private String[] columNamesLastBooking = { "Room", "Lastname", "Firstname",
+			"Check-In", "Check-Out", "Cost" };
 	private JTextField textFieldSearch;
 	private JTable tableSearch;
 	private DefaultTableModel tableSearchModel;
@@ -103,6 +106,8 @@ public class MainWindow {
 	private JButton btnCheckOut;
 	private JPanel panelCheckOut;
 	private JPanel mainPanel;
+	private JTable tableHome;
+	private DefaultTableModel tableHomeModel;
 
 	/**
 	 * Launch the application.
@@ -178,8 +183,26 @@ public class MainWindow {
 				DefaultMutableTreeNode treeNode;
 				treeNode = getAusgewaehlterKnoten();
 				if (null != treeNode) {
-					if (cardNumber == 3) {
-
+					switch (cardNumber) {
+					case 1:
+						if (treeNode.isLeaf()) {
+							tableHomeModel.setDataVector(null,
+									columNamesLastBooking);
+							tableHome.updateUI();
+							Unit unit = (Unit) treeNode.getUserObject();
+							if(!unit.getFinishedBookings().isEmpty()){
+								Object[][] data = new Object[unit.getBooking().size()][];
+								for (int i = 0; i < unit.getBooking().size()-1; i++) {
+									data[i] = unit.getBooking().get(i).returnObjectForHome();
+								}
+								tableHomeModel.setDataVector(data,
+										columNamesLastBooking);
+								tableHome.updateUI();
+							}
+						}
+						break;
+						
+					case 3:
 						ArrayList<Object[]> list = new ArrayList<>();
 						getBuchungen(treeNode, list);
 
@@ -187,19 +210,19 @@ public class MainWindow {
 						for (int i = 0; i < list.size(); i++) {
 							data[i] = list.get(i);
 						}
-						tableCheckOutModel.setDataVector(data, columNames);
+						tableCheckOutModel.setDataVector(data,
+								columNamesBooking);
 						tableCheckOut.updateUI();
+						break;
+
+					default:
+						break;
 					}
 				}
 			}
 		});
 
-		panelCards = new JPanel();
-		mainPanel.add(panelCards, BorderLayout.CENTER);
-		panelCards.setLayout(new CardLayout(0, 0));
-
-		JPanel panelHome = new JPanel();
-		panelCards.add(panelHome, "Home");
+		createHomePanel();
 
 		createButtonPanel();
 
@@ -210,6 +233,29 @@ public class MainWindow {
 		createCheckoutPanel();
 
 		createMenubar();
+	}
+
+	private void createHomePanel() {
+		panelCards = new JPanel();
+		mainPanel.add(panelCards, BorderLayout.CENTER);
+		panelCards.setLayout(new CardLayout(0, 0));
+
+		JPanel panelHome = new JPanel();
+		panelHome.setBackground(SystemColor.inactiveCaption);
+		panelCards.add(panelHome, "Home");
+		panelHome.setLayout(null);
+
+		tableHomeModel = new DefaultTableModel();
+		tableHomeModel.setColumnIdentifiers(columNamesLastBooking);
+		tableHome = new JTable(tableHomeModel);
+		tableHome.setBackground(SystemColor.activeCaption);
+		JScrollPane pane = new JScrollPane(tableHome);
+		pane.setBounds(20, 57, 608, 406);
+		panelHome.add(pane);
+
+		JLabel lblLastBookingsFor = new JLabel("Last Bookings for this Room:");
+		lblLastBookingsFor.setBounds(25, 32, 189, 14);
+		panelHome.add(lblLastBookingsFor);
 	}
 
 	private void createButtonPanel() {
@@ -281,6 +327,7 @@ public class MainWindow {
 	@SuppressWarnings("serial")
 	private void createSearchPanel() {
 		JPanel panelSearch = new JPanel();
+		panelSearch.setBackground(SystemColor.inactiveCaption);
 		panelCards.add(panelSearch, "Overview");
 		panelSearch.setLayout(null);
 
@@ -300,9 +347,9 @@ public class MainWindow {
 
 					Object[][] data = new Object[names.size()][];
 					for (int i = 0; i < names.size(); i++) {
-						data[i] = names.get(i).returnObject();
+						data[i] = names.get(i).returnObjectForCheckIn();
 					}
-					tableSearchModel.setDataVector(data, columNames);
+					tableSearchModel.setDataVector(data, columNamesBooking);
 					tableSearch.updateUI();
 					textFieldSearch.setText(textFieldSearch.getText()
 							.substring(0,
@@ -314,16 +361,16 @@ public class MainWindow {
 							.getText());
 					Object[][] data = new Object[names.size()][];
 					for (int i = 0; i < names.size(); i++) {
-						data[i] = names.get(i).returnObject();
+						data[i] = names.get(i).returnObjectForCheckIn();
 					}
-					tableSearchModel.setDataVector(data, columNames);
+					tableSearchModel.setDataVector(data, columNamesBooking);
 					tableSearch.updateUI();
 				}
 			}
 		});
 
 		tableSearchModel = new DefaultTableModel();
-		tableSearchModel.setColumnIdentifiers(columNames);
+		tableSearchModel.setColumnIdentifiers(columNamesBooking);
 		tableSearch = new JTable(tableSearchModel) {
 			/**
 			 * Überschreibt die isCellEditable Methode aus der JTable Definition
@@ -341,7 +388,7 @@ public class MainWindow {
 		tableSearch.getTableHeader().setReorderingAllowed(false);
 		tableSearch.getTableHeader().setResizingAllowed(false);
 		tableSearch.setAutoCreateColumnsFromModel(false);
-		tableSearch.setBackground(SystemColor.inactiveCaption);
+		tableSearch.setBackground(SystemColor.activeCaption);
 		tableSearch.setFillsViewportHeight(true);
 		tableSearch.setFont(new Font("Serif", Font.PLAIN, 14));
 		tableSearch.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 15));
@@ -514,6 +561,7 @@ public class MainWindow {
 		panelCheckIn.add(btnSave);
 
 		panelPayMethod = new JPanel();
+		panelPayMethod.setBackground(SystemColor.activeCaption);
 		panelPayMethod.setBounds(332, 72, 343, 317);
 		panelCheckIn.add(panelPayMethod);
 		panelPayMethod.setLayout(new CardLayout(0, 0));
@@ -618,7 +666,7 @@ public class MainWindow {
 		panelCheckOut.setLayout(null);
 
 		tableCheckOutModel = new DefaultTableModel();
-		tableCheckOutModel.setColumnIdentifiers(columNames);
+		tableCheckOutModel.setColumnIdentifiers(columNamesBooking);
 		tableCheckOut = new JTable(tableCheckOutModel) {
 			/**
 			 * Überschreibt die isCellEditable Methode aus der JTable Definition
@@ -636,7 +684,7 @@ public class MainWindow {
 		tableCheckOut.getTableHeader().setReorderingAllowed(false);
 		tableCheckOut.getTableHeader().setResizingAllowed(false);
 		tableCheckOut.setAutoCreateColumnsFromModel(false);
-		tableCheckOut.setBackground(SystemColor.inactiveCaption);
+		tableCheckOut.setBackground(SystemColor.activeCaption);
 		// tableCheckOut.setFillsViewportHeight(true);
 		tableCheckOut.setFont(new Font("Serif", Font.PLAIN, 14));
 		tableCheckOut.getTableHeader().setFont(
@@ -731,7 +779,7 @@ public class MainWindow {
 			if (unit.isOccupied() == true) {
 				Booking booking = unit.getBooking().get(
 						unit.getBooking().size() - 1);
-				list.add(booking.returnObject());
+				list.add(booking.returnObjectForCheckIn());
 			}
 		}
 	}
@@ -789,7 +837,7 @@ public class MainWindow {
 	public void announceModel(Model model) {
 		this.model = model;
 	}
-	
+
 	public DefaultMutableTreeNode getAusgewaehlterKnoten() {
 		return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 	}
