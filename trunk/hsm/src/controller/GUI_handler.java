@@ -219,7 +219,7 @@ public class GUI_handler {
 			// Search for a matching last name
 			for (int i = 0; i < bookings.size(); i++) {
 				if (bookings.get(i).getLastNameOfBooker().toLowerCase()
-						.startsWith(lastName.toLowerCase())) {
+						.startsWith(lastName.toLowerCase()) && ((bookings.get(i).getTotalCosts()==0))) {
 					results.add(bookings.get(i));
 				}
 			}
