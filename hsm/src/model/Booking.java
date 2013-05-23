@@ -261,7 +261,7 @@ public class Booking {
 	public Object[] returnObjectForHome(){
 		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
 		Object[] data = {this.room.getName(),this.lastNameOfBooker, this.firstNameOfBooker,
-				sdf.format(this.checkInDate), sdf.format(checkOutDate), this.totalCosts };
+				sdf.format(this.checkInDate), sdf.format(this.checkOutDate), this.totalCosts };
 		return data;
 	}
 	
