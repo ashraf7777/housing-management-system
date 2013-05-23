@@ -175,9 +175,11 @@ public class Receipt {
 			logo_description.setAbsolutePosition(433f, 680f);
 			// Set the size
 			logo_description.scalePercent(70f);
-			//
+			//Load a sample signature
 			signature = Image.getInstance("images/signature.jpg");
-			signature.setAbsolutePosition(30, 335);
+			//Set the position for the signature
+			signature.setAbsolutePosition(30, 325);
+			//Set the size
 			signature.scalePercent(15);
 
 			// Open the PDF structure for editing

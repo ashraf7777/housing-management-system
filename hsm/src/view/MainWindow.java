@@ -190,10 +190,12 @@ public class MainWindow {
 									columNamesLastBooking);
 							tableHome.updateUI();
 							Unit unit = (Unit) treeNode.getUserObject();
-							if(!unit.getFinishedBookings().isEmpty()){
-								Object[][] data = new Object[unit.getBooking().size()-1][];
-								for (int i = 0; i < unit.getBooking().size()-1; i++) {
-									data[i] = unit.getBooking().get(i).returnObjectForHome();
+							if (!unit.getFinishedBookings().isEmpty()) {
+								Object[][] data = new Object[unit.getBooking()
+										.size() - 1][];
+								for (int i = 0; i < unit.getBooking().size() - 1; i++) {
+									data[i] = unit.getBooking().get(i)
+											.returnObjectForHome();
 								}
 								tableHomeModel.setDataVector(data,
 										columNamesLastBooking);
@@ -201,7 +203,7 @@ public class MainWindow {
 							}
 						}
 						break;
-						
+
 					case 3:
 						ArrayList<Object[]> list = new ArrayList<>();
 						getBuchungen(treeNode, list);
@@ -697,20 +699,21 @@ public class MainWindow {
 		btnCheckOut = new JButton("Check Out");
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g_handler.commitCheckOut();
-				Receipt r = new Receipt();
-				try {
-					r.writePdf(model
-							.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
-									.getUserObject()));
-					r.createPDF();
-					model.addReceipts(r);
-				} catch (DocumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (g_handler.commitCheckOut()) {
+					Receipt r = new Receipt();
+					try {
+						r.writePdf(model
+								.getBookingFromRoom((Unit) getAusgewaehlterKnoten()
+										.getUserObject()));
+						r.createPDF();
+						model.addReceipts(r);
+					} catch (DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
