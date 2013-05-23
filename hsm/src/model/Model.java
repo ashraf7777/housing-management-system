@@ -73,14 +73,28 @@ public class Model {
 		return root;
 	}
 
+	/**
+	 * Set the tree root element
+	 * @param root
+	 */
 	public void setRoot(TreeDataModel root) {
 		this.root = root;
 	}
-
+	
+	/**
+	 *	Get the list with all receipts
+	 * @return
+	 * 		receipt list
+	 */
 	public List<Receipt> getAllReceipts() {
 		return allReceipts;
 	}
 
+	/**
+	 * Add a new receipt to the list
+	 * @param receipts
+	 * 		new element to add to the list
+	 */
 	public void addReceipts(Receipt receipts) {
 		allReceipts.add(receipts);
 	}
