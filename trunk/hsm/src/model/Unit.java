@@ -3,11 +3,14 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.JOptionPane;
 
-/*
- * This class represents the structure elements.
- * Depending on the tier it represents a building, an apartment or a room.
+/**
+ * This class represents the structure elements. Depending on the tier it
+ * represents a building, an apartment or a room.
+ * 
+ * @author D20018
+ * 
  */
 
 public class Unit {
@@ -16,7 +19,6 @@ public class Unit {
 	// Structure variables
 
 	// root element of the structure is the same for all other elements
-	private static Unit root;
 
 	// representing the child element
 	private static List<String> nameList = new ArrayList<String>();
@@ -43,7 +45,9 @@ public class Unit {
 			this.pricePerMonth = 0;
 			this.hasChild = false;
 		} else {
-			// TODO: Fehlerausgabe (Exception)
+			JOptionPane.showMessageDialog(null,
+					"Please choose an other name. This one is already used!",
+					"Invalid Unit Name", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -57,7 +61,9 @@ public class Unit {
 			this.pricePerMonth = pricePerMonth;
 			this.hasChild = false;
 		} else {
-			// TODO: Fehlerausgabe (Exception)
+			JOptionPane.showMessageDialog(null,
+					"Please choose an other name. This one is already used!",
+					"Invalid Unit Name", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -82,78 +88,147 @@ public class Unit {
 
 	// Getter & Setter
 
-	public static Unit getTree() {
-		return root;
-	}
-
 	public void addBooking(Booking b) {
 		bookingList.add(b);
 	}
 
-	public List<Booking> getBooking() {
-		return bookingList;
+
+	/**
+	 * @return the nameList
+	 */
+	public static List<String> getNameList() {
+		return nameList;
 	}
 
+	/**
+	 * @param nameList the nameList to set
+	 */
+	public static void setNameList(List<String> nameList) {
+		Unit.nameList = nameList;
+	}
+
+	/**
+	 * @return the unitID
+	 */
 	public int getUnitID() {
 		return unitID;
 	}
 
+	/**
+	 * @param unitID the unitID to set
+	 */
 	public void setUnitID(int unitID) {
 		this.unitID = unitID;
 	}
 
-	public float getSqrFeet() {
-		return sqrFeet;
-	}
-
-	public void setSqrFeet(float sqrFeet) {
-		this.sqrFeet = sqrFeet;
-	}
-
-	public float getPricePerNight() {
-		return pricePerNight;
-	}
-
-	public void setPricePerNight(float pricePerNight) {
-		this.pricePerNight = pricePerNight;
-	}
-
-	public float getPricePerMonth() {
-		return pricePerMonth;
-	}
-
-	public void setPricePerMonth(float pricePerMonth) {
-		this.pricePerMonth = pricePerMonth;
-	}
-
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the sqrFeet
+	 */
+	public float getSqrFeet() {
+		return sqrFeet;
+	}
+
+	/**
+	 * @param sqrFeet the sqrFeet to set
+	 */
+	public void setSqrFeet(float sqrFeet) {
+		this.sqrFeet = sqrFeet;
+	}
+
+	/**
+	 * @return the numberOfUnits
+	 */
 	public int getNumberOfUnits() {
 		return numberOfUnits;
 	}
 
+	/**
+	 * @param numberOfUnits the numberOfUnits to set
+	 */
 	public void setNumberOfUnits(int numberOfUnits) {
 		this.numberOfUnits = numberOfUnits;
 	}
 
+	/**
+	 * @return the hasChild
+	 */
 	public boolean isHasChild() {
 		return hasChild;
 	}
 
+	/**
+	 * @param hasChild the hasChild to set
+	 */
 	public void setHasChild(boolean hasChild) {
 		this.hasChild = hasChild;
 	}
 
+	/**
+	 * @return the isOccupied
+	 */
 	public boolean isOccupied() {
 		return isOccupied;
 	}
 
+	/**
+	 * @param isOccupied the isOccupied to set
+	 */
 	public void setOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
 	}
 
+	/**
+	 * @return the pricePerNight
+	 */
+	public float getPricePerNight() {
+		return pricePerNight;
+	}
+
+	/**
+	 * @param pricePerNight the pricePerNight to set
+	 */
+	public void setPricePerNight(float pricePerNight) {
+		this.pricePerNight = pricePerNight;
+	}
+
+	/**
+	 * @return the pricePerMonth
+	 */
+	public float getPricePerMonth() {
+		return pricePerMonth;
+	}
+
+	/**
+	 * @param pricePerMonth the pricePerMonth to set
+	 */
+	public void setPricePerMonth(float pricePerMonth) {
+		this.pricePerMonth = pricePerMonth;
+	}
+
+	/**
+	 * @return the bookingList
+	 */
+	public List<Booking> getBookingList() {
+		return bookingList;
+	}
+
+	/**
+	 * @return the mAX_OCCUPANCY
+	 */
 	public int getMAX_OCCUPANCY() {
 		return MAX_OCCUPANCY;
 	}
@@ -173,10 +248,14 @@ public class Unit {
 		this.superiorUnit = superiorUnit;
 	}
 
+	/**
+	 * Get all finished bookings in a list.
+	 * @return
+	 */
 	public List<Booking> getFinishedBookings() {
 		List<Booking> list = new ArrayList<>();
 		for (int i = 0; i < bookingList.size(); i++) {
-			if (!(bookingList.get(i).getTotalCosts()==0)) {
+			if (!(bookingList.get(i).getTotalCosts() == 0)) {
 				list.add(bookingList.get(i));
 			}
 		}
