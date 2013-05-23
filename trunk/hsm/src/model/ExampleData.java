@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import controller.GUI_handler;
@@ -24,9 +25,12 @@ public class ExampleData {
 	public void loadSampleTreeData()
 	{
 		TreeDataModel[][] units = new TreeDataModel[5][15];
+		//First tier
 		TreeDataModel root = new TreeDataModel( new Unit("University Village"));
+		//Store the root in the model
 		model.setRoot(root);
 		
+		//Add lower tier structure elements
 		units[0][0] = new TreeDataModel (new Unit("London"));
 		root.add(units[0][0]);
 		addApartments(units[0][0], 4);
@@ -58,8 +62,10 @@ public class ExampleData {
 	private void addApartments(TreeDataModel u, int number)
 	{
 		TreeDataModel u2;
+		//Add the defined number of apartments to the building
 		for (int i = 1; i <= number; i++)
 			{
+				//Create a new apartment
 				u2 = new TreeDataModel( new Unit((Integer.toString(i))));
 				u.add(u2);
 				((Unit)u2.getUserObject()).setSuperiorUnit((Unit)u.getUserObject());
@@ -87,12 +93,15 @@ public class ExampleData {
 	
 	/**
 	 * Excecute sample bookings.
-	 * Tenants names are randomly choosen from a given sample list
+	 * Tenants names are randomly choosen from a given sample list.
 	 * @param number
+	 * 			number of sample bookings to be executed
 	 * @param my_handler
+	 * 			handler object is needed to use some functions
 	 */
 	public void loadSampleBookings(int number, GUI_handler my_handler)
 	{
+		//sample names
 		String[] firstNames = {"Mia", "Emma", "Hanna", "Lea", "Sophia", "Lena", "Leonie", "Lina", "Ben",
 				"Luca", "Paul", "Lucas", "Finn", "Jonas", "Leon", "Felix", "Tim", "Max"};
 		String[] lastNames = {"Mueller", "Schmidt", "Schneider", "Fischer", "Meyer"};
@@ -106,29 +115,39 @@ public class ExampleData {
 		Date birthday = null;
 		
 		try {
+			//Set a birthday for the sample persons
 			birthday = new SimpleDateFormat("MM.dd.yyyy").parse("12.17.1991");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		};
+		
+		//Own address
 		street = "2004 Oxford Ave. 9";
 		city = "Fullerton";
 		zipCode = "92831";
 		
+		//Loop for creating the sample bookings
 		for(int i = 0; i < number; i++)
 		{
+			//Get a randomly choosen first and last name
 			firstName = firstNames[getRandomIndex(firstNames.length)];
 			lastName = lastNames[getRandomIndex(lastNames.length)];
 			
+			//Get the tree where just the free rooms are included
 			tree = my_handler.showCheckInTree();
-			if (tree.isLeaf())							//If the tree element has no children there are no free rooms left
+			//If the tree element has no children there are no free rooms left
+			if (tree.isLeaf())							
 			{
-				//TODO: Fehlermeldung
+				JOptionPane.showMessageDialog(null, "No rooms are left", "Booked Out", JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
 			else
 			{
-				userObject = getRandomUnit(my_handler.showCheckInTree());
+				//Get a random unit of the free rooms
+				userObject = getRandomUnit(tree);
 			}
 			
+			//Choose randomly a paymentType
 			if (Math.random() * 10 >= 5)
 			{
 				paymentTyp = new DebitCard(firstName + " " + lastName,
@@ -142,8 +161,10 @@ public class ExampleData {
 						"CVV", "Expiering Date");
 				paymentTyp.setName("Credit Card");
 			}
+			//Excecute the booking with the previously setted data
 			b = new Booking(firstName, lastName, birthday, street, city, zipCode, 
 					numberOfPersons, userObject, new Date(System.currentTimeMillis()), paymentTyp);
+			//Store the data in the model
 			model.addBookingToRoom(b, userObject);
 			model.addBookingToList(b);
 			userObject.addBooking(b);
