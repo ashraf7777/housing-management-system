@@ -8,11 +8,19 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import controller.GUI_handler;
 
+/**
+ * This class creates a sample structure of units and executes sample bookings.
+ * @author D20018
+ *
+ */
 
 public class ExampleData {
 
 	private Model model;
 	
+	/**
+	 * Add the first and second tier to the structure
+	 */
 	public void loadSampleTreeData()
 	{
 		TreeDataModel[][] units = new TreeDataModel[5][15];
@@ -40,6 +48,13 @@ public class ExampleData {
 		addApartments(units[0][4], 4);	
 	}
 	
+	/**
+	 * Add apartments to the provided unit (building)
+	 * @param u
+	 * 			superiour unit
+	 * @param number
+	 * 			number of apartments to be added
+	 */
 	private void addApartments(TreeDataModel u, int number)
 	{
 		TreeDataModel u2;
@@ -52,7 +67,11 @@ public class ExampleData {
 			}
 	}
 	
-	
+	/**
+	 * Add rooms to the provided unit (apartment)
+	 * @param u
+	 * 			superiour unit
+	 */
 	private void addRooms(TreeDataModel u)
 	{
 		Unit u3 = new Unit("Normal", 100, 32.5f, 975f);
@@ -66,6 +85,11 @@ public class ExampleData {
 		u.add(new TreeDataModel(u3));
 	}
 	
+	/**
+	 * Excecute sample 
+	 * @param number
+	 * @param my_handler
+	 */
 	public void loadSampleBookings(int number, GUI_handler my_handler)
 	{
 		String[] firstNames = {"Mia", "Emma", "Hanna", "Lea", "Sophia", "Lena", "Leonie", "Lina", "Ben",
