@@ -191,8 +191,6 @@ public class Receipt {
 			document.add(textPara);
 			document.add(signature);
 
-			// TODO: Unterschrift als Bild einfügen
-
 			// Finish the editing and save the file to the choosen directory
 			document.close();
 		}
