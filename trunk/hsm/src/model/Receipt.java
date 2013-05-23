@@ -158,7 +158,6 @@ public class Receipt {
 							"Your checkout is completed. You can print the receipt later out of the receipt overview.",
 							"Print receipt - aborted",
 							JOptionPane.INFORMATION_MESSAGE);
-			// TODO invoice abrechen des ausdruckens
 		} else {
 			// Create an empty PDF structure
 			document = new Document();
