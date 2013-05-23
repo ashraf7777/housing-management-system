@@ -6,34 +6,40 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class which stores our data for the runtime
+ * Class which stores our data for the runtime.
+ * All data are lost after closing the application.
  * @author T16879
  *
  */
 public class Model {
 
+	//Lists to store the data
 	private List<Booking> allBookings = new ArrayList<Booking>();  
 	private List<Receipt> allReceipts = new ArrayList<Receipt>();
+	//Map to improve the search for bookings if you have the unit
 	private Map<Unit, Booking> assignmentUnitBooking = new HashMap<Unit, Booking>();
 	private TreeDataModel root;
 	
+	
+	/**
+	 * Get all stored bookings from this runtime
+	 * @return
+	 * 		List of all bookings
+	 */
 	public List<Booking> getAllBookings() {
 		return allBookings;
 	}
 
+	/**
+	 * Add new booking to the list
+	 * @param b 
+	 * 		new booking which i to be added to the list
+	 */
 	public void addBookingToList(Booking b) {
 		allBookings.add(b);
 	}
-	public void removeBookingFromList(Booking b)
-	{
-		allBookings.remove(b);
-	}
 	
-	public void clearBookingList()
-	{
-		allBookings.clear();
-	}
-
+	
 	public Booking getBookingFromRoom(Unit room) {
 		return assignmentUnitBooking.get(room);
 	}
