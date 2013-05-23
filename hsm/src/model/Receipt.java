@@ -164,11 +164,11 @@ public class Receipt {
 			// Set the directory for the file output
 			PdfWriter.getInstance(document, new FileOutputStream(filename));
 			// Load a picture for the receipt's logo
-			// logo = Image.getInstance("images/home_big.png");
+			 logo = Image.getInstance(this.getClass().getResource("/home_big.png"));
 			// Set the picture's position in the PDF file
-			// logo.setAbsolutePosition(450f, 720f);
+			 logo.setAbsolutePosition(450f, 720f);
 			// Set the size of the logo
-			// logo.scalePercent(60);
+			 logo.scalePercent(60);
 			// Load the logo description as a picture
 			// logo_description =
 			// Image.getInstance("images/Logo_Description.png");
@@ -187,7 +187,7 @@ public class Receipt {
 			document.open();
 			// Add all the earlier setted structual items with the booking
 			// information
-			// document.add(logo);
+			 document.add(logo);
 			// document.add(logo_description);
 			document.add(addresses);
 			document.add(subject);
