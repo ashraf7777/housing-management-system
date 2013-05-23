@@ -176,7 +176,7 @@ public class Unit {
 	public List<Booking> getFinishedBookings() {
 		List<Booking> list = new ArrayList<>();
 		for (int i = 0; i < bookingList.size(); i++) {
-			if (!(bookingList.get(i).getCheckOutDate() == null)) {
+			if (!(bookingList.get(i).getTotalCosts()==0)) {
 				list.add(bookingList.get(i));
 			}
 		}
