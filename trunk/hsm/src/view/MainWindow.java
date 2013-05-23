@@ -191,8 +191,8 @@ public class MainWindow {
 							tableHome.updateUI();
 							Unit unit = (Unit) treeNode.getUserObject();
 							if(!unit.getFinishedBookings().isEmpty()){
-								Object[][] data = new Object[unit.getBooking().size()-1][];
-								for (int i = 0; i < unit.getBooking().size()-1; i++) {
+								Object[][] data = new Object[unit.getBooking().size()][];
+								for (int i = 0; i < unit.getBooking().size(); i++) {
 									data[i] = unit.getBooking().get(i).returnObjectForHome();
 								}
 								tableHomeModel.setDataVector(data,
@@ -310,8 +310,8 @@ public class MainWindow {
 		});
 		panelButtons.add(btnCheckout);
 
-		JButton btnOverview = new JButton("Search");
-		btnOverview.addActionListener(new ActionListener() {
+		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c1 = (CardLayout) panelCards.getLayout();
 				c1.show(panelCards, "Search");
@@ -321,7 +321,7 @@ public class MainWindow {
 
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panelButtons.add(horizontalStrut_2);
-		panelButtons.add(btnOverview);
+		panelButtons.add(btnSearch);
 	}
 
 	@SuppressWarnings("serial")
