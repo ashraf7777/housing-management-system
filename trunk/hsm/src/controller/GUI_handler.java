@@ -105,26 +105,29 @@ public class GUI_handler implements ActionListener {
 				Booking booking = model.getBookingFromRoom(room);
 
 				Date moveInDate = booking.getCheckInDate();
-				//Set the move out date to the actual date
+				// Set the move out date to the actual date
 				Date moveOutDate = new Date(System.currentTimeMillis());
 				booking.setCheckOutDate(moveOutDate);
 
-				//Calculate the duration of the stay
+				// Calculate the duration of the stay
 				Date timeToPay = new Date(moveOutDate.getTime()
 						- moveInDate.getTime());
-				//Calculate the costs
+				// Calculate the costs
 				int years = (int) (timeToPay.getTime() / 1000 / 60 / 60 / 24 / 365);
 				int months = (int) (timeToPay.getTime() / 1000 / 60 / 60 / 24 % 365) * 365 / 12;
 				int days = (int) (timeToPay.getTime() / 1000 / 60 / 60 / 24 % 365) * 365 % 12 * 12;
 
+				// If someone stays just a few hours at one day he has to pay
+				// the one day flat rate
 				if (years == 0 && months == 0 && days == 0)
 					days++;
-
+				// Sum the costs
 				float total = years * 12 * room.getPricePerMonth();
 				total = total + months * room.getPricePerMonth() + days
 						* room.getPricePerNight();
+				// Save the total costs to the booking
 				booking.setTotalCosts(total);
-
+				// Change the room occupancy to free
 				room.setOccupied(false);
 				return true;
 			}
@@ -136,28 +139,38 @@ public class GUI_handler implements ActionListener {
 		}
 	}
 
+	/**
+	 * This function returns depending on the parameter a tree with free rooms
+	 * or a tree with the occupied rooms.
+	 * 
+	 * @param isCheckIn
+	 *            true the returned tree is to be showing the free rooms false
+	 *            the returned tree is to be showing the occupied rooms
+	 * @return
+	 */
 	private DefaultMutableTreeNode buildTreeCheckInAndOut(boolean isCheckIn) {
-		DefaultMutableTreeNode newTree;
+		//Get the original unit structure
 		TreeDataModel normalTree = model.getRoot();
-		newTree = new TreeDataModel((Unit) normalTree.getUserObject()); // Set
-																		// the
-																		// same
-																		// root
-																		// element
+		//Create an new tree structure and set the same unit element into the root
+		DefaultMutableTreeNode newTree = new TreeDataModel((Unit) normalTree.getUserObject()); 
 		DefaultMutableTreeNode building, apartment, room;
 		DefaultMutableTreeNode new_building, new_apartment, new_room;
+		//Traverse the root's children (buildings)
 		for (int j = 0; j < normalTree.getChildCount(); j++) {
 			if (!normalTree.getChildAt(j).isLeaf()) {
 				building = (DefaultMutableTreeNode) normalTree.getChildAt(j);
 				new_building = new TreeDataModel(
 						(Unit) building.getUserObject());
+				//Traverse the building's children (apartments)
 				for (int i = 0; i < building.getChildCount(); i++) {
 					if (!building.getChildAt(i).isLeaf()) {
 						apartment = (DefaultMutableTreeNode) building
 								.getChildAt(i);
 						new_apartment = new TreeDataModel(
 								(Unit) apartment.getUserObject());
+						//Traverse the apartment's children (rooms)
 						for (int k = 0; k < apartment.getChildCount(); k++) {
+							//If the apartment's child is the deepest element in the tree (room)
 							if (apartment.getChildAt(k).isLeaf()) {
 								room = (DefaultMutableTreeNode) apartment
 										.getChildAt(k);
