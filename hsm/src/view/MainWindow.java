@@ -118,7 +118,7 @@ public class MainWindow {
 					window.announceModel(model);
 					my_handler.announceModel(model);
 					my_handler.announceGui(window);
-					exData.loadSampleBookings(5, my_handler);
+					exData.loadSampleBookings(25, my_handler);
 
 					window.frmHousingManagementSystem.setVisible(true);
 				} catch (Exception e) {
@@ -243,12 +243,12 @@ public class MainWindow {
 				cardNumber = 4;
 			}
 		});
-		
+
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_2);
 		panel.add(btnOverview);
 
-		tree = new JTree(); // model.getRoot()
+		tree = new JTree(model.getRoot()); // model.getRoot()
 		mainPanel.add(tree, BorderLayout.WEST);
 		tree.addTreeSelectionListener(new Eventlistener() {
 			public void valueChanged(TreeSelectionEvent treeEvent) {
@@ -284,21 +284,38 @@ public class MainWindow {
 		JPanel panelSearch = new JPanel();
 		panelCards.add(panelSearch, "Overview");
 		panelSearch.setLayout(null);
-		
+
 		textFieldSearch = new JTextField();
-		textFieldSearch.setBounds(30, 49, 122, 28);
+		textFieldSearch.setBounds(148, 49, 122, 28);
 		panelSearch.add(textFieldSearch);
 		textFieldSearch.setColumns(10);
 		textFieldSearch.addKeyListener(new Eventlistener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if ((e.getKeyChar()>=60 && e.getKeyChar()<=90)|| (e.getKeyChar()>=97 && e.getKeyChar()<=122)) {		
-					textFieldSearch.setText(textFieldSearch.getText()+e.getKeyChar());
-					List<Booking> names = g_handler.searchName(textFieldSearch.getText());
+				if ((e.getKeyChar() >= 60 && e.getKeyChar() <= 90)
+						|| (e.getKeyChar() >= 97 && e.getKeyChar() <= 122)) {
+					textFieldSearch.setText(textFieldSearch.getText()
+							+ e.getKeyChar());
+					List<Booking> names = g_handler.searchName(textFieldSearch
+							.getText());
+
+					Object[][] data = new Object[names.size()][];
+					for (int i = 0; i < names.size(); i++) {
+						data[i] = names.get(i).returnObject();
+					}
+					tableSearchModel.setDataVector(data, columNames);
+					tableSearch.updateUI();
+					textFieldSearch.setText(textFieldSearch.getText()
+							.substring(0,
+									textFieldSearch.getText().length() - 1));
+				}
+				if (e.getKeyChar() == 8) {
+					textFieldSearch.setText(textFieldSearch.getText());
+					List<Booking> names = g_handler.searchName(textFieldSearch
+							.getText());
 					System.out.println(textFieldSearch.getText());
-					ArrayList<Object[]> list = new ArrayList<>();
-			
-					Object[][] data = new Object[list.size()][];
+
+					Object[][] data = new Object[names.size()][];
 					for (int i = 0; i < names.size(); i++) {
 						data[i] = names.get(i).returnObject();
 					}
@@ -307,14 +324,10 @@ public class MainWindow {
 				}
 			}
 		});
-		
-		JButton btnSearch = new JButton("Ok");
-		btnSearch.setBounds(162, 52, 89, 23);
-		panelSearch.add(btnSearch);
-		
+
 		tableSearchModel = new DefaultTableModel();
 		tableSearchModel.setColumnIdentifiers(columNames);
-		tableSearch = new JTable(tableSearchModel){
+		tableSearch = new JTable(tableSearchModel) {
 			/**
 			 * Überschreibt die isCellEditable Methode aus der JTable Definition
 			 * und sorgt so dafür, dass die Zellen nicht editierbar sind.
@@ -334,12 +347,15 @@ public class MainWindow {
 		tableSearch.setBackground(SystemColor.inactiveCaption);
 		tableSearch.setFillsViewportHeight(true);
 		tableSearch.setFont(new Font("Serif", Font.PLAIN, 14));
-		tableSearch.getTableHeader().setFont(
-				new Font("Serif", Font.PLAIN, 15));
+		tableSearch.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 15));
 
 		JScrollPane pane = new JScrollPane(tableSearch);
 		pane.setBounds(30, 88, 702, 355);
 		panelSearch.add(pane);
+
+		JLabel lblSearch = new JLabel("Enter Lastname:");
+		lblSearch.setBounds(30, 56, 108, 14);
+		panelSearch.add(lblSearch);
 
 		JPanel panelCheckIn = new JPanel();
 		panelCards.add(panelCheckIn, "CheckIn");
