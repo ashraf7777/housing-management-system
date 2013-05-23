@@ -115,34 +115,6 @@ public class MainWindow {
 	private DefaultTableModel tableInvoicesModel;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Model model = new Model();
-					ExampleData exData = new ExampleData();
-					exData.announceModel(model);
-					exData.loadSampleTreeData();
-					MainWindow window = new MainWindow(model);
-					GUI_handler my_handler = new GUI_handler();
-
-					window.announceHandler(my_handler, my_handler);
-					window.announceModel(model);
-					my_handler.announceModel(model);
-					my_handler.announceGui(window);
-					exData.loadSampleBookings(25, my_handler);
-
-					window.frmHousingManagementSystem.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public MainWindow(Model model) {
