@@ -1003,8 +1003,8 @@ public class MainWindow {
 			// if it is a leaf safe the data for the table in the list
 			Unit unit = (Unit) data.getUserObject();
 			if (unit.isOccupied() == true) {
-				Booking booking = unit.getBooking().get(
-						unit.getBooking().size() - 1);
+				Booking booking = unit.getBookingList().get(
+						unit.getBookingList().size() - 1);
 				list.add(booking.returnObjectForCheckIn());
 			}
 		}
