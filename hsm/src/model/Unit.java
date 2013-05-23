@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-
 /*
  * This class represents the structure elements.
  * Depending on the tier it represents a building, an apartment or a room.
@@ -13,17 +12,17 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Unit {
 
-	//---------------------------------------
-	//Structure variables
-	
-	//root element of the structure is the same for all other elements
+	// ---------------------------------------
+	// Structure variables
+
+	// root element of the structure is the same for all other elements
 	private static Unit root;
-	
-	//representing the child element
+
+	// representing the child element
 	private static List<String> nameList = new ArrayList<String>();
 	private final List<Booking> bookingList = new ArrayList<Booking>();
-	//---------------------------------------
-	
+	// ---------------------------------------
+
 	private int unitID;
 	private String name;
 	private float sqrFeet;
@@ -34,45 +33,34 @@ public class Unit {
 	private float pricePerNight;
 	private float pricePerMonth;
 	private Unit superiorUnit;
-	
-	//Standard Constructor for the root element and buildings
-	public Unit(String name)
-	{
-		if (checkName(name))
-		{
+
+	// Standard Constructor for the root element and buildings
+	public Unit(String name) {
+		if (checkName(name)) {
 			this.sqrFeet = 0;
 			this.name = name;
 			this.pricePerNight = 0;
 			this.pricePerMonth = 0;
 			this.hasChild = false;
-		}
-		else
-		{
-			//TODO: Fehlerausgabe (Exception)
+		} else {
+			// TODO: Fehlerausgabe (Exception)
 		}
 	}
-	
-	//Constructor for apartments and rooms
-	public Unit(String name, int sqrFeet, float pricePerNight, float pricePerMonth)
-	{
-		if (checkName(name))
-		{
+
+	// Constructor for apartments and rooms
+	public Unit(String name, int sqrFeet, float pricePerNight,
+			float pricePerMonth) {
+		if (checkName(name)) {
 			this.sqrFeet = sqrFeet;
 			this.name = name;
 			this.pricePerNight = pricePerNight;
 			this.pricePerMonth = pricePerMonth;
 			this.hasChild = false;
-		}
-		else
-		{
-			//TODO: Fehlerausgabe (Exception)
+		} else {
+			// TODO: Fehlerausgabe (Exception)
 		}
 	}
-	
-	
 
-	
-	
 	/**
 	 * Überprüfung, ob der Lagername bereits in Verwendung ist
 	 * 
@@ -91,27 +79,21 @@ public class Unit {
 		}
 		return true;
 	}
-	
 
-	
-	
-	//Getter & Setter
+	// Getter & Setter
 
-	public static Unit getTree()
-	{
+	public static Unit getTree() {
 		return root;
 	}
-	
-	public void addBooking(Booking b)
-	{
+
+	public void addBooking(Booking b) {
 		bookingList.add(b);
 	}
-	
-	public List<Booking> getBooking()
-	{
+
+	public List<Booking> getBooking() {
 		return bookingList;
 	}
-	
+
 	public int getUnitID() {
 		return unitID;
 	}
@@ -127,7 +109,7 @@ public class Unit {
 	public void setSqrFeet(float sqrFeet) {
 		this.sqrFeet = sqrFeet;
 	}
-	
+
 	public float getPricePerNight() {
 		return pricePerNight;
 	}
@@ -171,6 +153,7 @@ public class Unit {
 	public void setOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
 	}
+
 	public int getMAX_OCCUPANCY() {
 		return MAX_OCCUPANCY;
 	}
@@ -183,9 +166,20 @@ public class Unit {
 	}
 
 	/**
-	 * @param superiorUnit the superiorUnit to set
+	 * @param superiorUnit
+	 *            the superiorUnit to set
 	 */
 	public void setSuperiorUnit(Unit superiorUnit) {
 		this.superiorUnit = superiorUnit;
+	}
+
+	public List<Booking> getFinishedBookings() {
+		List<Booking> list = new ArrayList<>();
+		for (int i = 0; i < bookingList.size(); i++) {
+			if (!(bookingList.get(i).getCheckOutDate() == null)) {
+				list.add(bookingList.get(i));
+			}
+		}
+		return list;
 	}
 }

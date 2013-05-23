@@ -249,7 +249,7 @@ public class Booking {
 	 * Returns objects for the tables
 	 * @return objects formated for the tables
 	 */
-	public Object[] returnObject() {
+	public Object[] returnObjectForCheckIn() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
 		Object[] data = {
 				this.room.getSuperiorUnit().getSuperiorUnit().getName(),
@@ -258,4 +258,11 @@ public class Booking {
 				sdf.format(this.checkInDate), this.paymentType.getName(), sdf.format(this.birthday) };
 		return data;
 	}
+	public Object[] returnObjectForHome(){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+		Object[] data = {this.room.getName(),this.lastNameOfBooker, this.firstNameOfBooker,
+				sdf.format(this.checkInDate), sdf.format(checkOutDate), this.totalCosts };
+		return data;
+	}
+	
 }
