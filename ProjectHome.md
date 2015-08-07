@@ -1,0 +1,1 @@
+This tool is a university project. It helps you to manage your small hotel with your guests, their check-ins and check-outs
